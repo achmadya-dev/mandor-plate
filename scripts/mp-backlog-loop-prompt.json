@@ -1,3 +1,0 @@
-{
-  "prompt": "Lanjutkan mandor-plate backlog (docs/agents/backlog.md). Cari MP pertama yang acceptance criteria-nya masih [ ]. Implementasi sesuai PRD, domain.md, dan codebase-design. Jalankan pnpm typecheck && pnpm test. Centang criteria, commit atomik (feat/fix/chore scope). Jika semua MP selesai, hentikan loop dan laporkan selesai. Biasakan commit setiap MP."
-}

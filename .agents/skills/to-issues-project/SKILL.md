@@ -1,41 +1,55 @@
 ---
 name: to-issues-project
-description: Create GitHub issues from Mandor Plate backlog conventions. Use when breaking backlog tickets into GitHub issues, publishing MP-00N tickets, or preparing ready-for-agent work items for this repo.
+description: Create GitHub issues for Mandor Plate vertical slices. Use when breaking a PRD into implementable tickets or preparing ready-for-agent work items.
 ---
 
 # To Issues — Mandor Plate
 
-Wraps the upstream `to-issues` skill with repo-specific context.
+Create GitHub issues for Mandor Plate vertical slices.
 
 ## Before creating issues
 
-1. Read [docs/agents/backlog.md](../../docs/agents/backlog.md) for ticket format and dependencies
-2. Read [docs/agents/triage-labels.md](../triage-labels.md) for label vocabulary
-3. Read [CONTEXT.md](../../CONTEXT.md) and [docs/agents/domain.md](../domain.md) for terminology
+1. Read [README.md](../../../README.md) → Dev workflow
+2. Read [CONTEXT.md](../../../CONTEXT.md) for terminology
+3. Read triage label vocabulary from **setup-matt-pocock-skills** output (or defaults below)
 
 ## Issue template
 
 ```markdown
 ## Summary
-<one paragraph tracer bullet goal>
+
+<one paragraph vertical slice goal>
 
 ## Acceptance criteria
+
 - [ ] ...
 
 ## References
-- Backlog: MP-00N
-- PRD: user story N
-- Domain: docs/agents/domain.md
+
+- PRD: GitHub #NN or `.scratch/<feature>/PRD.md`
+- Domain: CONTEXT.md
 ```
 
 ## Labels
 
-Apply `ready-for-agent` when criteria are complete. Add `sandcastle` if the issue should be picked up by AFK agents.
+| Label             | When                                |
+| ----------------- | ----------------------------------- |
+| `ready-for-agent` | Fully specified; safe to implement  |
+| `needs-spec`      | Missing criteria — do not implement |
+| `blocked`         | Waiting on dependency               |
 
-## Publish command
+## Publish
+
+**GitHub (default):**
 
 ```bash
-gh issue create --title "MP-00N: <title>" --body-file docs/agents/tickets/MP-00N.md --label "ready-for-agent"
+gh issue create --title "<title>" --body-file /tmp/issue-body.md --label "ready-for-agent"
 ```
 
-Then invoke upstream **to-issues** skill patterns for refinement and splitting if needed.
+**Local fallback:**
+
+```bash
+# .scratch/<feature>/issues/01-<slug>.md
+```
+
+Split large PRDs into one issue per vertical slice. Each issue should be implementable in a single agent session with clear acceptance criteria.

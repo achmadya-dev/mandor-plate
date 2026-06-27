@@ -2,7 +2,7 @@
  * tanstack-form.tsx — Main entry point for the form system.
  *
  * Provides useAppForm, useFormFields, Form, SubmitButton, StepButton,
- * withForm, and withFieldGroup. See docs/forms.md for full usage guide.
+ * withForm, and withFieldGroup. See apps/web/README.md for full usage guide.
  */
 
 import { createFormHook } from '@tanstack/react-form';
@@ -16,9 +16,13 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSeparator,
-  FieldTitle
+  FieldTitle,
 } from '@/components/ui/field';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 import {
   TextField,
   TextareaField,
@@ -35,7 +39,7 @@ import {
   FormSwitchField,
   FormRadioGroupField,
   FormSliderField,
-  FormFileUploadField
+  FormFileUploadField,
 } from '@/components/forms/fields';
 import { cn } from '@/lib/utils';
 import {
@@ -44,7 +48,7 @@ import {
   useFormContext,
   FormFieldSet,
   FormField,
-  FormFieldError
+  FormFieldError,
 } from './form-context';
 
 // ---------------------------------------------------------------------------
@@ -64,12 +68,15 @@ function Form({
       e.stopPropagation();
       form.handleSubmit();
     },
-    [form]
+    [form],
   );
   return (
     <form
       onSubmit={handleSubmit}
-      className={cn('mx-auto flex w-full flex-col gap-2 p-2 md:p-5', props.className)}
+      className={cn(
+        'mx-auto flex w-full flex-col gap-2 p-2 md:p-5',
+        props.className,
+      )}
       noValidate
       {...props}
     >
@@ -86,12 +93,14 @@ function SubmitButton({
 }: React.ComponentProps<'button'> & VariantProps<typeof buttonVariants>) {
   const form = useFormContext();
   return (
-    <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting] as const}>
+    <form.Subscribe
+      selector={(state) => [state.canSubmit, state.isSubmitting] as const}
+    >
       {([canSubmit, isSubmitting]) => (
         <Button
           className={className}
           size={size}
-          type='submit'
+          type="submit"
           disabled={!canSubmit}
           isLoading={isSubmitting}
           {...props}
@@ -113,7 +122,13 @@ function StepButton({
     handleMovement: () => void;
   }) {
   return (
-    <Button size='sm' variant='ghost' type='button' onClick={handleMovement} {...props}>
+    <Button
+      size="sm"
+      variant="ghost"
+      type="button"
+      onClick={handleMovement}
+      {...props}
+    >
       {label}
     </Button>
   );
@@ -149,7 +164,7 @@ const { useAppForm, withForm, withFieldGroup } = createFormHook({
     SwitchField,
     RadioGroupField,
     SliderField,
-    FileUploadField
+    FileUploadField,
   },
   formComponents: {
     // Layout & actions
@@ -169,8 +184,8 @@ const { useAppForm, withForm, withFieldGroup } = createFormHook({
     SwitchField: FormSwitchField,
     RadioGroupField: FormRadioGroupField,
     SliderField: FormSliderField,
-    FileUploadField: FormFileUploadField
-  }
+    FileUploadField: FormFileUploadField,
+  },
 });
 
 // ---------------------------------------------------------------------------
@@ -197,13 +212,27 @@ function useFormFields<TValues extends Record<string, unknown>>() {
   type Typed<C> = WithTypedName<C, TValues>;
   return {
     FormTextField: FormTextField as unknown as Typed<typeof FormTextField>,
-    FormTextareaField: FormTextareaField as unknown as Typed<typeof FormTextareaField>,
-    FormSelectField: FormSelectField as unknown as Typed<typeof FormSelectField>,
-    FormCheckboxField: FormCheckboxField as unknown as Typed<typeof FormCheckboxField>,
-    FormSwitchField: FormSwitchField as unknown as Typed<typeof FormSwitchField>,
-    FormRadioGroupField: FormRadioGroupField as unknown as Typed<typeof FormRadioGroupField>,
-    FormSliderField: FormSliderField as unknown as Typed<typeof FormSliderField>,
-    FormFileUploadField: FormFileUploadField as unknown as Typed<typeof FormFileUploadField>
+    FormTextareaField: FormTextareaField as unknown as Typed<
+      typeof FormTextareaField
+    >,
+    FormSelectField: FormSelectField as unknown as Typed<
+      typeof FormSelectField
+    >,
+    FormCheckboxField: FormCheckboxField as unknown as Typed<
+      typeof FormCheckboxField
+    >,
+    FormSwitchField: FormSwitchField as unknown as Typed<
+      typeof FormSwitchField
+    >,
+    FormRadioGroupField: FormRadioGroupField as unknown as Typed<
+      typeof FormRadioGroupField
+    >,
+    FormSliderField: FormSliderField as unknown as Typed<
+      typeof FormSliderField
+    >,
+    FormFileUploadField: FormFileUploadField as unknown as Typed<
+      typeof FormFileUploadField
+    >,
   };
 }
 
@@ -217,7 +246,7 @@ export type {
   FieldConfig,
   FieldValidatorConfig,
   FieldListenerConfig,
-  WithTypedName
+  WithTypedName,
 } from './form-context';
 
 export {
@@ -230,5 +259,5 @@ export {
   FormFieldSet,
   FormField,
   FormFieldError,
-  FormErrors
+  FormErrors,
 } from './form-context';

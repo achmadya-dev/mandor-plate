@@ -9,18 +9,15 @@
     "test": "turbo run test",
     "test:e2e": "pnpm --filter @mandor-plate/web test:e2e",
     "test:e2e:prepare": "pnpm --filter @mandor-plate/shared build && pnpm --filter @mandor-plate/api migration:run && pnpm --filter @mandor-plate/api seed:run && pnpm --filter @mandor-plate/api build && pnpm --filter @mandor-plate/web build",
+    "check": "pnpm lint && pnpm typecheck && pnpm test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f",
-    "sandcastle": "node scripts/verify-sandcastle.mjs",
-    "sandcastle:run": "tsx .sandcastle/main.mts",
-    "setup:agent-skills": "bash scripts/setup-agent-skills.sh"
+    "docker:logs": "docker compose logs -f"
   },
   "devDependencies": {
-    "@ai-hero/sandcastle": "^0.10.0",
     "@eslint/js": "10.0.1",
     "eslint": "10.0.3",
     "eslint-config-prettier": "10.1.8",
@@ -30,7 +27,6 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "3.8.1",
-    "tsx": "^4.20.3",
     "turbo": "^2.5.4",
     "typescript-eslint": "8.57.1"
   },

@@ -1,6 +1,10 @@
 # Mandor Plate
 
-Full-stack product boilerplate with NestJS API, Next.js dashboard, and agent tooling.
+Full-stack monorepo with NestJS API, Next.js dashboard, and agent-driven development workflow.
+
+## Before you build
+
+Start with **`grill-me`** (`/grilling`) to stress-test an idea, plan, or design — one question at a time — before writing a PRD or opening issues.
 
 ## Quickstart
 
@@ -31,10 +35,13 @@ Seeded accounts:
 ## Quality gates
 
 ```bash
+pnpm check      # lint + typecheck + unit tests (before commit / PR)
 pnpm lint
 pnpm typecheck
 pnpm test
 ```
+
+Pre-commit runs lint-staged only. CI runs the full pipeline including E2E.
 
 ## E2E tests
 
@@ -43,59 +50,91 @@ Requires PostgreSQL and Maildev (via `pnpm docker:up`).
 ```bash
 pnpm test:e2e:prepare   # build apps, migrate, seed
 pnpm --filter @mandor-plate/web test:e2e:install   # first run only
-pnpm test:e2e           # API Jest E2E + Playwright full-stack suite
+pnpm test:e2e           # Playwright full-stack suite
 ```
 
-Playwright specs live in [`apps/web/e2e/`](./apps/web/e2e/) and cover the primary auth journey, RBAC navigation, forgot-password email capture, and avatar upload.
+Playwright specs live in [`apps/web/e2e/`](./apps/web/e2e/).
 
-## Agent tooling (once after clone)
+## Dev workflow
 
-```bash
-# Install upstream skills (already committed in .agents/skills; re-run to refresh)
-pnpm setup:agent-skills
+Planning docs are **not** committed — generate them with skills when needed. Read [CONTEXT.md](./CONTEXT.md) before coding.
 
-# Configure issue tracker + triage preferences (interactive, run once per team)
-# In Cursor: invoke the setup-matt-pocock-skills skill from .agents/skills/
+```mermaid
+flowchart LR
+  subgraph start [Start]
+    G[grill-me]
+  end
 
-# Verify Sandcastle sandbox config (Docker provider)
-pnpm sandcastle
+  subgraph setup [Once after clone]
+    S[setup-matt-pocock-skills]
+  end
 
-# Run Sandcastle agent (requires .sandcastle/.env)
-pnpm sandcastle:run
+  subgraph plan [Plan]
+    P[to-prd-project]
+    D[domain-modeling]
+    I[to-issues-project]
+  end
+
+  subgraph code [Build]
+    M[implement / tdd]
+    C[pnpm check]
+    R[review]
+  end
+
+  subgraph auto [Optional batch]
+    L["/loop /issue-loop"]
+  end
+
+  G --> P
+  S --> I
+  P --> D
+  D --> I
+  I --> M
+  M --> C
+  C --> R
+  I --> L
+  L --> M
 ```
 
-Skills live in [`.agents/skills/`](./.agents/skills/) (24 upstream + 3 project templates). Sandcastle config is in [`.sandcastle/`](./.sandcastle/).
+| Step              | Skill / command            | Output                                        |
+| ----------------- | -------------------------- | --------------------------------------------- |
+| Sharpen the plan  | `grill-me`                 | Clear scope, trade-offs, and open questions   |
+| Configure tracker | `setup-matt-pocock-skills` | GitHub Issues + triage labels (once per team) |
+| Write PRD         | `to-prd-project`           | GitHub issue or `.scratch/<feature>/PRD.md`   |
+| Domain terms      | `domain-modeling`          | Updates `CONTEXT.md`                          |
+| Create tickets    | `to-issues-project`        | GitHub issues (`ready-for-agent`)             |
+| Implement         | `implement`, `tdd`         | Code in monorepo                              |
+| Quality gate      | `pnpm check`               | Lint + typecheck + unit tests                 |
+| Review            | `review`                   | Standards + spec check                        |
+| Batch work        | `/loop /issue-loop`        | Next open `ready-for-agent` issue             |
 
-## Implementation order
+Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke directly in Cursor).
 
-Work through [docs/agents/backlog.md](./docs/agents/backlog.md) in dependency order:
+**Issue tracker:** GitHub Issues by default. Local drafts go to `.scratch/` (gitignored).
 
-1. **MP-001** — Monorepo + API core
-2. **MP-002**, **MP-003**, **MP-009**, **MP-010** (lint/CI) — parallel after MP-001
-3. **MP-004** — Email auth BFF (requires MP-002 + MP-003)
-4. **MP-005**–**MP-008** — Password recovery, Google sign-in, RBAC nav, profile (after MP-004)
-5. **MP-011** — Full-stack E2E + this README (after MP-004–MP-008)
-
-Critical path: MP-001 → MP-002 + MP-003 → MP-004 → MP-011
+**Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
 ## Scripts
 
-| Command                   | Description                         |
-| ------------------------- | ----------------------------------- |
-| `pnpm dev`                | Start API + web (Turborepo)         |
-| `pnpm docker:up`          | Start PostgreSQL + Maildev          |
-| `pnpm typecheck`          | TypeScript check all packages       |
-| `pnpm test`               | Unit tests all packages             |
-| `pnpm test:e2e`           | API + web E2E tests                 |
-| `pnpm test:e2e:prepare`   | Build, migrate, and seed for E2E    |
-| `pnpm sandcastle`         | Verify Sandcastle configuration     |
-| `pnpm sandcastle:run`     | Run Sandcastle agent orchestration  |
-| `pnpm setup:agent-skills` | Re-install mattpocock/skills bundle |
+| Command                 | Description                      |
+| ----------------------- | -------------------------------- |
+| `pnpm dev`              | Start API + web (Turborepo)      |
+| `pnpm check`            | Lint, typecheck, and unit tests  |
+| `pnpm docker:up`        | Start PostgreSQL + Maildev       |
+| `pnpm typecheck`        | TypeScript check all packages    |
+| `pnpm test`             | Unit tests all packages          |
+| `pnpm test:e2e`         | API + web E2E tests              |
+| `pnpm test:e2e:prepare` | Build, migrate, and seed for E2E |
 
-## Docs
+## Optional skills
 
-- [PRD.md](./PRD.md)
-- [CONTEXT.md](./CONTEXT.md) — domain vocabulary for agents
-- [docs/agents/backlog.md](./docs/agents/backlog.md)
-- [docs/agents/domain.md](./docs/agents/domain.md)
-- [docs/agents/triage-labels.md](./docs/agents/triage-labels.md)
+Core set is already in `.agents/skills/`. Install extras when needed:
+
+```bash
+npx skills add mattpocock/skills@teach -y
+npx skills add mattpocock/skills@prototype -y
+npx skills add vercel-labs/agent-skills@web-design-guidelines -y
+npx skills add anthropics/skills@frontend-design -y
+```
+
+See [mattpocock/skills](https://github.com/mattpocock/skills) and [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).

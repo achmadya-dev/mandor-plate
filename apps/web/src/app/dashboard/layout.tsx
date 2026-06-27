@@ -9,15 +9,19 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn Dashboard Starter',
-  description: 'Basic dashboard with Next.js and Shadcn',
+  title: 'Dashboard | Mandor Plate',
+  description: 'Mandor Plate admin dashboard',
   robots: {
     index: false,
-    follow: false
-  }
+    follow: false,
+  },
 };
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // Persisting the sidebar state in the cookie.
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
@@ -30,7 +34,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <DashboardFlashAlert />
           <InfobarProvider defaultOpen={false}>
             {children}
-            <InfoSidebar side='right' />
+            <InfoSidebar side="right" />
           </InfobarProvider>
         </SidebarInset>
       </SidebarProvider>

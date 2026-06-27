@@ -37,7 +37,12 @@ describe('rbac', () => {
   it('filters admin-only nav items for regular users', () => {
     const items = [
       { title: 'Overview', url: '/dashboard/overview', items: [] },
-      { title: 'Users', url: '/dashboard/users', items: [], access: { role: 'admin' as const } },
+      {
+        title: 'Users',
+        url: '/dashboard/users',
+        items: [],
+        access: { role: 'admin' as const },
+      },
     ];
 
     expect(filterNavItems(adminUser, items)).toHaveLength(2);
@@ -45,7 +50,7 @@ describe('rbac', () => {
     expect(filterNavItems(regularUser, items)[0]?.title).toBe('Overview');
   });
 
-  it('hides org-gated items without Clerk organizations', () => {
+  it('hides org-gated items when organization context is unavailable', () => {
     expect(canAccessNavItem(regularUser, { requireOrg: true })).toBe(false);
   });
 
@@ -53,7 +58,14 @@ describe('rbac', () => {
     const groups = filterNavGroups(regularUser, [
       {
         label: 'Admin',
-        items: [{ title: 'Users', url: '/dashboard/users', items: [], access: { role: 'admin' } }],
+        items: [
+          {
+            title: 'Users',
+            url: '/dashboard/users',
+            items: [],
+            access: { role: 'admin' },
+          },
+        ],
       },
     ]);
 

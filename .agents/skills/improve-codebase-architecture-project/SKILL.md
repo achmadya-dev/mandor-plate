@@ -5,23 +5,23 @@ description: Improve Mandor Plate module design using deep-module patterns. Use 
 
 # Improve Codebase Architecture — Mandor Plate
 
-Wraps upstream **improve-codebase-architecture** and **codebase-design** with Mandor Plate seams.
+Deepen Mandor Plate modules using **codebase-design** patterns.
 
 ## Key seams in this repo
 
-| Seam | Deep module examples |
-|---|---|
-| `packages/shared` | Zod validation contracts — one import boundary for API + web |
-| `apps/web` BFF | `lib/auth/*` — cookies, session, RBAC; browser never calls API directly |
-| `apps/api` | `ZodValidationPipe`, `mail-copy.ts` — NestJS adapters over shared schemas |
-| File upload | API `files/upload` + web `/api/profile/avatar` BFF |
+| Seam              | Deep module examples                                                      |
+| ----------------- | ------------------------------------------------------------------------- |
+| `packages/shared` | Zod validation contracts — one import boundary for API + web              |
+| `apps/web` BFF    | `lib/auth/*` — cookies, session, RBAC; browser never calls API directly   |
+| `apps/api`        | `ZodValidationPipe`, `mail-copy.ts` — NestJS adapters over shared schemas |
+| File upload       | API `files/upload` + web `/api/profile/avatar` BFF                        |
 
 ## Process
 
-1. Read [CONTEXT.md](../../CONTEXT.md) and [docs/agents/domain.md](../domain.md)
+1. Read [CONTEXT.md](../../../CONTEXT.md) and `packages/shared` for schema contracts
 2. Use **codebase-design** vocabulary (depth, seam, adapter, leverage)
 3. Prefer extending existing deep modules over new horizontal layers
-4. Run `pnpm typecheck && pnpm test` after each incremental change
+4. Run `pnpm check` after each incremental change
 
 ## Out of scope without ADR
 
@@ -29,4 +29,4 @@ Wraps upstream **improve-codebase-architecture** and **codebase-design** with Ma
 - Re-introducing Clerk or MongoDB
 - Moving auth tokens to localStorage
 
-Create an ADR in `docs/adr/` for irreversible structural changes (see domain.md).
+Record irreversible decisions via **domain-modeling** → `docs/adr/NNN-title.md` (created on demand).

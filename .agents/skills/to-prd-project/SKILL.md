@@ -1,30 +1,48 @@
 ---
 name: to-prd-project
-description: Draft or extend Mandor Plate PRDs using repo conventions. Use when writing product requirements, extending PRD.md, or planning new vertical slices for this monorepo.
+description: Draft product requirements for Mandor Plate features. Use when writing a PRD, scoping a vertical slice, or planning work before creating GitHub issues.
 ---
 
 # To PRD — Mandor Plate
 
-Wraps the upstream `to-prd` skill with Mandor Plate structure.
+Draft product requirements for Mandor Plate features.
 
-## Canonical documents
+## Read first
 
-| Document | Role |
-|---|---|
-| [PRD.md](../../PRD.md) | Product requirements and user stories |
-| [docs/agents/backlog.md](../backlog.md) | Vertical slice tickets (MP-001…) |
-| [CONTEXT.md](../../CONTEXT.md) | Ubiquitous language for agents |
-| [docs/agents/domain.md](../domain.md) | Auth/User schema design |
+| Document                          | Role                             |
+| --------------------------------- | -------------------------------- |
+| [README.md](../../../README.md)   | Dev workflow and monorepo layout |
+| [CONTEXT.md](../../../CONTEXT.md) | Ubiquitous language              |
+
+## Interview (one question at a time)
+
+Use **grill-me** first if scope is fuzzy. Then flesh out:
+
+1. **Problem** — who is blocked, and how?
+2. **Vertical slice** — what ships in API + web + `packages/shared`?
+3. **Out of scope** — what are we explicitly not doing?
+4. **Acceptance criteria** — testable, ordered smallest-first
+5. **Risks / open questions** — auth, migrations, breaking changes
 
 ## Conventions
 
-- User stories numbered in PRD; backlog tickets reference them
-- Each tracer bullet cuts API + web + shared + tests
+- Each feature is a **vertical slice** — cuts API + web + shared + tests
 - Auth flows use BFF httpOnly cookies — never expose JWTs to the browser
-- Agent tooling lives at repo root (`.agents/skills`, `.sandcastle/`)
+- Schema contracts live in `packages/shared` (Zod)
 
-## Output
+## Where to write the PRD
 
-When extending the PRD, propose changes as sections matching existing PRD tone. Link new backlog tickets in `docs/agents/backlog.md` with dependency graph updates.
+Follow the issue tracker configured by **setup-matt-pocock-skills**:
 
-Invoke upstream **to-prd** for interview and structuring; apply this skill for repo-specific placement.
+| Tracker                     | Output                                                                |
+| --------------------------- | --------------------------------------------------------------------- |
+| **GitHub Issues** (default) | Create a tracking issue with the full PRD in the body, or link a gist |
+| **Local markdown**          | `.scratch/<feature-slug>/PRD.md` (gitignored — not committed)         |
+
+Do not recreate a root `PRD.md` or `docs/agents/` unless the user explicitly asks.
+
+## After the PRD
+
+1. Run **domain-modeling** to update `CONTEXT.md` with new terms
+2. Run **to-issues-project** to break the PRD into implementable issues
+3. Label issues `ready-for-agent` when acceptance criteria are complete
