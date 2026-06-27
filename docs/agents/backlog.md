@@ -328,14 +328,14 @@ Excluded: caveman, write-a-skill, github-triage
 
 ### Acceptance criteria
 
-- [ ] Twenty-five upstream skills installed and discoverable by the agent runtime
-- [ ] Three project-specific skill templates reference Mandor Plate context
-- [ ] Sandcastle initialized with Docker provider, prompt template, and environment example
-- [ ] `pnpm sandcastle` (or equivalent root script) runs without error
-- [ ] CONTEXT.md template exists with placeholder domain vocabulary sections
-- [ ] docs/agents/triage-labels.md documents label vocabulary
-- [ ] docs/agents/domain.md documents CONTEXT.md and ADR conventions
-- [ ] README documents running setup-matt-pocock-skills once after clone
+- [x] Twenty-five upstream skills installed and discoverable by the agent runtime
+- [x] Three project-specific skill templates reference Mandor Plate context
+- [x] Sandcastle initialized with Docker provider, prompt template, and environment example
+- [x] `pnpm sandcastle` (or equivalent root script) runs without error
+- [x] CONTEXT.md template exists with placeholder domain vocabulary sections
+- [x] docs/agents/triage-labels.md documents label vocabulary
+- [x] docs/agents/domain.md documents CONTEXT.md and ADR conventions
+- [x] README documents running setup-matt-pocock-skills once after clone
 
 ---
 

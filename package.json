@@ -10,13 +10,18 @@
     "test:e2e": "turbo run test:e2e",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f"
+    "docker:logs": "docker compose logs -f",
+    "sandcastle": "node scripts/verify-sandcastle.mjs",
+    "sandcastle:run": "tsx .sandcastle/main.mts",
+    "setup:agent-skills": "bash scripts/setup-agent-skills.sh"
   },
   "devDependencies": {
+    "@ai-hero/sandcastle": "^0.10.0",
     "@eslint/js": "10.0.1",
     "eslint": "10.0.3",
     "eslint-config-prettier": "10.1.8",
     "prettier": "3.8.1",
+    "tsx": "^4.20.3",
     "turbo": "^2.5.4",
     "typescript-eslint": "8.57.1"
   },

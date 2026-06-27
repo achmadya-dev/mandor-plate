@@ -13,7 +13,20 @@ Design reference for the **Auth** and **User** bounded contexts in Mandor Plate.
 
 When a term is resolved during design, update `CONTEXT.md`. When a schema shape is finalized, update this file and `packages/shared`.
 
----
+### CONTEXT.md conventions
+
+- Lives at the repo root; agents read it before coding
+- Contains **ubiquitous language only** — no implementation detail, no file paths beyond pointers
+- Table format for terms; keep entries short
+- Link to this file (`domain.md`) for schema shapes and API alignment
+- Update when introducing new domain terms or renaming existing ones
+
+### ADR conventions
+
+- Store irreversible decisions in `docs/adr/NNN-short-title.md` (e.g. `001-jwt-cookies-bff.md`)
+- Create an ADR when a decision is costly to reverse (auth model, role model, validation strategy)
+- Reference ADRs from this file and from `CONTEXT.md` → Decisions section
+- See **ADR candidates** below for triggers that should prompt an ADR after implementation
 
 ## Ubiquitous language
 
