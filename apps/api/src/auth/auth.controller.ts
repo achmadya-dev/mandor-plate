@@ -1,29 +1,39 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
-  Request,
-  Post,
-  UseGuards,
   Patch,
-  Delete,
+  Post,
+  Request,
   SerializeOptions,
+  UseGuards,
+  UsePipes,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import {
+  type AuthUpdateRequest,
+  type ConfirmEmailRequest,
+  type EmailLoginRequest,
+  type ForgotPasswordRequest,
+  type RegisterRequest,
+  type ResetPasswordRequest,
+  authUpdateRequestSchema,
+  confirmEmailRequestSchema,
+  emailLoginRequestSchema,
+  forgotPasswordRequestSchema,
+  registerRequestSchema,
+  resetPasswordRequestSchema,
+} from '@mandor-plate/shared';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { AuthEmailLoginDto } from './dto/auth-email-login.dto';
-import { AuthForgotPasswordDto } from './dto/auth-forgot-password.dto';
-import { AuthConfirmEmailDto } from './dto/auth-confirm-email.dto';
-import { AuthResetPasswordDto } from './dto/auth-reset-password.dto';
-import { AuthUpdateDto } from './dto/auth-update.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
+import { AuthService } from './auth.service';
 import { LoginResponseDto } from './dto/login-response.dto';
+import { RefreshResponseDto } from './dto/refresh-response.dto';
 import { NullableType } from '../utils/types/nullable.type';
 import { User } from '../users/domain/user';
-import { RefreshResponseDto } from './dto/refresh-response.dto';
+import { ZodValidationPipe } from '../utils/zod-validation.pipe';
 
 @ApiTags('Auth')
 @Controller({
@@ -41,43 +51,51 @@ export class AuthController {
     type: LoginResponseDto,
   })
   @HttpCode(HttpStatus.OK)
-  public login(@Body() loginDto: AuthEmailLoginDto): Promise<LoginResponseDto> {
+  @UsePipes(new ZodValidationPipe(emailLoginRequestSchema))
+  public login(@Body() loginDto: EmailLoginRequest): Promise<LoginResponseDto> {
     return this.service.validateLogin(loginDto);
   }
 
   @Post('email/register')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async register(@Body() createUserDto: AuthRegisterLoginDto): Promise<void> {
+  @UsePipes(new ZodValidationPipe(registerRequestSchema))
+  async register(@Body() createUserDto: RegisterRequest): Promise<void> {
     return this.service.register(createUserDto);
   }
 
   @Post('email/confirm')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodValidationPipe(confirmEmailRequestSchema))
   async confirmEmail(
-    @Body() confirmEmailDto: AuthConfirmEmailDto,
+    @Body() confirmEmailDto: ConfirmEmailRequest,
   ): Promise<void> {
     return this.service.confirmEmail(confirmEmailDto.hash);
   }
 
   @Post('email/confirm/new')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodValidationPipe(confirmEmailRequestSchema))
   async confirmNewEmail(
-    @Body() confirmEmailDto: AuthConfirmEmailDto,
+    @Body() confirmEmailDto: ConfirmEmailRequest,
   ): Promise<void> {
     return this.service.confirmNewEmail(confirmEmailDto.hash);
   }
 
   @Post('forgot/password')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UsePipes(new ZodValidationPipe(forgotPasswordRequestSchema))
   async forgotPassword(
-    @Body() forgotPasswordDto: AuthForgotPasswordDto,
+    @Body() forgotPasswordDto: ForgotPasswordRequest,
   ): Promise<void> {
     return this.service.forgotPassword(forgotPasswordDto.email);
   }
 
   @Post('reset/password')
   @HttpCode(HttpStatus.NO_CONTENT)
-  resetPassword(@Body() resetPasswordDto: AuthResetPasswordDto): Promise<void> {
+  @UsePipes(new ZodValidationPipe(resetPasswordRequestSchema))
+  resetPassword(
+    @Body() resetPasswordDto: ResetPasswordRequest,
+  ): Promise<void> {
     return this.service.resetPassword(
       resetPasswordDto.hash,
       resetPasswordDto.password,
@@ -135,9 +153,10 @@ export class AuthController {
   @ApiOkResponse({
     type: User,
   })
+  @UsePipes(new ZodValidationPipe(authUpdateRequestSchema))
   public update(
     @Request() request,
-    @Body() userDto: AuthUpdateDto,
+    @Body() userDto: AuthUpdateRequest,
   ): Promise<NullableType<User>> {
     return this.service.update(request.user, userDto);
   }

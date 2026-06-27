@@ -27,6 +27,7 @@ pnpm dev
 | `pnpm docker:up` | Start PostgreSQL + Maildev |
 | `pnpm typecheck` | TypeScript check all packages |
 | `pnpm test` | Unit tests all packages |
+| `pnpm --filter @mandor-plate/shared build` | Build shared validation contracts |
 | `pnpm test:e2e` | E2E tests (requires running API + infra) |
 
 ## Docs

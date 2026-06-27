@@ -8,18 +8,20 @@
     "migration:run": "pnpm run typeorm migration:run -d src/database/data-source.ts",
     "migration:revert": "pnpm run typeorm migration:revert -d src/database/data-source.ts",
     "seed:run": "ts-node -r tsconfig-paths/register ./src/database/seeds/relational/run-seed.ts",
-    "prebuild": "rimraf dist",
+    "prebuild": "pnpm --filter @mandor-plate/shared build && rimraf dist",
     "build": "nest build",
     "dev": "nest start --watch",
     "start": "nest start",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
+    "pretypecheck": "pnpm --filter @mandor-plate/shared build",
     "test": "jest --passWithNoTests",
     "test:e2e": "env-cmd -- jest --config ./test/jest-e2e.json --runInBand",
     "test:e2e:docker": "docker compose -f docker-compose.relational.test.yaml --env-file .env.example -p mandor-plate-e2e up -d --build && docker compose -f docker-compose.relational.test.yaml -p mandor-plate-e2e exec api /opt/wait-for-it.sh -t 0 localhost:3001 -- pnpm run test:e2e && docker compose -f docker-compose.relational.test.yaml -p mandor-plate-e2e down -v"
   },
   "dependencies": {
+    "@mandor-plate/shared": "workspace:*",
     "@aws-sdk/client-s3": "3.1011.0",
     "@aws-sdk/s3-request-presigner": "3.1011.0",
     "@nestjs/common": "11.1.18",
@@ -51,7 +53,8 @@
     "rxjs": "7.8.2",
     "source-map-support": "0.5.21",
     "swagger-ui-express": "5.0.1",
-    "typeorm": "0.3.28"
+    "typeorm": "0.3.28",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

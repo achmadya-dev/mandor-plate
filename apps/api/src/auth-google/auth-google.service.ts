@@ -6,7 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import { SocialInterface } from '../social/interfaces/social.interface';
-import { AuthGoogleLoginDto } from './dto/auth-google-login.dto';
+import { type GoogleLoginRequest } from '@mandor-plate/shared';
 import { AllConfigType } from '../config/config.type';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthGoogleService {
   }
 
   async getProfileByToken(
-    loginDto: AuthGoogleLoginDto,
+    loginDto: GoogleLoginRequest,
   ): Promise<SocialInterface> {
     const ticket = await this.google.verifyIdToken({
       idToken: loginDto.idToken,

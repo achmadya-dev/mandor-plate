@@ -95,13 +95,13 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Shared package exists under the packages directory with its own build configuration
-- [ ] Zod schemas exported for login, register, forgot password, reset password requests
-- [ ] Zod schemas exported for user profile and role enum (admin, user)
-- [ ] TypeScript types inferred from schemas and re-exported
-- [ ] API application depends on the shared package and uses schemas on auth endpoints
-- [ ] Unit tests cover valid and invalid inputs for every exported schema
-- [ ] Shared package builds and tests pass via root `pnpm test`
+- [x] Shared package exists under the packages directory with its own build configuration
+- [x] Zod schemas exported for login, register, forgot password, reset password requests
+- [x] Zod schemas exported for user profile and role enum (admin, user)
+- [x] TypeScript types inferred from schemas and re-exported
+- [x] API application depends on the shared package and uses schemas on auth endpoints
+- [x] Unit tests cover valid and invalid inputs for every exported schema
+- [x] Shared package builds and tests pass via root `pnpm test`
 
 ---
 
