@@ -287,13 +287,13 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Profile or settings page accessible from the dashboard navigation
-- [ ] Avatar upload form submits through the BFF to the API file upload endpoint
-- [ ] Uploaded avatar image displays on the profile page
-- [ ] Local file storage works in development without cloud credentials
-- [ ] S3 driver configurable via environment variable without code changes
-- [ ] Upload errors (file too large, invalid type) show clear user-facing messages
-- [ ] Only authenticated users can upload to their own profile
+- [x] Profile or settings page accessible from the dashboard navigation
+- [x] Avatar upload form submits through the BFF to the API file upload endpoint
+- [x] Uploaded avatar image displays on the profile page
+- [x] Local file storage works in development without cloud credentials
+- [x] S3 driver configurable via environment variable without code changes
+- [x] Upload errors (file too large, invalid type) show clear user-facing messages
+- [x] Only authenticated users can upload to their own profile
 
 ---
 

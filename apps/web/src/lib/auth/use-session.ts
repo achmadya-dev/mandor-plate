@@ -12,13 +12,19 @@ export function useSessionUser(): SessionUser | null {
   useEffect(() => {
     let active = true;
 
-    fetchCurrentUser().then((result) => {
-      if (!active) return;
-      setUser(result.data?.user ?? null);
-    });
+    const loadUser = () => {
+      fetchCurrentUser().then((result) => {
+        if (!active) return;
+        setUser(result.data?.user ?? null);
+      });
+    };
+
+    loadUser();
+    window.addEventListener('session:refresh', loadUser);
 
     return () => {
       active = false;
+      window.removeEventListener('session:refresh', loadUser);
     };
   }, [pathname]);
 

@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'api.slingacademy.com',
         port: ''
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3001'
       }
     ]
   },
