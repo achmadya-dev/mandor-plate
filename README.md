@@ -1,8 +1,28 @@
-![](docs/assets/mandor-mascot.png)
+<div align="center">
+
+<img src="docs/assets/mandor-mascot.png" width="480" alt="" />
 
 # Mandor Plate
 
-Full-stack monorepo with NestJS API, Next.js dashboard, and agent-driven development workflow.
+**Full-stack monorepo for shipping dashboards with AI agents at your side.**
+
+NestJS API · Next.js dashboard · PostgreSQL · Turborepo · agent skills workflow
+
+<br />
+
+[![CI](https://github.com/achmadya-dev/mandor-plate/actions/workflows/ci.yml/badge.svg)](https://github.com/achmadya-dev/mandor-plate/actions/workflows/ci.yml)
+![NestJS](https://img.shields.io/badge/NestJS-API-E0234E?style=flat-square&logo=nestjs&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+
+<br />
+
+[**Quickstart**](#quickstart) · [**Dev workflow**](#dev-workflow) · [**Scripts**](#scripts) · [CONTEXT.md](./CONTEXT.md) · [CLAUDE.md](./CLAUDE.md)
+
+</div>
+
+---
 
 ## Before you build
 
