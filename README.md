@@ -110,9 +110,23 @@ flowchart LR
 
 Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke directly in Cursor).
 
-**Issue tracker:** GitHub Issues by default. Local drafts go to `.scratch/` (gitignored).
+**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md) and [`CLAUDE.md`](./CLAUDE.md). Local drafts go to `.scratch/` (gitignored).
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
+
+## Credits
+
+Mandor Plate is built on these open-source projects:
+
+| Area              | Source                                                                                              | Notes                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| API               | [brocoders/nestjs-boilerplate](https://github.com/brocoders/nestjs-boilerplate)                     | NestJS REST API foundation (PostgreSQL only)                            |
+| Web dashboard     | [Kiranism/next-shadcn-dashboard-starter](https://github.com/Kiranism/next-shadcn-dashboard-starter) | Dashboard shell, forms, and UI patterns                                 |
+| UI components     | [shadcn/ui](https://ui.shadcn.com)                                                                  | Radix + Tailwind component primitives                                   |
+| Agent skills      | [mattpocock/skills](https://github.com/mattpocock/skills)                                           | Engineering workflow skills (PRD, triage, review, TDD, …)               |
+| Agent skill packs | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)                             | `shadcn`, `next-best-practices`, React composition & performance skills |
+
+See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream notes.
 
 ## Scripts
 

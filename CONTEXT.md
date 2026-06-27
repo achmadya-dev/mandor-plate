@@ -30,6 +30,7 @@ Mandor Plate is a full-stack monorepo: NestJS API, Next.js dashboard, shared Zod
 | `apps/web/README.md` | Web app guide (forms, themes, conventions) |
 | `packages/shared`    | Zod schemas                                |
 | `CONTEXT.md`         | This file — ubiquitous language            |
+| `docs/agents/`       | Issue tracker, triage labels, domain rules |
 | `.agents/skills/`    | Agent skills (see README Dev workflow)     |
 
 ## Decisions
