@@ -1,3 +1,5 @@
+![](docs/assets/mandor-mascot.png)
+
 # Mandor Plate
 
 Full-stack monorepo with NestJS API, Next.js dashboard, and agent-driven development workflow.
