@@ -200,13 +200,13 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Forgot-password page renders and submits through the BFF
-- [ ] Reset-password page accepts token from URL and submits new password through the BFF
-- [ ] Password reset email arrives in Maildev during local development
-- [ ] Reset link from email leads to a working reset form
-- [ ] User can log in with the new password after reset
-- [ ] Invalid or expired reset token shows a clear error state
-- [ ] Forms validated with shared Zod schemas
+- [x] Forgot-password page renders and submits through the BFF
+- [x] Reset-password page accepts token from URL and submits new password through the BFF
+- [x] Password reset email arrives in Maildev during local development
+- [x] Reset link from email leads to a working reset form
+- [x] User can log in with the new password after reset
+- [x] Invalid or expired reset token shows a clear error state
+- [x] Forms validated with shared Zod schemas
 
 ---
 

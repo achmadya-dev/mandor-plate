@@ -102,6 +102,14 @@ export default function LoginForm() {
         <Button disabled={loading} className='w-full' type='submit'>
           Sign in
         </Button>
+        <p className='text-center text-sm'>
+          <Link
+            href='/auth/forgot-password'
+            className='text-primary underline-offset-4 hover:underline'
+          >
+            Forgot password?
+          </Link>
+        </p>
         <p className='text-muted-foreground text-center text-sm'>
           No account?{' '}
           <Link href='/auth/sign-up' className='text-primary underline-offset-4 hover:underline'>

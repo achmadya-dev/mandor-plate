@@ -1,3 +1,4 @@
+import type { ForgotPasswordRequest, ResetPasswordRequest } from '@mandor-plate/shared';
 import {
   loginResponseSchema,
   refreshResponseSchema,
@@ -34,6 +35,30 @@ export async function apiLogin(body: EmailLoginRequest): Promise<LoginResponse> 
 
 export async function apiRegister(body: RegisterRequest): Promise<void> {
   const response = await fetch(apiUrl('/auth/email/register'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new ApiProxyError(response.status, await parseApiErrorBody(response));
+  }
+}
+
+export async function apiForgotPassword(body: ForgotPasswordRequest): Promise<void> {
+  const response = await fetch(apiUrl('/auth/forgot/password'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new ApiProxyError(response.status, await parseApiErrorBody(response));
+  }
+}
+
+export async function apiResetPassword(body: ResetPasswordRequest): Promise<void> {
+  const response = await fetch(apiUrl('/auth/reset/password'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

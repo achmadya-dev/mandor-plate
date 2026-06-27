@@ -1,4 +1,4 @@
-import { ApiProxyError, parseApiErrorBody } from './backend';
+import { ApiProxyError, apiForgotPassword, apiResetPassword, parseApiErrorBody } from './backend';
 
 describe('ApiProxyError', () => {
   it('carries status and body for BFF forwarding', () => {
@@ -21,5 +21,55 @@ describe('parseApiErrorBody', () => {
   it('falls back when body is not json', async () => {
     const response = new Response('nope', { status: 500, statusText: 'Server Error' });
     await expect(parseApiErrorBody(response)).resolves.toEqual({ message: 'Server Error' });
+  });
+});
+
+describe('password recovery proxy', () => {
+  const originalFetch = global.fetch;
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+    jest.resetAllMocks();
+  });
+
+  it('forwards forgot-password requests to the API', async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response(null, { status: 204 }));
+
+    await apiForgotPassword({ email: 'user@example.com' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/auth/forgot/password'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ email: 'user@example.com' }),
+      }),
+    );
+  });
+
+  it('forwards reset-password requests to the API', async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response(null, { status: 204 }));
+
+    await apiResetPassword({ hash: 'token123', password: 'newsecret' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/auth/reset/password'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ hash: 'token123', password: 'newsecret' }),
+      }),
+    );
+  });
+
+  it('throws ApiProxyError when reset token is invalid', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      new Response(JSON.stringify({ errors: { hash: ['invalidHash'] } }), {
+        status: 422,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+
+    await expect(
+      apiResetPassword({ hash: 'bad', password: 'newsecret' }),
+    ).rejects.toMatchObject({ status: 422 });
   });
 });
