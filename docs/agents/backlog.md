@@ -403,15 +403,15 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] E2E test runner configured (Playwright or adapted upstream runner)
-- [ ] Primary auth journey E2E test passes: register/login → cookies → dashboard → RBAC nav → logout → redirect
-- [ ] Secondary E2E: forgot-password flow captures email in Maildev
-- [ ] Secondary E2E: admin user sees admin nav items; regular user does not
-- [ ] Secondary E2E: avatar upload succeeds and image is visible on profile
-- [ ] README documents quickstart: install, environment setup, docker up, dev, test, test e2e, sandcastle
-- [ ] README documents implementation ticket order referencing this backlog
-- [ ] CI E2E stage from MP-010 passes with the full test suite
-- [ ] Root `pnpm test:e2e` runs all E2E tests successfully
+- [x] E2E test runner configured (Playwright or adapted upstream runner)
+- [x] Primary auth journey E2E test passes: register/login → cookies → dashboard → RBAC nav → logout → redirect
+- [x] Secondary E2E: forgot-password flow captures email in Maildev
+- [x] Secondary E2E: admin user sees admin nav items; regular user does not
+- [x] Secondary E2E: avatar upload succeeds and image is visible on profile
+- [x] README documents quickstart: install, environment setup, docker up, dev, test, test e2e, sandcastle
+- [x] README documents implementation ticket order referencing this backlog
+- [x] CI E2E stage from MP-010 passes with the full test suite
+- [x] Root `pnpm test:e2e` runs all E2E tests successfully
 
 ---
 

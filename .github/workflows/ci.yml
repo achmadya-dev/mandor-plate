@@ -32,9 +32,8 @@ jobs:
       - run: pnpm test
 
   e2e:
-    name: API E2E (PostgreSQL)
+    name: Full-stack E2E
     runs-on: ubuntu-latest
-    # Full-stack Playwright E2E is enabled in MP-011; this stage runs API E2E against Postgres.
     services:
       postgres:
         image: postgres:16-alpine
@@ -49,6 +48,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      maildev:
+        image: maildev/maildev:2.1.0
+        ports:
+          - 1080:1080
+          - 1025:1025
+    env:
+      CI: true
+      PLAYWRIGHT_SKIP_SETUP: true
     steps:
       - uses: actions/checkout@v4
 
@@ -61,11 +68,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Configure API env
-        run: cp apps/api/.env.example apps/api/.env
+      - name: Configure env
+        run: |
+          cp apps/api/.env.example apps/api/.env
+          cp apps/web/.env.example apps/web/.env
 
-      - run: pnpm --filter @mandor-plate/shared build
+      - run: pnpm test:e2e:prepare
 
-      - run: pnpm --filter @mandor-plate/api migration:run
+      - name: Install Playwright browser
+        run: pnpm --filter @mandor-plate/web test:e2e:install
 
-      - run: pnpm --filter @mandor-plate/api test:e2e
+      - run: pnpm test:e2e

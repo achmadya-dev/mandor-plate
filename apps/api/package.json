@@ -21,9 +21,9 @@
     "test:e2e:docker": "docker compose -f docker-compose.relational.test.yaml --env-file .env.example -p mandor-plate-e2e up -d --build && docker compose -f docker-compose.relational.test.yaml -p mandor-plate-e2e exec api /opt/wait-for-it.sh -t 0 localhost:3001 -- pnpm run test:e2e && docker compose -f docker-compose.relational.test.yaml -p mandor-plate-e2e down -v"
   },
   "dependencies": {
-    "@mandor-plate/shared": "workspace:*",
     "@aws-sdk/client-s3": "3.1011.0",
     "@aws-sdk/s3-request-presigner": "3.1011.0",
+    "@mandor-plate/shared": "workspace:*",
     "@nestjs/common": "11.1.18",
     "@nestjs/config": "4.0.3",
     "@nestjs/core": "11.1.18",
@@ -59,6 +59,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
+    "@jest/globals": "^30.4.1",
     "@nestjs/cli": "11.0.18",
     "@nestjs/schematics": "11.0.10",
     "@nestjs/testing": "11.1.18",
