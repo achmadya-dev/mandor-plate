@@ -8,15 +8,26 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
+
+  app.use(helmet());
+
+  const frontendDomain = configService.get('app.frontendDomain', {
+    infer: true,
+  });
+  app.enableCors({
+    origin: frontendDomain ? [frontendDomain] : true,
+    credentials: true,
+  });
 
   app.enableShutdownHooks();
   app.setGlobalPrefix(

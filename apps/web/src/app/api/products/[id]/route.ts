@@ -1,44 +1,57 @@
-// ============================================================
-// Route Handler — Single Product (get + update)
-// ============================================================
-// See src/app/api/products/route.ts for pattern documentation.
-// ============================================================
-
 import { fakeProducts } from '@/constants/mock-api';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import {
+  authenticateRequest,
+  jsonWithSessionCookies,
+} from '@/lib/auth/route-guards';
 
 type Params = { params: Promise<{ id: string }> };
 
 export async function GET(request: NextRequest, { params }: Params) {
+  const auth = await authenticateRequest(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const { id } = await params;
   const data = await fakeProducts.getProductById(Number(id));
 
   if (!data.success) {
-    return NextResponse.json(data, { status: 404 });
+    return jsonWithSessionCookies(data, { status: 404 }, auth.session);
   }
 
-  return NextResponse.json(data);
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }
 
 export async function PUT(request: NextRequest, { params }: Params) {
+  const auth = await authenticateRequest(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const { id } = await params;
   const body = await request.json();
   const data = await fakeProducts.updateProduct(Number(id), body);
 
   if (!data.success) {
-    return NextResponse.json(data, { status: 404 });
+    return jsonWithSessionCookies(data, { status: 404 }, auth.session);
   }
 
-  return NextResponse.json(data);
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }
 
 export async function DELETE(request: NextRequest, { params }: Params) {
+  const auth = await authenticateRequest(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const { id } = await params;
   const data = await fakeProducts.deleteProduct(Number(id));
 
   if (!data.success) {
-    return NextResponse.json(data, { status: 404 });
+    return jsonWithSessionCookies(data, { status: 404 }, auth.session);
   }
 
-  return NextResponse.json(data);
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }

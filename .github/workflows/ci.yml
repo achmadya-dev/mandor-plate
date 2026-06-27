@@ -53,6 +53,12 @@ jobs:
         ports:
           - 1080:1080
           - 1025:1025
+        options: >-
+          --health-cmd "node -e \"require('http').get('http://127.0.0.1:1080',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+          --health-start-period 10s
     env:
       CI: true
       PLAYWRIGHT_SKIP_SETUP: true

@@ -1,24 +1,16 @@
-// ============================================================
-// Route Handler — Products (list + create)
-// ============================================================
-// Used with Pattern 2 (Route Handlers + ORM) or Pattern 3 (BFF).
-//
-// Fullstack (ORM): Replace fakeProducts calls with your ORM
-//   const products = await db.query.products.findMany({ ... })
-//
-// BFF (proxy): Replace with fetch to your external backend
-//   const res = await fetch(`${BACKEND_URL}/products?${searchParams}`, {
-//     headers: { Authorization: `Bearer ${token}` }
-//   })
-//   return NextResponse.json(await res.json())
-//
-// Current: Mock (in-memory fake data for demo/prototyping)
-// ============================================================
-
 import { fakeProducts } from '@/constants/mock-api';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import {
+  authenticateRequest,
+  jsonWithSessionCookies,
+} from '@/lib/auth/route-guards';
 
 export async function GET(request: NextRequest) {
+  const auth = await authenticateRequest(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const { searchParams } = request.nextUrl;
 
   const page = Number(searchParams.get('page') ?? 1);
@@ -32,14 +24,19 @@ export async function GET(request: NextRequest) {
     limit,
     categories,
     search,
-    sort
+    sort,
   });
 
-  return NextResponse.json(data);
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }
 
 export async function POST(request: NextRequest) {
+  const auth = await authenticateRequest(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const body = await request.json();
   const data = await fakeProducts.createProduct(body);
-  return NextResponse.json(data, { status: 201 });
+  return jsonWithSessionCookies(data, { status: 201 }, auth.session);
 }

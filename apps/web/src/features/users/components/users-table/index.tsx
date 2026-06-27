@@ -17,7 +17,7 @@ export function UsersTable() {
     perPage: parseAsInteger.withDefault(10),
     name: parseAsString,
     role: parseAsString,
-    sort: getSortingStateParser(columnIds).withDefault([])
+    sort: getSortingStateParser(columnIds).withDefault([]),
   });
 
   const filters = {
@@ -25,12 +25,12 @@ export function UsersTable() {
     limit: params.perPage,
     ...(params.name && { search: params.name }),
     ...(params.role && { roles: params.role }),
-    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) })
+    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) }),
   };
 
   const { data } = useSuspenseQuery(usersQueryOptions(filters));
 
-  const pageCount = Math.ceil(data.total_users / params.perPage);
+  const pageCount = data.hasNextPage ? params.page + 1 : params.page;
 
   const { table } = useDataTable({
     data: data.users,
@@ -39,8 +39,8 @@ export function UsersTable() {
     shallow: true,
     debounceMs: 500,
     initialState: {
-      columnPinning: { right: ['actions'] }
-    }
+      columnPinning: { right: ['actions'] },
+    },
   });
 
   return (
@@ -52,10 +52,10 @@ export function UsersTable() {
 
 export function UsersTableSkeleton() {
   return (
-    <div className='flex flex-1 animate-pulse flex-col gap-4'>
-      <div className='bg-muted h-10 w-full rounded' />
-      <div className='bg-muted h-96 w-full rounded-lg' />
-      <div className='bg-muted h-10 w-full rounded' />
+    <div className="flex flex-1 animate-pulse flex-col gap-4">
+      <div className="bg-muted h-10 w-full rounded" />
+      <div className="bg-muted h-96 w-full rounded-lg" />
+      <div className="bg-muted h-10 w-full rounded" />
     </div>
   );
 }

@@ -35,4 +35,4 @@ Mandor Plate is a full-stack monorepo: NestJS API, Next.js dashboard, shared Zod
 
 ## Decisions
 
-<!-- Link irreversible decisions to docs/adr/NNN-title.md when domain-modeling creates them -->
+- [ADR 001: Session-aware JWT access tokens](./docs/adr/001-session-aware-jwt-access-tokens.md)

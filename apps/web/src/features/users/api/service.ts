@@ -1,47 +1,55 @@
-// ============================================================
-// User Service — Data Access Layer
-// ============================================================
-// This is the ONLY file you modify when connecting to your backend.
-// Queries (queries.ts) and components import from here — they never change.
-//
-// Pick your pattern and replace the function bodies below:
-//
-// 1. Server Actions + ORM (Prisma / Drizzle / Supabase)
-//    → Add 'use server' at the top of this file
-//    → Call your ORM directly in each function
-//
-// 2. Route Handlers + ORM
-//    → import { apiClient } from '@/lib/api-client'
-//    → return apiClient<UsersResponse>('/users?...')
-//    → Replace mock calls in route handlers (src/app/api/users/) with ORM
-//
-// 3. BFF — Route Handlers proxy to external backend (Laravel, Go, etc.)
-//    → import { apiClient } from '@/lib/api-client'
-//    → return apiClient<UsersResponse>('/users?...')
-//    → Route handlers proxy requests to your external backend service
-//
-// 4. Direct external API (frontend-only, no Next.js backend)
-//    → const res = await fetch('https://your-api.com/users?...')
-//    → return res.json()
-//
-// Current: Mock (in-memory fake data for demo/prototyping)
-// ============================================================
+import { apiClient } from '@/lib/api-client';
+import type {
+  ApiUser,
+  ApiUsersPage,
+  UserFilters,
+  UserMutationPayload,
+  UsersResponse,
+} from './types';
+import {
+  buildUsersQuery,
+  toCreateUserBody,
+  toUpdateUserBody,
+  toUser,
+} from './types';
 
-import { fakeUsers } from '@/constants/mock-api-users';
-import type { UserFilters, UsersResponse, UserMutationPayload } from './types';
+export type { User } from './types';
+
+function mapUsersPage(page: ApiUsersPage, filters: UserFilters): UsersResponse {
+  return {
+    users: page.data.map(toUser),
+    hasNextPage: page.hasNextPage,
+    page: filters.page ?? 1,
+    limit: filters.limit ?? 10,
+  };
+}
 
 export async function getUsers(filters: UserFilters): Promise<UsersResponse> {
-  return fakeUsers.getUsers(filters);
+  const query = buildUsersQuery(filters);
+  const page = await apiClient<ApiUsersPage>(`/users?${query}`);
+  return mapUsersPage(page, filters);
 }
 
 export async function createUser(data: UserMutationPayload) {
-  return fakeUsers.createUser(data);
+  const user = await apiClient<ApiUser>('/users', {
+    method: 'POST',
+    body: JSON.stringify(toCreateUserBody(data)),
+  });
+  return { success: true, user: toUser(user) };
 }
 
-export async function updateUser(id: number, data: UserMutationPayload) {
-  return fakeUsers.updateUser(id, data);
+export async function updateUser(
+  id: number | string,
+  data: UserMutationPayload,
+) {
+  const user = await apiClient<ApiUser>(`/users/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(toUpdateUserBody(data)),
+  });
+  return { success: true, user: toUser(user) };
 }
 
-export async function deleteUser(id: number) {
-  return fakeUsers.deleteUser(id);
+export async function deleteUser(id: number | string) {
+  await apiClient<void>(`/users/${id}`, { method: 'DELETE' });
+  return { success: true };
 }

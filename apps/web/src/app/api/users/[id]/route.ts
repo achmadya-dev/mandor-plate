@@ -1,33 +1,70 @@
-// ============================================================
-// Route Handler — Single User (update + delete)
-// ============================================================
-// See src/app/api/users/route.ts for pattern documentation.
-// ============================================================
-
-import { fakeUsers } from '@/constants/mock-api-users';
 import { NextRequest, NextResponse } from 'next/server';
+import { authorizedApiFetch, parseApiErrorBody } from '@/lib/auth/backend';
+import { applyAuthCookies } from '@/lib/auth/cookies';
+import { jsonWithSessionCookies, requireAdmin } from '@/lib/auth/route-guards';
+import type { ApiUser } from '@/features/users/api/types';
+import { toUpdateUserBody } from '@/features/users/api/types';
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function PUT(request: NextRequest, { params }: Params) {
-  const { id } = await params;
-  const body = await request.json();
-  const data = await fakeUsers.updateUser(Number(id), body);
-
-  if (!data.success) {
-    return NextResponse.json(data, { status: 404 });
+export async function PATCH(request: NextRequest, { params }: Params) {
+  const auth = await requireAdmin(request);
+  if (!auth.ok) {
+    return auth.response;
   }
 
-  return NextResponse.json(data);
+  const { id } = await params;
+  const body = await request.json();
+
+  const response = await authorizedApiFetch(
+    `/users/${id}`,
+    auth.session.accessToken,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(toUpdateUserBody(body)),
+    },
+  );
+
+  if (!response.ok) {
+    return jsonWithSessionCookies(
+      await parseApiErrorBody(response),
+      { status: response.status },
+      auth.session,
+    );
+  }
+
+  const data = (await response.json()) as ApiUser;
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }
 
 export async function DELETE(request: NextRequest, { params }: Params) {
-  const { id } = await params;
-  const data = await fakeUsers.deleteUser(Number(id));
-
-  if (!data.success) {
-    return NextResponse.json(data, { status: 404 });
+  const auth = await requireAdmin(request);
+  if (!auth.ok) {
+    return auth.response;
   }
 
-  return NextResponse.json(data);
+  const { id } = await params;
+
+  const response = await authorizedApiFetch(
+    `/users/${id}`,
+    auth.session.accessToken,
+    {
+      method: 'DELETE',
+    },
+  );
+
+  if (!response.ok) {
+    return jsonWithSessionCookies(
+      await parseApiErrorBody(response),
+      { status: response.status },
+      auth.session,
+    );
+  }
+
+  let deleteResponse = new NextResponse(null, { status: 204 });
+  if (auth.session.tokens) {
+    deleteResponse = applyAuthCookies(deleteResponse, auth.session.tokens);
+  }
+  return deleteResponse;
 }

@@ -1,45 +1,66 @@
-// ============================================================
-// Route Handler — Users (list + create)
-// ============================================================
-// Used with Pattern 2 (Route Handlers + ORM) or Pattern 3 (BFF).
-//
-// Fullstack (ORM): Replace fakeUsers calls with your ORM
-//   const users = await db.query.users.findMany({ ... })
-//
-// BFF (proxy): Replace with fetch to your external backend
-//   const res = await fetch(`${BACKEND_URL}/users?${searchParams}`, {
-//     headers: { Authorization: `Bearer ${token}` }
-//   })
-//   return NextResponse.json(await res.json())
-//
-// Current: Mock (in-memory fake data for demo/prototyping)
-// ============================================================
-
-import { fakeUsers } from '@/constants/mock-api-users';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { authorizedApiFetch, parseApiErrorBody } from '@/lib/auth/backend';
+import { jsonWithSessionCookies, requireAdmin } from '@/lib/auth/route-guards';
+import type { ApiUser, ApiUsersPage } from '@/features/users/api/types';
+import { buildUsersQuery, toCreateUserBody } from '@/features/users/api/types';
 
 export async function GET(request: NextRequest) {
+  const auth = await requireAdmin(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const { searchParams } = request.nextUrl;
+  const filters = {
+    page: Number(searchParams.get('page') ?? 1),
+    limit: Number(searchParams.get('limit') ?? 10),
+    roles: searchParams.get('roles') ?? undefined,
+    sort: searchParams.get('sort') ?? undefined,
+  };
 
-  const page = Number(searchParams.get('page') ?? 1);
-  const limit = Number(searchParams.get('limit') ?? 10);
-  const roles = searchParams.get('roles') ?? undefined;
-  const search = searchParams.get('search') ?? undefined;
-  const sort = searchParams.get('sort') ?? undefined;
+  const query = buildUsersQuery(filters);
+  const response = await authorizedApiFetch(
+    `/users?${query}`,
+    auth.session.accessToken,
+  );
 
-  const data = await fakeUsers.getUsers({
-    page,
-    limit,
-    roles,
-    search,
-    sort
-  });
+  if (!response.ok) {
+    return jsonWithSessionCookies(
+      await parseApiErrorBody(response),
+      { status: response.status },
+      auth.session,
+    );
+  }
 
-  return NextResponse.json(data);
+  const data = (await response.json()) as ApiUsersPage;
+  return jsonWithSessionCookies(data, undefined, auth.session);
 }
 
 export async function POST(request: NextRequest) {
+  const auth = await requireAdmin(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const body = await request.json();
-  const data = await fakeUsers.createUser(body);
-  return NextResponse.json(data, { status: 201 });
+  const response = await authorizedApiFetch(
+    '/users',
+    auth.session.accessToken,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(toCreateUserBody(body)),
+    },
+  );
+
+  if (!response.ok) {
+    return jsonWithSessionCookies(
+      await parseApiErrorBody(response),
+      { status: response.status },
+      auth.session,
+    );
+  }
+
+  const data = (await response.json()) as ApiUser;
+  return jsonWithSessionCookies(data, { status: 201 }, auth.session);
 }
