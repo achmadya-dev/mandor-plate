@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:17.9-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - mandor-plate-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: api
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U root -d api']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  maildev:
+    build:
+      context: ./apps/api
+      dockerfile: maildev.Dockerfile
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+
+volumes:
+  mandor-plate-db:

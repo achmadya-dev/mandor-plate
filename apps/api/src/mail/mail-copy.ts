@@ -1,0 +1,24 @@
+export const mailCopy = {
+  confirmEmail: {
+    title: 'Confirm email',
+    text1: 'Hey!',
+    text2: "You're almost ready to start enjoying",
+    text3:
+      'Simply click the big green button below to verify your email address.',
+  },
+  resetPassword: {
+    title: 'Reset password',
+    text1: 'Trouble signing in?',
+    text2: 'Resetting your password is easy.',
+    text3:
+      "Just press the button below and follow the instructions. We'll have you up and running in no time.",
+    text4: 'If you did not make this request then please ignore this email.',
+  },
+  confirmNewEmail: {
+    title: 'Confirm email',
+    text1: 'Hey!',
+    text2: 'Confirm your new email address.',
+    text3:
+      'Simply click the big green button below to verify your email address.',
+  },
+} as const;
