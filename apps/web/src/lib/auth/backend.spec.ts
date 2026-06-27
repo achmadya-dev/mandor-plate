@@ -1,4 +1,4 @@
-import { ApiProxyError, apiForgotPassword, apiResetPassword, parseApiErrorBody } from './backend';
+import { ApiProxyError, apiForgotPassword, apiGoogleLogin, apiResetPassword, parseApiErrorBody } from './backend';
 
 describe('ApiProxyError', () => {
   it('carries status and body for BFF forwarding', () => {
@@ -30,6 +30,39 @@ describe('password recovery proxy', () => {
   afterEach(() => {
     global.fetch = originalFetch;
     jest.resetAllMocks();
+  });
+
+  it('forwards google login requests to the API', async () => {
+    global.fetch = jest.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          token: 'access',
+          refreshToken: 'refresh',
+          tokenExpires: Date.now() + 60_000,
+          user: {
+            id: 1,
+            email: 'user@gmail.com',
+            provider: 'google',
+            firstName: 'Test',
+            lastName: 'User',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      ),
+    );
+
+    const result = await apiGoogleLogin({ idToken: 'google-id-token' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/auth/google/login'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ idToken: 'google-id-token' }),
+      }),
+    );
+    expect(result.token).toBe('access');
   });
 
   it('forwards forgot-password requests to the API', async () => {

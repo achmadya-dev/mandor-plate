@@ -4,6 +4,7 @@ import {
   refreshResponseSchema,
   sessionUserSchema,
   type EmailLoginRequest,
+  type GoogleLoginRequest,
   type LoginResponse,
   type RefreshResponse,
   type RegisterRequest,
@@ -43,6 +44,20 @@ export async function apiRegister(body: RegisterRequest): Promise<void> {
   if (!response.ok) {
     throw new ApiProxyError(response.status, await parseApiErrorBody(response));
   }
+}
+
+export async function apiGoogleLogin(body: GoogleLoginRequest): Promise<LoginResponse> {
+  const response = await fetch(apiUrl('/auth/google/login'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new ApiProxyError(response.status, await parseApiErrorBody(response));
+  }
+
+  return loginResponseSchema.parse(await response.json());
 }
 
 export async function apiForgotPassword(body: ForgotPasswordRequest): Promise<void> {

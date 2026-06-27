@@ -229,12 +229,12 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Google sign-in button visible on the login page
-- [ ] OAuth flow completes and sets httpOnly session cookies
-- [ ] Authenticated user reaches the dashboard after Google sign-in
-- [ ] Facebook and Apple providers are present in the API but disabled by default
-- [ ] Enabling Facebook or Apple requires only environment configuration, not code changes
-- [ ] OAuth error states display a clear message on the login page
+- [x] Google sign-in button visible on the login page
+- [x] OAuth flow completes and sets httpOnly session cookies
+- [x] Authenticated user reaches the dashboard after Google sign-in
+- [x] Facebook and Apple providers are present in the API but disabled by default
+- [x] Enabling Facebook or Apple requires only environment configuration, not code changes
+- [x] OAuth error states display a clear message on the login page
 
 ---
 
