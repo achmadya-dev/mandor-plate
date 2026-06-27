@@ -1,9 +1,9 @@
 'use client';
 
-import { useStubUser } from '@/lib/stub-session';
+import { sessionUserDisplayName, useSessionUser } from '@/lib/auth/use-session';
 
 export default function ProfileViewPage() {
-  const user = useStubUser();
+  const user = useSessionUser();
 
   return (
     <div className='flex w-full flex-col gap-4 p-4'>
@@ -14,11 +14,11 @@ export default function ProfileViewPage() {
       <dl className='grid max-w-md gap-2 text-sm'>
         <div>
           <dt className='font-medium'>Name</dt>
-          <dd>{user.fullName}</dd>
+          <dd>{sessionUserDisplayName(user)}</dd>
         </div>
         <div>
           <dt className='font-medium'>Email</dt>
-          <dd>{user.email}</dd>
+          <dd>{user?.email ?? '—'}</dd>
         </div>
       </dl>
     </div>

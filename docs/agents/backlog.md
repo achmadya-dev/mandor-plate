@@ -165,18 +165,18 @@ Forms use shared Zod schemas from the shared package. Browser never sends creden
 
 ### Acceptance criteria
 
-- [ ] BFF route handlers exist for login, register, logout, refresh, and current-user
-- [ ] Successful auth responses set access and refresh tokens in httpOnly cookies with secure attributes
-- [ ] Login page renders and submits via TanStack Form with shared Zod validation
-- [ ] Registration page renders and creates a new user through the BFF
-- [ ] Next.js middleware protects dashboard routes; unauthenticated requests redirect to login
-- [ ] Authenticated user reaches the dashboard after login
-- [ ] Session persists across browser page refresh
-- [ ] Logout clears cookies and redirects to login
-- [ ] Server-side API calls inject Authorization header from cookies
-- [ ] Documented pattern for authenticated client-side data fetching through the BFF
-- [ ] Integration tests verify BFF proxy behavior, cookie setting, and error forwarding
-- [ ] Tokens are never stored in localStorage or exposed to client-side JavaScript
+- [x] BFF route handlers exist for login, register, logout, refresh, and current-user
+- [x] Successful auth responses set access and refresh tokens in httpOnly cookies with secure attributes
+- [x] Login page renders and submits via TanStack Form with shared Zod validation
+- [x] Registration page renders and creates a new user through the BFF
+- [x] Next.js middleware protects dashboard routes; unauthenticated requests redirect to login
+- [x] Authenticated user reaches the dashboard after login
+- [x] Session persists across browser page refresh
+- [x] Logout clears cookies and redirects to login
+- [x] Server-side API calls inject Authorization header from cookies
+- [x] Documented pattern for authenticated client-side data fetching through the BFF
+- [x] Integration tests verify BFF proxy behavior, cookie setting, and error forwarding
+- [x] Tokens are never stored in localStorage or exposed to client-side JavaScript
 
 ---
 
