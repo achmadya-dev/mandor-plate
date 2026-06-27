@@ -66,9 +66,9 @@ describe('Auth Module', () => {
                 (letter) =>
                   letter.to[0].address.toLowerCase() ===
                     newUserEmail.toLowerCase() &&
-                  /.*confirm\-email\?hash\=(\S+).*/g.test(letter.text),
+                  /.*confirm-email\?hash=(\S+).*/g.test(letter.text),
               )
-              ?.text.replace(/.*confirm\-email\?hash\=(\S+).*/g, '$1'),
+              ?.text.replace(/.*confirm-email\?hash=(\S+).*/g, '$1'),
           );
 
         return request(app)
@@ -88,9 +88,9 @@ describe('Auth Module', () => {
                 (letter) =>
                   letter.to[0].address.toLowerCase() ===
                     newUserEmail.toLowerCase() &&
-                  /.*confirm\-email\?hash\=(\S+).*/g.test(letter.text),
+                  /.*confirm-email\?hash=(\S+).*/g.test(letter.text),
               )
-              ?.text.replace(/.*confirm\-email\?hash\=(\S+).*/g, '$1'),
+              ?.text.replace(/.*confirm-email\?hash=(\S+).*/g, '$1'),
           );
 
         return request(app)
@@ -284,10 +284,10 @@ describe('Auth Module', () => {
               return (
                 letter.to[0].address.toLowerCase() ===
                   newUserNewEmail.toLowerCase() &&
-                /.*confirm\-new\-email\?hash\=(\S+).*/g.test(letter.text)
+                /.*confirm-new-email\?hash=(\S+).*/g.test(letter.text)
               );
             })
-            ?.text.replace(/.*confirm\-new\-email\?hash\=(\S+).*/g, '$1'),
+            ?.text.replace(/.*confirm-new-email\?hash=(\S+).*/g, '$1'),
         );
 
       await request(app)

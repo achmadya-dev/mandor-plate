@@ -11,7 +11,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter
+  CardFooter,
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
@@ -22,23 +22,23 @@ export function PokemonInfo() {
   const { data } = useSuspenseQuery(pokemonOptions(pokemonId));
 
   return (
-    <div className='space-y-6'>
+    <div className="space-y-6">
       {/* Pokemon selector */}
       <Card>
         <CardHeader>
           <CardTitle>Pick a Pokemon</CardTitle>
           <CardDescription>
-            Each selection triggers <code>useSuspenseQuery</code> — cached results are instant, new
-            fetches show the Suspense fallback.
+            Each selection triggers <code>useSuspenseQuery</code> — cached
+            results are instant, new fetches show the Suspense fallback.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className='flex flex-wrap gap-2'>
+          <div className="flex flex-wrap gap-2">
             {POKEMON_IDS.map((id) => (
               <Button
                 key={id}
                 variant={pokemonId === id ? 'default' : 'outline'}
-                size='sm'
+                size="sm"
                 onClick={() => setPokemonId(id)}
               >
                 #{id}
@@ -51,11 +51,11 @@ export function PokemonInfo() {
       {/* Pokemon card */}
       <Card>
         <CardHeader>
-          <div className='flex items-center gap-3'>
-            <CardTitle className='capitalize'>{data.name}</CardTitle>
-            <div className='flex gap-1'>
+          <div className="flex items-center gap-3">
+            <CardTitle className="capitalize">{data.name}</CardTitle>
+            <div className="flex gap-1">
               {data.types.map(({ type }) => (
-                <Badge key={type.name} variant='secondary'>
+                <Badge key={type.name} variant="secondary">
                   {type.name}
                 </Badge>
               ))}
@@ -66,21 +66,22 @@ export function PokemonInfo() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className='flex flex-col items-center gap-6 sm:flex-row'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <div className="flex flex-col items-center gap-6 sm:flex-row">
             <img
               src={data.sprites.front_shiny}
               alt={data.name}
               width={160}
               height={160}
-              className='bg-muted/50 rounded-lg'
+              className="bg-muted/50 rounded-lg"
             />
-            <div className='flex-1 space-y-3'>
+            <div className="flex-1 space-y-3">
               {data.stats.map((s) => (
-                <div key={s.stat.name} className='space-y-1'>
-                  <div className='flex justify-between text-sm'>
-                    <span className='text-muted-foreground capitalize'>{s.stat.name}</span>
-                    <span className='font-medium'>{s.base_stat}</span>
+                <div key={s.stat.name} className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground capitalize">
+                      {s.stat.name}
+                    </span>
+                    <span className="font-medium">{s.base_stat}</span>
                   </div>
                   <Progress value={Math.min(s.base_stat, 150) / 1.5} />
                 </div>
@@ -89,7 +90,7 @@ export function PokemonInfo() {
           </div>
         </CardContent>
         <CardFooter>
-          <p className='text-muted-foreground text-xs'>
+          <p className="text-muted-foreground text-xs">
             Data from PokeAPI &middot; Prefetched on server, hydrated on client
           </p>
         </CardFooter>

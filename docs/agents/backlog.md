@@ -29,11 +29,11 @@ MP-004…MP-008 ─────────► MP-011
 
 ### Parallel work opportunities
 
-| After completing | Can start in parallel |
-|---|---|
-| MP-001 | MP-002, MP-003, MP-009, MP-010 (lint/typecheck stage only) |
-| MP-004 | MP-005, MP-006, MP-007 |
-| MP-007 | MP-008 |
+| After completing | Can start in parallel                                      |
+| ---------------- | ---------------------------------------------------------- |
+| MP-001           | MP-002, MP-003, MP-009, MP-010 (lint/typecheck stage only) |
+| MP-004           | MP-005, MP-006, MP-007                                     |
+| MP-007           | MP-008                                                     |
 
 ---
 
@@ -361,15 +361,15 @@ Implement lint, typecheck, and unit test stages after MP-001. Wire the E2E stage
 
 ### Acceptance criteria
 
-- [ ] Root ESLint configuration covers API, web, and shared packages
-- [ ] Root Prettier configuration covers the entire monorepo
-- [ ] OxLint and Oxfmt fully removed from the web application
-- [ ] Husky pre-commit hook runs lint-staged on staged files
-- [ ] Git guardrails hooks block destructive git operations
-- [ ] GitHub Actions workflow triggers on pull requests
-- [ ] CI pipeline runs lint, typecheck, and unit tests in sequence
-- [ ] CI E2E stage runs against a PostgreSQL service container (enabled after MP-011)
-- [ ] Root scripts expose lint, typecheck, test, and test:e2e commands via Turborepo
+- [x] Root ESLint configuration covers API, web, and shared packages
+- [x] Root Prettier configuration covers the entire monorepo
+- [x] OxLint and Oxfmt fully removed from the web application
+- [x] Husky pre-commit hook runs lint-staged on staged files
+- [x] Git guardrails hooks block destructive git operations
+- [x] GitHub Actions workflow triggers on pull requests
+- [x] CI pipeline runs lint, typecheck, and unit tests in sequence
+- [x] CI E2E stage runs against a PostgreSQL service container (enabled after MP-011)
+- [x] Root scripts expose lint, typecheck, test, and test:e2e commands via Turborepo
 
 ---
 
@@ -417,19 +417,19 @@ End-to-end behavior:
 
 ## Summary
 
-| Ticket | Title | Blocked by | Est. effort |
-|---|---|---|---|
-| MP-001 | Monorepo foundation and API production core | None | 1 day |
-| MP-002 | Shared validation contracts | MP-001 | 0.5 day |
-| MP-003 | Dashboard shell without Clerk | MP-001 | 1 day |
-| MP-004 | Email authentication end-to-end | MP-002, MP-003 | 2–3 days |
-| MP-005 | Password recovery flow | MP-004 | 0.5 day |
-| MP-006 | Google social sign-in | MP-004 | 0.5 day |
-| MP-007 | Role-based navigation | MP-004 | 0.5 day |
-| MP-008 | Profile and avatar upload | MP-004 | 0.5 day |
-| MP-009 | Agent tooling bundle | MP-001 | 0.5 day |
-| MP-010 | Unified CI and quality gates | MP-001 | 1 day |
-| MP-011 | Full-stack E2E and contributor documentation | MP-004–MP-008 | 1 day |
+| Ticket | Title                                        | Blocked by     | Est. effort |
+| ------ | -------------------------------------------- | -------------- | ----------- |
+| MP-001 | Monorepo foundation and API production core  | None           | 1 day       |
+| MP-002 | Shared validation contracts                  | MP-001         | 0.5 day     |
+| MP-003 | Dashboard shell without Clerk                | MP-001         | 1 day       |
+| MP-004 | Email authentication end-to-end              | MP-002, MP-003 | 2–3 days    |
+| MP-005 | Password recovery flow                       | MP-004         | 0.5 day     |
+| MP-006 | Google social sign-in                        | MP-004         | 0.5 day     |
+| MP-007 | Role-based navigation                        | MP-004         | 0.5 day     |
+| MP-008 | Profile and avatar upload                    | MP-004         | 0.5 day     |
+| MP-009 | Agent tooling bundle                         | MP-001         | 0.5 day     |
+| MP-010 | Unified CI and quality gates                 | MP-001         | 1 day       |
+| MP-011 | Full-stack E2E and contributor documentation | MP-004–MP-008  | 1 day       |
 
 **Total estimated effort:** 7–8 working days
 

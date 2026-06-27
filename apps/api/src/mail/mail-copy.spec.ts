@@ -1,7 +1,7 @@
 import { mailCopy } from './mail-copy';
 
 describe('mailCopy', () => {
-  it('exposes English copy for all transactional emails', () => {
+  it('should expose English copy for all transactional emails', () => {
     expect(mailCopy.confirmEmail.title).toBe('Confirm email');
     expect(mailCopy.resetPassword.title).toBe('Reset password');
     expect(mailCopy.confirmNewEmail.title).toBe('Confirm email');
