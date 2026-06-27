@@ -258,12 +258,12 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Navigation reads role from the authenticated session (current-user BFF endpoint)
-- [ ] Admin role sees all navigation items including admin-only entries
-- [ ] User role sees only permitted navigation items
-- [ ] Admin-only routes reject or redirect non-admin users
-- [ ] Navigation updates correctly after login without manual page reload
-- [ ] Test coverage verifies menu filtering by role (component or E2E)
+- [x] Navigation reads role from the authenticated session (current-user BFF endpoint)
+- [x] Admin role sees all navigation items including admin-only entries
+- [x] User role sees only permitted navigation items
+- [x] Admin-only routes reject or redirect non-admin users
+- [x] Navigation updates correctly after login without manual page reload
+- [x] Test coverage verifies menu filtering by role (component or E2E)
 
 ---
 

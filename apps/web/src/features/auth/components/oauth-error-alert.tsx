@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 const errorMessages: Record<string, string> = {
   google: 'Google sign-in failed. Check API Google credentials or try email login.',
   google_config: 'Google sign-in is not configured. Set NEXT_PUBLIC_GOOGLE_CLIENT_ID and API GOOGLE_CLIENT_*.',
+  forbidden: 'You do not have permission to access that page.',
 };
 
 function OAuthErrorAlertInner() {

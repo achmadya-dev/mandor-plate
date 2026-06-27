@@ -28,7 +28,7 @@ import { UserAvatarProfile } from '@/components/user-avatar-profile';
 import { navGroups } from '@/config/nav-config';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useFilteredNavGroups } from '@/hooks/use-nav';
-import { useStubUser } from '@/lib/stub-session';
+import { sessionUserDisplayName, useSessionUser } from '@/lib/auth/use-session';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
@@ -37,10 +37,15 @@ import { Icons } from '../icons';
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  const { isOpen } = useMediaQuery();
-  const user = useStubUser();
   const router = useRouter();
+  const { isOpen } = useMediaQuery();
+  const user = useSessionUser();
   const filteredGroups = useFilteredNavGroups(navGroups);
+  const displayUser = {
+    fullName: sessionUserDisplayName(user),
+    email: user?.email ?? '',
+    imageUrl: user?.photo?.path,
+  };
 
   React.useEffect(() => {
     // Side effects based on sidebar state changes
@@ -116,7 +121,7 @@ export default function AppSidebar() {
                   size='lg'
                   className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
-                  <UserAvatarProfile className='h-8 w-8 rounded-lg' showInfo user={user} />
+                  <UserAvatarProfile className='h-8 w-8 rounded-lg' showInfo user={displayUser} />
                   <Icons.chevronsDown className='ml-auto size-4' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -128,7 +133,7 @@ export default function AppSidebar() {
               >
                 <DropdownMenuLabel className='p-0 font-normal'>
                   <div className='px-1 py-1.5'>
-                    <UserAvatarProfile className='h-8 w-8 rounded-lg' showInfo user={user} />
+                    <UserAvatarProfile className='h-8 w-8 rounded-lg' showInfo user={displayUser} />
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

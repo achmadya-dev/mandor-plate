@@ -1,13 +1,18 @@
 'use client';
 
 import type { NavGroup, NavItem } from '@/types';
+import { filterNavGroups, filterNavItems } from '@/lib/auth/rbac';
+import { useSessionUser } from '@/lib/auth/use-session';
 import { useMemo } from 'react';
 
-/** MP-003: show full nav shell. RBAC filtering arrives in MP-007. */
 export function useFilteredNavItems(items: NavItem[]) {
-  return useMemo(() => items, [items]);
+  const user = useSessionUser();
+
+  return useMemo(() => filterNavItems(user, items), [items, user]);
 }
 
 export function useFilteredNavGroups(groups: NavGroup[]) {
-  return useMemo(() => groups, [groups]);
+  const user = useSessionUser();
+
+  return useMemo(() => filterNavGroups(user, groups), [groups, user]);
 }

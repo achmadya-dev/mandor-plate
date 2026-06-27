@@ -1,5 +1,6 @@
 import KBar from '@/components/kbar';
 import AppSidebar from '@/components/layout/app-sidebar';
+import { DashboardFlashAlert } from '@/components/layout/dashboard-flash-alert';
 import Header from '@/components/layout/header';
 import { InfoSidebar } from '@/components/layout/info-sidebar';
 import { InfobarProvider } from '@/components/ui/infobar';
@@ -26,6 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <AppSidebar />
         <SidebarInset>
           <Header />
+          <DashboardFlashAlert />
           <InfobarProvider defaultOpen={false}>
             {children}
             <InfoSidebar side='right' />

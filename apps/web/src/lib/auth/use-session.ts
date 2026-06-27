@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import type { SessionUser } from '@mandor-plate/shared';
 import { fetchCurrentUser } from '@/lib/auth/client';
+import { usePathname } from 'next/navigation';
 
 export function useSessionUser(): SessionUser | null {
+  const pathname = usePathname();
   const [user, setUser] = useState<SessionUser | null>(null);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export function useSessionUser(): SessionUser | null {
     return () => {
       active = false;
     };
-  }, []);
+  }, [pathname]);
 
   return user;
 }
