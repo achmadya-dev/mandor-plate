@@ -29,6 +29,10 @@ import {
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import {
+  RequestWithJwtPayload,
+  RequestWithJwtRefreshPayload,
+} from './strategies/types/authenticated-request.type';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { RefreshResponseDto } from './dto/refresh-response.dto';
 import { NullableType } from '../utils/types/nullable.type';
@@ -93,9 +97,7 @@ export class AuthController {
   @Post('reset/password')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UsePipes(new ZodValidationPipe(resetPasswordRequestSchema))
-  resetPassword(
-    @Body() resetPasswordDto: ResetPasswordRequest,
-  ): Promise<void> {
+  resetPassword(@Body() resetPasswordDto: ResetPasswordRequest): Promise<void> {
     return this.service.resetPassword(
       resetPasswordDto.hash,
       resetPasswordDto.password,
@@ -112,7 +114,9 @@ export class AuthController {
     type: User,
   })
   @HttpCode(HttpStatus.OK)
-  public me(@Request() request): Promise<NullableType<User>> {
+  public me(
+    @Request() request: RequestWithJwtPayload,
+  ): Promise<NullableType<User>> {
     return this.service.me(request.user);
   }
 
@@ -126,7 +130,9 @@ export class AuthController {
   @Post('refresh')
   @UseGuards(AuthGuard('jwt-refresh'))
   @HttpCode(HttpStatus.OK)
-  public refresh(@Request() request): Promise<RefreshResponseDto> {
+  public refresh(
+    @Request() request: RequestWithJwtRefreshPayload,
+  ): Promise<RefreshResponseDto> {
     return this.service.refreshToken({
       sessionId: request.user.sessionId,
       hash: request.user.hash,
@@ -137,7 +143,9 @@ export class AuthController {
   @Post('logout')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async logout(@Request() request): Promise<void> {
+  public async logout(
+    @Request() request: RequestWithJwtPayload,
+  ): Promise<void> {
     await this.service.logout({
       sessionId: request.user.sessionId,
     });
@@ -155,7 +163,7 @@ export class AuthController {
   })
   @UsePipes(new ZodValidationPipe(authUpdateRequestSchema))
   public update(
-    @Request() request,
+    @Request() request: RequestWithJwtPayload,
     @Body() userDto: AuthUpdateRequest,
   ): Promise<NullableType<User>> {
     return this.service.update(request.user, userDto);
@@ -165,7 +173,9 @@ export class AuthController {
   @Delete('me')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Request() request): Promise<void> {
+  public async delete(
+    @Request() request: RequestWithJwtPayload,
+  ): Promise<void> {
     return this.service.softDelete(request.user);
   }
 }

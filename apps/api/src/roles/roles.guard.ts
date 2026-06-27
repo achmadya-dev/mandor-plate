@@ -1,5 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { RequestWithJwtPayload } from '../auth/strategies/types/authenticated-request.type';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -13,7 +14,7 @@ export class RolesGuard implements CanActivate {
     if (!roles.length) {
       return true;
     }
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<RequestWithJwtPayload>();
 
     return roles.map(String).includes(String(request.user?.role?.id));
   }
