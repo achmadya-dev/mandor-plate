@@ -80,6 +80,7 @@ jobs:
           cp apps/web/.env.example apps/web/.env
           # Playwright webServer probes 127.0.0.1; keep API reachable on the same host.
           sed -i 's|API_URL=http://localhost:3001|API_URL=http://127.0.0.1:3001|' apps/web/.env
+          sed -i 's|BACKEND_DOMAIN=http://localhost:3001|BACKEND_DOMAIN=http://127.0.0.1:3001|' apps/api/.env
 
       - run: pnpm test:e2e:prepare
 
