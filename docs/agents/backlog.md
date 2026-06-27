@@ -126,16 +126,16 @@ End-to-end behavior:
 
 ### Acceptance criteria
 
-- [ ] Web application starts without Clerk, Sentry, or billing environment variables
-- [ ] No Clerk imports, middleware, or provider wrappers remain
-- [ ] Dashboard layout with sidebar and header renders correctly
-- [ ] Theme switcher works with multiple themes
-- [ ] Sample analytics charts and data tables render
-- [ ] Command+K navigation opens and lists routes
-- [ ] TanStack Form, TanStack Query, and Zod patterns preserved in existing demo pages
-- [ ] Web application uses root ESLint and Prettier configuration (OxLint/Oxfmt removed)
-- [ ] Environment variable template documents required web configuration
-- [ ] Root `pnpm dev` starts API and web concurrently via Turborepo
+- [x] Web application starts without Clerk, Sentry, or billing environment variables
+- [x] No Clerk imports, middleware, or provider wrappers remain
+- [x] Dashboard layout with sidebar and header renders correctly
+- [x] Theme switcher works with multiple themes
+- [x] Sample analytics charts and data tables render
+- [x] Command+K navigation opens and lists routes
+- [x] TanStack Form, TanStack Query, and Zod patterns preserved in existing demo pages
+- [x] Web application uses root ESLint and Prettier configuration (OxLint/Oxfmt removed)
+- [x] Environment variable template documents required web configuration
+- [x] Root `pnpm dev` starts API and web concurrently via Turborepo
 
 ---
 
