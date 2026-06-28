@@ -6,7 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { deleteProductMutation } from '../../api/mutations';
 import type { Product } from '../../api/types';
@@ -32,7 +32,7 @@ export function CellAction({ data }: CellActionProps) {
     },
     onError: () => {
       toast.error('Failed to delete product');
-    }
+    },
   });
 
   return (
@@ -45,18 +45,20 @@ export function CellAction({ data }: CellActionProps) {
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
-            <Icons.ellipsis className='h-4 w-4' />
+          <Button variant="ghost" size="icon" className="size-8 shrink-0">
+            <span className="sr-only">Open menu</span>
+            <Icons.ellipsis className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => router.push(`/dashboard/product/${data.id}`)}>
-            <Icons.edit className='mr-2 h-4 w-4' /> Update
+          <DropdownMenuItem
+            onClick={() => router.push(`/dashboard/product/${data.id}`)}
+          >
+            <Icons.edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Icons.trash className='mr-2 h-4 w-4' /> Delete
+            <Icons.trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

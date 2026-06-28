@@ -3,7 +3,6 @@ import { authorizedApiFetch, parseApiErrorBody } from '@/lib/auth/backend';
 import { applyAuthCookies } from '@/lib/auth/cookies';
 import { jsonWithSessionCookies, requireAdmin } from '@/lib/auth/route-guards';
 import type { ApiUser } from '@/features/users/api/types';
-import { toUpdateUserBody } from '@/features/users/api/types';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -22,7 +21,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(toUpdateUserBody(body)),
+      body: JSON.stringify(body),
     },
   );
 

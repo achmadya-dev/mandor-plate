@@ -14,6 +14,11 @@
     @apply bg-background text-foreground;
   }
 
+  input::placeholder,
+  textarea::placeholder {
+    @apply font-normal text-muted-foreground/45;
+  }
+
   /* Global scrollbar styling to match ScrollArea */
   * {
     scrollbar-width: thin;

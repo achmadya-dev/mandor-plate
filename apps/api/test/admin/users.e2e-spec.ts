@@ -43,6 +43,26 @@ describe('Users Module', () => {
     });
 
     describe('User with "Admin" role', () => {
+      it('should update user while keeping the same email: /api/v1/users/:id (PATCH)', () => {
+        return request(app)
+          .patch(`/api/v1/users/${newUser.id}`)
+          .auth(apiToken, {
+            type: 'bearer',
+          })
+          .send({
+            email: newUserEmail,
+            firstName: 'SameEmail',
+            lastName: 'E2E',
+            role: { id: RoleEnum.user },
+            status: { id: StatusEnum.active },
+          })
+          .expect(200)
+          .expect(({ body }) => {
+            expect(body.email).toBe(newUserEmail);
+            expect(body.firstName).toBe('SameEmail');
+          });
+      });
+
       it('should change password for existing user: /api/v1/users/:id (PATCH)', () => {
         return request(app)
           .patch(`/api/v1/users/${newUser.id}`)

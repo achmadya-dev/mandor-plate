@@ -4,7 +4,12 @@ import { DataTable } from '@/components/ui/table/data-table';
 import { DataTableToolbar } from '@/components/ui/table/data-table-toolbar';
 import { useDataTable } from '@/hooks/use-data-table';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+  useQueryStates,
+} from 'nuqs';
 import { getSortingStateParser } from '@/lib/parsers';
 import { usersQueryOptions } from '../../api/queries';
 import { columns } from './columns';
@@ -16,7 +21,7 @@ export function UsersTable() {
     page: parseAsInteger.withDefault(1),
     perPage: parseAsInteger.withDefault(10),
     name: parseAsString,
-    role: parseAsString,
+    role: parseAsArrayOf(parseAsString, ','),
     sort: getSortingStateParser(columnIds).withDefault([]),
   });
 
@@ -24,7 +29,7 @@ export function UsersTable() {
     page: params.page,
     limit: params.perPage,
     ...(params.name && { search: params.name }),
-    ...(params.role && { roles: params.role }),
+    ...(params.role?.length && { roles: params.role }),
     ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) }),
   };
 

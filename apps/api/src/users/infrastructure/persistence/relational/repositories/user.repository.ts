@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { FindOptionsWhere, Repository, In } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
@@ -34,25 +34,42 @@ export class UsersRelationalRepository implements UserRepository {
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
-    const where: FindOptionsWhere<UserEntity> = {};
+    const qb = this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .leftJoinAndSelect('user.status', 'status')
+      .leftJoinAndSelect('user.photo', 'photo');
+
     if (filterOptions?.roles?.length) {
-      where.role = filterOptions.roles.map((role) => ({
-        id: Number(role.id),
-      }));
+      qb.andWhere('user.roleId IN (:...roleIds)', {
+        roleIds: filterOptions.roles.map((role) => Number(role.id)),
+      });
     }
 
-    const entities = await this.usersRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
-      where: where,
-      order: sortOptions?.reduce(
-        (accumulator, sort) => ({
-          ...accumulator,
-          [sort.orderBy]: sort.order,
-        }),
-        {},
-      ),
-    });
+    const search = filterOptions?.search?.trim();
+    if (search) {
+      qb.andWhere(
+        '(user.firstName ILIKE :search OR user.lastName ILIKE :search OR user.email ILIKE :search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    if (sortOptions?.length) {
+      for (const sort of sortOptions) {
+        const orderBy =
+          sort.orderBy === 'role' || sort.orderBy === 'status'
+            ? `user.${sort.orderBy}Id`
+            : `user.${String(sort.orderBy)}`;
+        qb.addOrderBy(orderBy, sort.order as 'ASC' | 'DESC');
+      }
+    } else {
+      qb.addOrderBy('user.updatedAt', 'DESC');
+    }
+
+    const entities = await qb
+      .skip((paginationOptions.page - 1) * paginationOptions.limit)
+      .take(paginationOptions.limit)
+      .getMany();
 
     return entities.map((user) => UserMapper.toDomain(user));
   }

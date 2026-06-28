@@ -1,7 +1,7 @@
 'use client';
 
 import type { RoleName } from '@mandor-plate/shared';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,8 +13,9 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Icons } from '@/components/icons';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createUserMutation, updateUserMutation } from '../api/mutations';
+import { userKeys } from '../api/queries';
 import type { User } from '../api/types';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -39,10 +40,12 @@ export function UserFormSheet({
   onOpenChange,
 }: UserFormSheetProps) {
   const isEdit = !!user;
+  const queryClient = useQueryClient();
 
   const createMutation = useMutation({
     ...createUserMutation,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: userKeys.all });
       toast.success('User created successfully');
       onOpenChange(false);
       form.reset();
@@ -52,7 +55,8 @@ export function UserFormSheet({
 
   const updateMutation = useMutation({
     ...updateUserMutation,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: userKeys.all });
       toast.success('User updated successfully');
       onOpenChange(false);
     },
@@ -85,6 +89,19 @@ export function UserFormSheet({
       }
     },
   });
+
+  useEffect(() => {
+    if (!open) return;
+
+    form.reset({
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
+      email: user?.email ?? '',
+      password: '',
+      role: (user?.role ?? 'user') as RoleName,
+      status: user?.status ?? 'active',
+    });
+  }, [open, user, form]);
 
   const { FormTextField, FormSelectField } = useFormFields<UserFormValues>();
 

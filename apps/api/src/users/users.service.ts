@@ -194,7 +194,7 @@ export class UsersService {
         updateUserDto.email,
       );
 
-      if (userObject && userObject.id !== id) {
+      if (userObject && String(userObject.id) !== String(id)) {
         throw new UnprocessableEntityException({
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {

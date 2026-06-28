@@ -7,6 +7,14 @@ import { Icons } from '@/components/icons';
 import { CellAction } from './cell-action';
 import { ROLE_OPTIONS } from './options';
 
+const actionsColumn = {
+  size: 52,
+  minSize: 52,
+  maxSize: 52,
+  enableSorting: false,
+  enableHiding: false,
+} as const;
+
 export const columns: ColumnDef<User>[] = [
   {
     id: 'name',
@@ -68,6 +76,12 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />,
+    ...actionsColumn,
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        <CellAction data={row.original} />
+      </div>
+    ),
   },
 ];

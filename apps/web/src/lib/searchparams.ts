@@ -1,9 +1,12 @@
 import {
   createSearchParamsCache,
   createSerializer,
+  parseAsArrayOf,
   parseAsInteger,
-  parseAsString
+  parseAsString,
 } from 'nuqs/server';
+
+const ARRAY_SEPARATOR = ',';
 
 export const searchParams = {
   page: parseAsInteger.withDefault(1),
@@ -11,8 +14,8 @@ export const searchParams = {
   name: parseAsString,
   gender: parseAsString,
   category: parseAsString,
-  role: parseAsString,
-  sort: parseAsString
+  role: parseAsArrayOf(parseAsString, ARRAY_SEPARATOR),
+  sort: parseAsString,
   // advanced filter
   // filters: getFiltersStateParser().withDefault([]),
   // joinOperator: parseAsStringEnum(['and', 'or']).withDefault('and')

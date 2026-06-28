@@ -8,52 +8,60 @@ import Image from 'next/image';
 import { CellAction } from './cell-action';
 import { CATEGORY_OPTIONS } from './options';
 
+const actionsColumn = {
+  size: 52,
+  minSize: 52,
+  maxSize: 52,
+  enableSorting: false,
+  enableHiding: false,
+} as const;
+
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'photo_url',
     header: 'IMAGE',
     cell: ({ row }) => {
       return (
-        <div className='relative aspect-square'>
+        <div className="relative aspect-square">
           <Image
             src={row.getValue('photo_url')}
             alt={row.getValue('name')}
             fill
-            sizes='80px'
-            className='rounded-lg'
+            sizes="80px"
+            className="rounded-lg"
           />
         </div>
       );
-    }
+    },
   },
   {
     id: 'name',
     accessorKey: 'name',
     header: ({ column }: { column: Column<Product, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ cell }) => <div>{cell.getValue<Product['name']>()}</div>,
     meta: {
       label: 'Name',
       placeholder: 'Search products...',
       variant: 'text',
-      icon: Icons.text
+      icon: Icons.text,
     },
-    enableColumnFilter: true
+    enableColumnFilter: true,
   },
   {
     id: 'category',
     accessorKey: 'category',
     enableSorting: false,
     header: ({ column }: { column: Column<Product, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Category' />
+      <DataTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ cell }) => {
       const status = cell.getValue<Product['category']>();
       const Icon = status === 'active' ? Icons.circleCheck : Icons.xCircle;
 
       return (
-        <Badge variant='outline' className='capitalize'>
+        <Badge variant="outline" className="capitalize">
           <Icon />
           {status}
         </Badge>
@@ -63,20 +71,26 @@ export const columns: ColumnDef<Product>[] = [
     meta: {
       label: 'categories',
       variant: 'multiSelect',
-      options: CATEGORY_OPTIONS
-    }
+      options: CATEGORY_OPTIONS,
+    },
   },
   {
     accessorKey: 'price',
-    header: 'PRICE'
+    header: 'PRICE',
   },
   {
     accessorKey: 'description',
-    header: 'DESCRIPTION'
+    header: 'DESCRIPTION',
   },
 
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
+    ...actionsColumn,
+    header: () => <span className="sr-only">Actions</span>,
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        <CellAction data={row.original} />
+      </div>
+    ),
+  },
 ];
