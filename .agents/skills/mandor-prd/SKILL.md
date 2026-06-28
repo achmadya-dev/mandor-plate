@@ -1,9 +1,9 @@
 ---
-name: to-prd-project
-description: Draft product requirements for Mandor Plate features. Use when writing a PRD, scoping a vertical slice, or planning work before creating GitHub issues.
+name: mandor-prd
+description: Draft product requirements for Mandor Plate features in .scratch. Use when writing a PRD or scoping work before mandor-issues. Does not publish to GitHub.
 ---
 
-# To PRD — Mandor Plate
+# Mandor PRD
 
 Draft product requirements for Mandor Plate features.
 
@@ -16,7 +16,7 @@ Draft product requirements for Mandor Plate features.
 
 ## Interview (one question at a time)
 
-Use **grill-me** first if scope is fuzzy. Then flesh out:
+Use **mandor-grill** first if scope is fuzzy. Then flesh out:
 
 1. **Problem** — who is blocked, and how?
 2. **Vertical slice** — what ships in API + web + `packages/shared`?
@@ -38,12 +38,13 @@ Use **grill-me** first if scope is fuzzy. Then flesh out:
 .scratch/<feature-slug>/PRD.md
 ```
 
-Do not publish a PRD directly to GitHub. Issues derived from the PRD follow the same scratch-first rule via **to-issues-project**.
+Do not publish a PRD directly to GitHub. Issue drafts go to `.scratch/` via **mandor-issues**; GitHub publish is a separate step via **mandor-publish**.
 
 Do not recreate a root `PRD.md` or committed planning docs unless the user explicitly asks.
 
 ## After the PRD
 
-1. Run **domain-modeling** to update `CONTEXT.md` with new terms
-2. Run **to-issues-project** to break the PRD into implementable issues
-3. Label issues `ready-for-agent` when acceptance criteria are complete
+1. Run **mandor-domain** to update `CONTEXT.md` with new terms
+2. Run **mandor-issues** to draft issues under `.scratch/<feature-slug>/issues/`
+3. Review scratch issues; set `Status: ready-for-agent` when criteria are complete
+4. Run **mandor-publish** to push to GitHub (only when the user asks)

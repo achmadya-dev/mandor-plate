@@ -1,16 +1,16 @@
 ---
-name: issue-loop
+name: mandor-loop
 description: >-
   Autonomously implement the next published GitHub issue (label ready-for-agent),
   sync the linked .scratch file, run quality gates, and commit. Use with Cursor
   /loop for batch issue runs.
 ---
 
-# Issue Loop — Mandor Plate
+# Mandor Loop
 
-Work through published GitHub issues one at a time. Pair with the Cursor **loop** skill for recurring autonomous runs.
+Batch-implement published GitHub issues. Pair with the Cursor **loop** skill for recurring autonomous runs.
 
-Planning is scratch-first — see [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). **Do not implement from scratch files that have no `GitHub: #NN` line** (publish via **to-issues-project** first).
+Planning is scratch-first — see [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). **Do not implement from scratch files that have no `GitHub: #NN` line** (publish via **mandor-publish** first).
 
 ## Before each iteration
 
@@ -43,8 +43,8 @@ When no open GitHub issues with label `ready-for-agent` remain, stop the loop an
 ## Usage with /loop
 
 ```
-/loop /issue-loop
-/loop 30m /issue-loop
+/loop /mandor-loop
+/loop 30m /mandor-loop
 ```
 
 Dynamic mode (no interval) lets the agent choose when the next iteration is worthwhile.
@@ -53,6 +53,6 @@ For fixed-interval or wake-based loops, use the prompt payload below:
 
 ```json
 {
-  "prompt": "Run the issue-loop workflow for Mandor Plate. Find the next open ready-for-agent GitHub issue (`gh issue list --label ready-for-agent --state open`). Load the linked scratch file if `GitHub: #NN` exists under `.scratch/**/issues/`. Do not implement unpublished scratch issues (empty GitHub line). Read README.md (Dev workflow) and CONTEXT.md. Implement the vertical slice per acceptance criteria (API + web + packages/shared + tests as needed). Run `pnpm check`. Make one atomic commit: `feat|fix|chore(scope): #NN — title`. Comment on GitHub; check off criteria in scratch; close GitHub issue and set scratch Status: done when complete. Stop when no ready-for-agent GitHub issues remain."
+  "prompt": "Run the mandor-loop workflow for Mandor Plate. Find the next open ready-for-agent GitHub issue (`gh issue list --label ready-for-agent --state open`). Load the linked scratch file if `GitHub: #NN` exists under `.scratch/**/issues/`. Do not implement unpublished scratch issues (empty GitHub line) — user must run mandor-publish first. Read README.md (Dev workflow) and CONTEXT.md. Implement the vertical slice per acceptance criteria (API + web + packages/shared + tests as needed). Run `pnpm check`. Make one atomic commit: `feat|fix|chore(scope): #NN — title`. Comment on GitHub; check off criteria in scratch; close GitHub issue and set scratch Status: done when complete. Stop when no ready-for-agent GitHub issues remain."
 }
 ```

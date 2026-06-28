@@ -2,9 +2,15 @@
 
 Issues and PRDs for this repo live on **GitHub Issues** (`gh` CLI). **All planning drafts start in `.scratch/`** (gitignored) before anything is published.
 
-## Scratch-first (required)
+## Create vs publish
 
-Never call `gh issue create` until the issue body exists as a local scratch file and the user has had a chance to review it.
+| Action         | Skill              | Writes to                         |
+| -------------- | ------------------ | --------------------------------- |
+| Draft PRD      | **mandor-prd**     | `.scratch/<feature>/PRD.md`       |
+| Draft issues   | **mandor-issues**  | `.scratch/<feature>/issues/*.md`  |
+| Publish issues | **mandor-publish** | GitHub Issues (`gh issue create`) |
+
+Create skills **never** call `gh`. Publish skill **never** drafts new scratch files.
 
 | Stage           | Location                                        | Committed?      |
 | --------------- | ----------------------------------------------- | --------------- |
@@ -65,7 +71,7 @@ Do not skip step 1–2. If an issue already exists on GitHub without a scratch f
 
 ## GitHub conventions
 
-- **Create an issue**: only via the publish flow above (body from scratch file)
+- **Publish an issue**: via **mandor-publish** and the publish flow above
 - **Read an issue**: `gh issue view <number> --comments`
 - **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters
 - **Comment on an issue**: `gh issue comment <number> --body "..."`
@@ -87,6 +93,8 @@ When set to `yes`, PRs run through the same labels and states as issues, using t
 GitHub shares one number space across issues and PRs, so a bare `#42` may be either — resolve with `gh pr view 42` and fall back to `gh issue view 42`.
 
 ## When a skill says "publish to the issue tracker"
+
+Use **mandor-publish** (not **mandor-issues**):
 
 1. Ensure the scratch file exists and `Status:` is `ready-for-agent`
 2. Run `gh issue create` using the publish flow above

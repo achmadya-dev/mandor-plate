@@ -7,9 +7,23 @@ End-to-end sample for testing the Mandor Plate agent workflow: **skills → scra
 | Mode                         | When to use                                             |
 | ---------------------------- | ------------------------------------------------------- |
 | **A — Generate with skills** | Learn or re-run the full planning pipeline from an idea |
-| **B — Use template**         | Skip planning; test publish + `/loop /issue-loop` only  |
+| **B — Use template**         | Skip planning; test publish + `/loop /mandor-loop` only |
 
 Scratch files live under `.scratch/` (gitignored). The committed template is at `.scratch-template/`.
+
+## Prerequisites
+
+Before running this example:
+
+| Requirement              | Verify                                                   |
+| ------------------------ | -------------------------------------------------------- |
+| Monorepo running locally | [Quickstart](../../../README.md#quickstart) — `pnpm dev` |
+| `gh` authenticated       | `gh auth status`                                         |
+| GitHub remote configured | `git remote -v`                                          |
+| Core skills available    | `.agents/skills/` present (clone this repo)              |
+| Scratch directory        | `mkdir -p .scratch`                                      |
+
+For **Mode A**, invoke skills from Cursor. For **Mode B**, only publish + loop are needed.
 
 ---
 
@@ -19,37 +33,37 @@ Invoke skills **in this order** (matches [README Dev workflow](../../../README.m
 
 ```mermaid
 flowchart LR
-  G[grill-me] --> P[to-prd-project]
-  P --> D[domain-modeling]
-  D --> I[to-issues-project]
-  I --> Pub[publish gh issues]
-  Pub --> L["/loop /issue-loop"]
+  G[mandor-grill] --> P[mandor-prd]
+  P --> D[mandor-domain]
+  D --> I[mandor-issues]
+  I --> Pub[mandor-publish]
+  Pub --> L["/loop /mandor-loop"]
 ```
 
-| Step | Skill                 | Invoke                     | Output                                       |
-| ---- | --------------------- | -------------------------- | -------------------------------------------- |
-| 1    | **grill-me**          | `/grill-me` or `/grilling` | Sharpen scope (optional but recommended)     |
-| 2    | **to-prd-project**    | `to-prd-project`           | `.scratch/account-status-chip/PRD.md`        |
-| 3    | **domain-modeling**   | `domain-modeling`          | Updates `CONTEXT.md` if new terms appear     |
-| 4    | **to-issues-project** | `to-issues-project`        | `.scratch/account-status-chip/issues/*.md`   |
-| 5    | Publish               | _(part of step 4)_         | `gh issue create` + `GitHub: #NN` in scratch |
-| 6    | **issue-loop**        | `/loop /issue-loop`        | Implement, commit, close each issue          |
+| Step | Skill              | Invoke                         | Output                                     |
+| ---- | ------------------ | ------------------------------ | ------------------------------------------ |
+| 1    | **mandor-grill**   | `/mandor-grill` or `/grilling` | Sharpen scope (optional)                   |
+| 2    | **mandor-prd**     | `mandor-prd`                   | `.scratch/account-status-chip/PRD.md`      |
+| 3    | **mandor-domain**  | `mandor-domain`                | Updates `CONTEXT.md` if needed             |
+| 4    | **mandor-issues**  | `mandor-issues`                | `.scratch/…/issues/*.md` (`Status: draft`) |
+| 5    | **mandor-publish** | `mandor-publish`               | GitHub issues + `GitHub: #NN` in scratch   |
+| 6    | **mandor-loop**    | `/loop /mandor-loop`           | Implement, commit, close each issue        |
 
 ### Example prompts
 
-**Step 1 — grill-me** (optional):
+**Step 1 — mandor-grill** (optional):
 
 ```
-/grill-me
+/mandor-grill
 
 I want to show account status (active/inactive) on the profile page and user nav.
 Stress-test scope before we write a PRD.
 ```
 
-**Step 2 — to-prd-project**:
+**Step 2 — mandor-prd**:
 
 ```
-to-prd-project
+mandor-prd
 
 Feature: account-status-chip
 Problem: users can't see account status in the dashboard UI.
@@ -57,29 +71,38 @@ Vertical slice: web only, reuse session user status — no new API.
 Write PRD to .scratch/account-status-chip/PRD.md
 ```
 
-**Step 3 — domain-modeling**:
+**Step 3 — mandor-domain**:
 
 ```
-domain-modeling
+mandor-domain
 
 Review .scratch/account-status-chip/PRD.md — add any missing terms to CONTEXT.md
 (e.g. account status vs role).
 ```
 
-**Step 4 — to-issues-project**:
+**Step 4 — mandor-issues** (create only — scratch):
 
 ```
-to-issues-project
+mandor-issues
 
 Break .scratch/account-status-chip/PRD.md into vertical slices.
 Draft issues under .scratch/account-status-chip/issues/.
-When I confirm, publish to GitHub with label ready-for-agent.
+Set Status: ready-for-agent when criteria are complete. Do not publish.
 ```
 
-**Step 6 — issue-loop**:
+**Step 5 — mandor-publish** (publish to GitHub):
 
 ```
-/loop /issue-loop
+mandor-publish
+
+Publish all ready-for-agent issues under .scratch/account-status-chip/issues/
+to GitHub with label ready-for-agent.
+```
+
+**Step 6 — mandor-loop**:
+
+```
+/loop /mandor-loop
 ```
 
 Compare agent output to the reference template in `.scratch-template/` if helpful.
@@ -95,11 +118,13 @@ mkdir -p .scratch
 cp -r docs/examples/account-status-chip/.scratch-template .scratch/account-status-chip
 ```
 
-Then run steps **4–6** from Mode A (publish → loop). Issues are pre-filled with `Status: ready-for-agent`.
+Then run **mandor-publish** (step 5) and **mandor-loop** (step 6). Issues are pre-filled with `Status: ready-for-agent`.
 
 ---
 
-## Publish one issue (manual)
+## Publish manually (or use mandor-publish)
+
+Prefer the **mandor-publish** skill. Equivalent shell:
 
 ```bash
 ISSUE=.scratch/account-status-chip/issues/01-shared-status-label.md
@@ -138,6 +163,7 @@ rm -rf .scratch/account-status-chip
 ## Related docs
 
 - [Issue tracker (scratch-first)](../../agents/issue-tracker.md)
-- [issue-loop skill](../../../.agents/skills/issue-loop/SKILL.md)
-- [to-prd-project skill](../../../.agents/skills/to-prd-project/SKILL.md)
-- [to-issues-project skill](../../../.agents/skills/to-issues-project/SKILL.md)
+- [mandor-loop skill](../../../.agents/skills/mandor-loop/SKILL.md)
+- [mandor-prd skill](../../../.agents/skills/mandor-prd/SKILL.md)
+- [mandor-issues skill](../../../.agents/skills/mandor-issues/SKILL.md)
+- [mandor-publish skill](../../../.agents/skills/mandor-publish/SKILL.md)

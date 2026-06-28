@@ -1,6 +1,6 @@
 # Mandor Plate — Domain Context
 
-> Agent-readable project vocabulary. Keep terms stable; extend via the **domain-modeling** skill.
+> Agent-readable project vocabulary. Keep terms stable; extend via the **mandor-domain** skill.
 
 ## Product
 
