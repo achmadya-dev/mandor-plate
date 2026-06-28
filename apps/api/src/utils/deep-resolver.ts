@@ -1,11 +1,12 @@
-async function deepResolvePromises(input) {
+type AnyRecord = Record<string, unknown>;
+
+async function deepResolvePromises(input: unknown): Promise<unknown> {
   if (input instanceof Promise) {
     return await input;
   }
 
   if (Array.isArray(input)) {
-    const resolvedArray = await Promise.all(input.map(deepResolvePromises));
-    return resolvedArray;
+    return Promise.all(input.map((item) => deepResolvePromises(item)));
   }
 
   if (input instanceof Date) {
@@ -13,12 +14,11 @@ async function deepResolvePromises(input) {
   }
 
   if (typeof input === 'object' && input !== null) {
-    const keys = Object.keys(input);
-    const resolvedObject = {};
+    const source = input as AnyRecord;
+    const resolvedObject: AnyRecord = {};
 
-    for (const key of keys) {
-      const resolvedValue = await deepResolvePromises(input[key]);
-      resolvedObject[key] = resolvedValue;
+    for (const key of Object.keys(source)) {
+      resolvedObject[key] = await deepResolvePromises(source[key]);
     }
 
     return resolvedObject;
