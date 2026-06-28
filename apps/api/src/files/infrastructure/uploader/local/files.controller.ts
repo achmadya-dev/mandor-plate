@@ -9,6 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import type { Response as ExpressResponse } from 'express';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -56,7 +57,7 @@ export class FilesLocalController {
 
   @Get(':path')
   @ApiExcludeEndpoint()
-  download(@Param('path') path, @Response() response) {
+  download(@Param('path') path: string, @Response() response: ExpressResponse) {
     return response.sendFile(path, { root: './files' });
   }
 }

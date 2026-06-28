@@ -65,12 +65,12 @@ export class AuthFacebookService {
         firstName: data.first_name || '',
         lastName: data.last_name || '',
       };
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof HttpException) {
         throw error;
       }
 
-      if (error.name === 'TimeoutError') {
+      if (error instanceof Error && error.name === 'TimeoutError') {
         throw new HttpException(
           'Facebook API request timeout',
           HttpStatus.REQUEST_TIMEOUT,
