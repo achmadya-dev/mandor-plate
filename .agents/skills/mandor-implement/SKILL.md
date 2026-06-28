@@ -12,4 +12,4 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, use **mandor-review** to review the work.
 
-Commit your work to the current branch.
+Always develop features on a branch prefixed with 'feat/' (e.g., 'feat/<feature-slug>'). Create and switch to this branch if not already on it, and commit your work there.

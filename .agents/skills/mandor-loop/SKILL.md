@@ -26,13 +26,14 @@ gh issue list --label ready-for-agent --state open --json number,title --jq '.[0
 
 ## Per issue
 
-1. Read acceptance criteria (scratch file first, then GitHub issue body)
-2. Implement the vertical slice (API + web + `packages/shared` + tests as needed)
-3. Run `pnpm check`
-4. Make one atomic commit: `feat|fix|chore(scope): #NN — title`
-5. **GitHub:** comment on the issue with what was done
-6. **Scratch (if linked):** check off completed acceptance criteria (`[x]`)
-7. If all criteria met:
+1. Create and switch to a new feature branch prefixed with `feat/` (e.g., `feat/<slug>`) based on the issue title/slug.
+2. Read acceptance criteria (scratch file first, then GitHub issue body)
+3. Implement the vertical slice (API + web + `packages/shared` + tests as needed)
+4. Run `pnpm check`
+5. Make one atomic commit: `feat|fix|chore(scope): #NN — title`
+6. **GitHub:** comment on the issue with what was done
+7. **Scratch (if linked):** check off completed acceptance criteria (`[x]`)
+8. If all criteria met:
    - **GitHub:** `gh issue close N --comment "..."`
    - **Scratch:** set `Status: done`
 
@@ -53,6 +54,6 @@ For fixed-interval or wake-based loops, use the prompt payload below:
 
 ```json
 {
-  "prompt": "Run the mandor-loop workflow for Mandor Plate. Find the next open ready-for-agent GitHub issue (`gh issue list --label ready-for-agent --state open`). Load the linked scratch file if `GitHub: #NN` exists under `.scratch/**/issues/`. Do not implement unpublished scratch issues (empty GitHub line) — user must run mandor-publish first. Read README.md (Dev workflow) and CONTEXT.md. Implement the vertical slice per acceptance criteria (API + web + packages/shared + tests as needed). Run `pnpm check`. Make one atomic commit: `feat|fix|chore(scope): #NN — title`. Comment on GitHub; check off criteria in scratch; close GitHub issue and set scratch Status: done when complete. Stop when no ready-for-agent GitHub issues remain."
+  "prompt": "Run the mandor-loop workflow for Mandor Plate. Find the next open ready-for-agent GitHub issue (`gh issue list --label ready-for-agent --state open`). Load the linked scratch file if `GitHub: #NN` exists under `.scratch/**/issues/`. Do not implement unpublished scratch issues (empty GitHub line) — user must run mandor-publish first. Read README.md (Dev workflow) and CONTEXT.md. Create and switch to a new feature branch prefixed with `feat/` (e.g., `feat/<slug>`) based on the issue title/slug. Implement the vertical slice per acceptance criteria (API + web + packages/shared + tests as needed). Run `pnpm check`. Make one atomic commit: `feat|fix|chore(scope): #NN — title`. Comment on GitHub; check off criteria in scratch; close GitHub issue and set scratch Status: done when complete. Stop when no ready-for-agent GitHub issues remain."
 }
 ```
