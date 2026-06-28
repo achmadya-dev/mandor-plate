@@ -19,6 +19,29 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
+  if (configService.get('app.nodeEnv', { infer: true }) === 'production') {
+    const secrets = {
+      AUTH_JWT_SECRET: configService.getOrThrow('auth.secret', { infer: true }),
+      AUTH_REFRESH_SECRET: configService.getOrThrow('auth.refreshSecret', {
+        infer: true,
+      }),
+      AUTH_FORGOT_SECRET: configService.getOrThrow('auth.forgotSecret', {
+        infer: true,
+      }),
+      AUTH_CONFIRM_EMAIL_SECRET: configService.getOrThrow(
+        'auth.confirmEmailSecret',
+        { infer: true },
+      ),
+    };
+    for (const [name, value] of Object.entries(secrets)) {
+      if (value.startsWith('replace-with-strong-random-')) {
+        throw new Error(
+          `Production refused: ${name} is still the .env.example placeholder. Generate a strong random value (>=32 chars).`,
+        );
+      }
+    }
+  }
+
   app.use(helmet());
 
   const frontendDomain = configService.get('app.frontendDomain', {
