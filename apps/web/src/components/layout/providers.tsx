@@ -5,7 +5,7 @@ import QueryProvider from './query-provider';
 
 export default function Providers({
   activeThemeValue,
-  children
+  children,
 }: {
   activeThemeValue: string;
   children: React.ReactNode;

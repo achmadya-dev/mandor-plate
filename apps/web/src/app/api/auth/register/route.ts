@@ -1,4 +1,7 @@
-import { registerRequestSchema, safeParseWithSchema } from '@mandor-plate/shared';
+import {
+  registerRequestSchema,
+  safeParseWithSchema,
+} from '@mandor-plate/shared';
 import { NextResponse } from 'next/server';
 import { apiRegister, ApiProxyError } from '@/lib/auth/backend';
 

@@ -1,8 +1,4 @@
-import {
-  apiUploadAvatar,
-  mapUploadError,
-  validateAvatarFile,
-} from './profile';
+import { apiUploadAvatar, mapUploadError, validateAvatarFile } from './profile';
 import { ApiProxyError } from './backend';
 
 describe('profile avatar helpers', () => {
@@ -11,17 +7,23 @@ describe('profile avatar helpers', () => {
       validateAvatarFile(new File(['x'], 'photo.jpg', { type: 'image/jpeg' })),
     ).toBeNull();
     expect(
-      validateAvatarFile(new File(['x'], 'doc.pdf', { type: 'application/pdf' })),
+      validateAvatarFile(
+        new File(['x'], 'doc.pdf', { type: 'application/pdf' }),
+      ),
     ).toContain('JPG');
     expect(
       validateAvatarFile(
-        new File([new ArrayBuffer(6 * 1024 * 1024)], 'big.png', { type: 'image/png' }),
+        new File([new ArrayBuffer(6 * 1024 * 1024)], 'big.png', {
+          type: 'image/png',
+        }),
       ),
     ).toContain('5 MB');
   });
 
   it('maps API upload type errors to user-facing messages', () => {
-    const error = new ApiProxyError(422, { errors: { file: 'cantUploadFileType' } });
+    const error = new ApiProxyError(422, {
+      errors: { file: 'cantUploadFileType' },
+    });
     expect(mapUploadError(error)).toContain('JPG');
   });
 });

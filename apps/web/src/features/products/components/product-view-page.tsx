@@ -12,7 +12,7 @@ type TProductViewPageProps = {
 
 export default function ProductViewPage({ productId }: TProductViewPageProps) {
   if (productId === 'new') {
-    return <ProductForm initialData={null} pageTitle='Create New Product' />;
+    return <ProductForm initialData={null} pageTitle="Create New Product" />;
   }
 
   return <EditProductView productId={Number(productId)} />;
@@ -25,5 +25,10 @@ function EditProductView({ productId }: { productId: number }) {
     notFound();
   }
 
-  return <ProductForm initialData={data.product as Product} pageTitle='Edit Product' />;
+  return (
+    <ProductForm
+      initialData={data.product as Product}
+      pageTitle="Edit Product"
+    />
+  );
 }

@@ -1,4 +1,7 @@
-import { forgotPasswordRequestSchema, safeParseWithSchema } from '@mandor-plate/shared';
+import {
+  forgotPasswordRequestSchema,
+  safeParseWithSchema,
+} from '@mandor-plate/shared';
 import { NextResponse } from 'next/server';
 import { apiForgotPassword, ApiProxyError } from '@/lib/auth/backend';
 

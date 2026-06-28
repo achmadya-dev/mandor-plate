@@ -7,42 +7,42 @@ export const DEFAULT_THEME = 'vercel';
 export const THEMES = [
   {
     name: 'Claude',
-    value: 'claude'
+    value: 'claude',
   },
   {
     name: 'Neobrutualism',
-    value: 'neobrutualism'
+    value: 'neobrutualism',
   },
   {
     name: 'Supabase',
-    value: 'supabase'
+    value: 'supabase',
   },
   {
     name: 'Vercel',
-    value: 'vercel'
+    value: 'vercel',
   },
   {
     name: 'Mono',
-    value: 'mono'
+    value: 'mono',
   },
   {
     name: 'Notebook',
-    value: 'notebook'
+    value: 'notebook',
   },
   {
     name: 'Light Green',
-    value: 'light-green'
+    value: 'light-green',
   },
   {
     name: 'Zen',
-    value: 'zen'
+    value: 'zen',
   },
   {
     name: 'Astro Vista',
-    value: 'astro-vista'
+    value: 'astro-vista',
   },
   {
     name: 'WhatsApp',
-    value: 'whatsapp'
-  }
+    value: 'whatsapp',
+  },
 ];

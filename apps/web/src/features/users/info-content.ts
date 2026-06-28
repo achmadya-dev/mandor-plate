@@ -10,15 +10,15 @@ export const usersInfoContent: InfobarContent = {
       links: [
         {
           title: 'TanStack Query SSR Docs',
-          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr'
-        }
-      ]
+          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr',
+        },
+      ],
     },
     {
       title: 'Server Prefetch + Client Hydration',
       description:
         'The server component reads search params via searchParamsCache, builds filters, and calls queryClient.prefetchQuery(). The dehydrated state is passed to HydrationBoundary so the client starts with cached data. The client component reads the same search params via useQueryState and calls useSuspenseQuery with matching filters.',
-      links: []
+      links: [],
     },
     {
       title: 'URL State with nuqs',
@@ -27,15 +27,15 @@ export const usersInfoContent: InfobarContent = {
       links: [
         {
           title: 'nuqs Documentation',
-          url: 'https://nuqs.47ng.com'
-        }
-      ]
+          url: 'https://nuqs.47ng.com',
+        },
+      ],
     },
     {
       title: 'Products vs Users Pattern',
       description:
         'Products: searchParams → RSC fetch → pass data as props to client table. Users: searchParams → server prefetch → HydrationBoundary → client useSuspenseQuery. The Users pattern enables background refetching, cache sharing across components, and optimistic mutations.',
-      links: []
-    }
-  ]
+      links: [],
+    },
+  ],
 };

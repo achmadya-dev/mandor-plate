@@ -1,4 +1,10 @@
-import { ApiProxyError, apiForgotPassword, apiGoogleLogin, apiResetPassword, parseApiErrorBody } from './backend';
+import {
+  ApiProxyError,
+  apiForgotPassword,
+  apiGoogleLogin,
+  apiResetPassword,
+  parseApiErrorBody,
+} from './backend';
 
 describe('ApiProxyError', () => {
   it('carries status and body for BFF forwarding', () => {
@@ -15,12 +21,19 @@ describe('parseApiErrorBody', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    await expect(parseApiErrorBody(response)).resolves.toEqual({ message: 'bad' });
+    await expect(parseApiErrorBody(response)).resolves.toEqual({
+      message: 'bad',
+    });
   });
 
   it('falls back when body is not json', async () => {
-    const response = new Response('nope', { status: 500, statusText: 'Server Error' });
-    await expect(parseApiErrorBody(response)).resolves.toEqual({ message: 'Server Error' });
+    const response = new Response('nope', {
+      status: 500,
+      statusText: 'Server Error',
+    });
+    await expect(parseApiErrorBody(response)).resolves.toEqual({
+      message: 'Server Error',
+    });
   });
 });
 
@@ -66,7 +79,9 @@ describe('password recovery proxy', () => {
   });
 
   it('forwards forgot-password requests to the API', async () => {
-    global.fetch = jest.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue(new Response(null, { status: 204 }));
 
     await apiForgotPassword({ email: 'user@example.com' });
 
@@ -80,7 +95,9 @@ describe('password recovery proxy', () => {
   });
 
   it('forwards reset-password requests to the API', async () => {
-    global.fetch = jest.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue(new Response(null, { status: 204 }));
 
     await apiResetPassword({ hash: 'token123', password: 'newsecret' });
 

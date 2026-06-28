@@ -68,16 +68,19 @@ function ResetPasswordFormInner() {
 
   if (missingHash || linkExpired) {
     return (
-      <Alert variant='destructive'>
-        <Icons.alertCircle className='h-4 w-4' />
+      <Alert variant="destructive">
+        <Icons.alertCircle className="h-4 w-4" />
         <AlertTitle>Invalid reset link</AlertTitle>
-        <AlertDescription className='space-y-2'>
+        <AlertDescription className="space-y-2">
           <p>
             {linkExpired
               ? 'This password reset link has expired.'
               : 'This page requires a reset token from your email.'}
           </p>
-          <Link href='/auth/forgot-password' className='text-primary underline-offset-4 hover:underline'>
+          <Link
+            href="/auth/forgot-password"
+            className="text-primary underline-offset-4 hover:underline"
+          >
             Request a new link
           </Link>
         </AlertDescription>
@@ -86,31 +89,36 @@ function ResetPasswordFormInner() {
   }
 
   return (
-    <div className='space-y-4'>
+    <div className="space-y-4">
       {tokenError ? (
-        <Alert variant='destructive'>
-          <Icons.alertCircle className='h-4 w-4' />
+        <Alert variant="destructive">
+          <Icons.alertCircle className="h-4 w-4" />
           <AlertTitle>Reset failed</AlertTitle>
-          <AlertDescription className='space-y-2'>
+          <AlertDescription className="space-y-2">
             <p>{tokenError}</p>
-            <Link href='/auth/forgot-password' className='text-primary underline-offset-4 hover:underline'>
+            <Link
+              href="/auth/forgot-password"
+              className="text-primary underline-offset-4 hover:underline"
+            >
               Request a new link
             </Link>
           </AlertDescription>
         </Alert>
       ) : null}
       <form.AppForm>
-        <form.Form className='w-full space-y-4'>
+        <form.Form className="w-full space-y-4">
           <form.AppField
-            name='password'
+            name="password"
             children={(field) => (
               <field.FieldSet>
                 <field.Field>
-                  <field.FieldLabel htmlFor={field.name}>New password</field.FieldLabel>
+                  <field.FieldLabel htmlFor={field.name}>
+                    New password
+                  </field.FieldLabel>
                   <Input
                     id={field.name}
-                    type='password'
-                    autoComplete='new-password'
+                    type="password"
+                    autoComplete="new-password"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -121,7 +129,7 @@ function ResetPasswordFormInner() {
               </field.FieldSet>
             )}
           />
-          <Button disabled={loading} className='w-full' type='submit'>
+          <Button disabled={loading} className="w-full" type="submit">
             Update password
           </Button>
         </form.Form>

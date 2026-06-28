@@ -22,7 +22,9 @@ export async function uploadAvatarViaBff(file: File) {
 
   return {
     status: response.status,
-    data: { user: sessionUserSchema.parse((body as { user: SessionUser }).user) },
+    data: {
+      user: sessionUserSchema.parse((body as { user: SessionUser }).user),
+    },
   };
 }
 

@@ -4,7 +4,11 @@ import {
   sessionUserSchema,
 } from '@mandor-plate/shared';
 import { apiUrl } from './constants';
-import { ApiProxyError, authorizedApiFetch, parseApiErrorBody } from './backend';
+import {
+  ApiProxyError,
+  authorizedApiFetch,
+  parseApiErrorBody,
+} from './backend';
 
 export const AVATAR_MAX_BYTES = 5 * 1024 * 1024;
 export const AVATAR_ALLOWED_TYPES = new Set([
@@ -42,7 +46,9 @@ export async function apiUploadFile(
     throw new ApiProxyError(response.status, await parseApiErrorBody(response));
   }
 
-  const payload = (await response.json()) as { file: { id: string; path: string } };
+  const payload = (await response.json()) as {
+    file: { id: string; path: string };
+  };
   return payload.file;
 }
 

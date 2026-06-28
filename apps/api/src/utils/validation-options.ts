@@ -5,8 +5,8 @@ import {
   ValidationPipeOptions,
 } from '@nestjs/common';
 
-function generateErrors(errors: ValidationError[]) {
-  return errors.reduce(
+function generateErrors(errors: ValidationError[]): Record<string, unknown> {
+  return errors.reduce<Record<string, unknown>>(
     (accumulator, currentValue) => ({
       ...accumulator,
       [currentValue.property]:

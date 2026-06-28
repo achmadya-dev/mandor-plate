@@ -5,7 +5,11 @@ import { useTheme } from 'next-themes';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Kbd } from '@/components/ui/kbd';
 
 export function ThemeModeToggle() {
@@ -31,20 +35,20 @@ export function ThemeModeToggle() {
         setTheme(newMode);
       });
     },
-    [resolvedTheme, setTheme]
+    [resolvedTheme, setTheme],
   );
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant='secondary'
-          size='icon'
-          className='group/toggle size-8'
+          variant="secondary"
+          size="icon"
+          className="group/toggle size-8"
           onClick={handleThemeToggle}
         >
           <Icons.brightness />
-          <span className='sr-only'>Toggle theme</span>
+          <span className="sr-only">Toggle theme</span>
         </Button>
       </TooltipTrigger>
       <TooltipContent>

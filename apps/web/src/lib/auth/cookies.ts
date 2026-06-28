@@ -14,7 +14,10 @@ export function authCookieOptions(maxAgeSeconds: number) {
   };
 }
 
-export function applyAuthCookies(response: NextResponse, tokens: TokenPair): NextResponse {
+export function applyAuthCookies(
+  response: NextResponse,
+  tokens: TokenPair,
+): NextResponse {
   const accessMaxAge = Math.max(
     60,
     Math.floor((tokens.tokenExpires - Date.now()) / 1000),
@@ -35,8 +38,14 @@ export function applyAuthCookies(response: NextResponse, tokens: TokenPair): Nex
 }
 
 export function clearAuthCookies(response: NextResponse): NextResponse {
-  response.cookies.set(ACCESS_TOKEN_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
-  response.cookies.set(REFRESH_TOKEN_COOKIE, '', { ...authCookieOptions(0), maxAge: 0 });
+  response.cookies.set(ACCESS_TOKEN_COOKIE, '', {
+    ...authCookieOptions(0),
+    maxAge: 0,
+  });
+  response.cookies.set(REFRESH_TOKEN_COOKIE, '', {
+    ...authCookieOptions(0),
+    maxAge: 0,
+  });
   return response;
 }
 
@@ -50,7 +59,10 @@ export function readTokensFromRequest(request: Request): {
   return { accessToken, refreshToken };
 }
 
-export function getCookieValue(cookieHeader: string, name: string): string | undefined {
+export function getCookieValue(
+  cookieHeader: string,
+  name: string,
+): string | undefined {
   const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
   return match?.[1] ? decodeURIComponent(match[1]) : undefined;
 }

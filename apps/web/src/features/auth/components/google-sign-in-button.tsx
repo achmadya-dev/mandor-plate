@@ -97,22 +97,27 @@ export default function GoogleSignInButton() {
   if (!GOOGLE_CLIENT_ID) {
     return (
       <Button
-        type='button'
-        variant='outline'
-        className='w-full'
+        type="button"
+        variant="outline"
+        className="w-full"
         disabled
-        title='Set NEXT_PUBLIC_GOOGLE_CLIENT_ID to enable Google sign-in'
+        title="Set NEXT_PUBLIC_GOOGLE_CLIENT_ID to enable Google sign-in"
       >
-        <Icons.google className='mr-2 h-4 w-4' />
+        <Icons.google className="mr-2 h-4 w-4" />
         Sign in with Google
       </Button>
     );
   }
 
   return (
-    <div className='flex w-full flex-col items-center gap-2'>
-      <div ref={containerRef} className={loading ? 'pointer-events-none opacity-60' : ''} />
-      {loading ? <p className='text-muted-foreground text-xs'>Signing in…</p> : null}
+    <div className="flex w-full flex-col items-center gap-2">
+      <div
+        ref={containerRef}
+        className={loading ? 'pointer-events-none opacity-60' : ''}
+      />
+      {loading ? (
+        <p className="text-muted-foreground text-xs">Signing in…</p>
+      ) : null}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import {
   FormFieldSet,
   FormField,
   FormFieldError,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 
 interface FileUploadFieldProps {
@@ -24,7 +24,7 @@ export function FileUploadField({
   description,
   required,
   maxSize,
-  maxFiles
+  maxFiles,
 }: FileUploadFieldProps) {
   const field = useFieldContext();
   const value = useStore(field.store, (s) => s.value) as File[] | undefined;

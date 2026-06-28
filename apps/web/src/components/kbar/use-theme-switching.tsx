@@ -23,27 +23,27 @@ const useThemeSwitching = () => {
       name: 'Switch Theme',
       shortcut: ['t', 't'],
       section: 'Theme',
-      perform: cycleTheme
+      perform: cycleTheme,
     },
     {
       id: 'toggleDarkLight',
       name: 'Toggle Dark/Light Mode',
       shortcut: ['d', 'd'],
       section: 'Theme',
-      perform: toggleDarkLight
+      perform: toggleDarkLight,
     },
     {
       id: 'setLightTheme',
       name: 'Set Light Theme',
       section: 'Theme',
-      perform: () => setTheme('light')
+      perform: () => setTheme('light'),
     },
     {
       id: 'setDarkTheme',
       name: 'Set Dark Theme',
       section: 'Theme',
-      perform: () => setTheme('dark')
-    }
+      perform: () => setTheme('dark'),
+    },
   ];
 
   useRegisterActions(themeActions, [theme, activeTheme]);

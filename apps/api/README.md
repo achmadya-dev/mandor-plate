@@ -20,7 +20,7 @@ Maildev UI: http://localhost:1080
 
 ## Default seeded users
 
-| Email | Password | Role |
-|---|---|---|
-| admin@example.com | secret | admin |
-| john.doe@example.com | secret | user |
+| Email                | Password | Role  |
+| -------------------- | -------- | ----- |
+| admin@example.com    | secret   | admin |
+| john.doe@example.com | secret   | user  |

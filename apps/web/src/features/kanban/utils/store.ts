@@ -26,29 +26,29 @@ const initialColumns: Record<string, Task[]> = {
       title: 'Migrate to Stripe billing API',
       priority: 'high',
       assignee: 'Sarah Chen',
-      dueDate: '2026-04-08'
+      dueDate: '2026-04-08',
     },
     {
       id: '2',
       title: 'Add CSV export to reports',
       priority: 'medium',
       assignee: 'Marcus Rivera',
-      dueDate: '2026-04-12'
+      dueDate: '2026-04-12',
     },
     {
       id: '3',
       title: 'Update onboarding flow copy',
       priority: 'low',
       assignee: 'Priya Sharma',
-      dueDate: '2026-04-15'
+      dueDate: '2026-04-15',
     },
     {
       id: '9',
       title: 'Audit RBAC permissions',
       priority: 'medium',
       assignee: 'Jordan Kim',
-      dueDate: '2026-04-10'
-    }
+      dueDate: '2026-04-10',
+    },
   ],
   inProgress: [
     {
@@ -56,22 +56,22 @@ const initialColumns: Record<string, Task[]> = {
       title: 'Refactor notification service',
       priority: 'high',
       assignee: 'Alex Turner',
-      dueDate: '2026-04-03'
+      dueDate: '2026-04-03',
     },
     {
       id: '5',
       title: 'Build team invitation flow',
       priority: 'medium',
       assignee: 'Emily Nakamura',
-      dueDate: '2026-04-06'
+      dueDate: '2026-04-06',
     },
     {
       id: '10',
       title: 'Fix timezone handling in scheduler',
       priority: 'high',
       assignee: 'Sarah Chen',
-      dueDate: '2026-04-04'
-    }
+      dueDate: '2026-04-04',
+    },
   ],
   done: [
     {
@@ -79,23 +79,23 @@ const initialColumns: Record<string, Task[]> = {
       title: 'SSO integration with Okta',
       priority: 'high',
       assignee: 'Jordan Kim',
-      dueDate: '2026-03-22'
+      dueDate: '2026-03-22',
     },
     {
       id: '7',
       title: 'Dashboard analytics charts',
       priority: 'medium',
       assignee: 'Marcus Rivera',
-      dueDate: '2026-03-20'
+      dueDate: '2026-03-20',
     },
     {
       id: '8',
       title: 'Webhook retry mechanism',
       priority: 'low',
       assignee: 'Alex Turner',
-      dueDate: '2026-03-18'
-    }
-  ]
+      dueDate: '2026-03-18',
+    },
+  ],
 };
 
 export const useTaskStore = create<KanbanState>()(
@@ -117,13 +117,13 @@ export const useTaskStore = create<KanbanState>()(
               description,
               priority: 'medium' as Priority,
               assignee: undefined,
-              dueDate: undefined
+              dueDate: undefined,
             },
-            ...(state.columns.backlog ?? [])
-          ]
-        }
-      }))
-  })
+            ...(state.columns.backlog ?? []),
+          ],
+        },
+      })),
+  }),
   //   ,
   //   { name: 'kanban-store' }
   // )
