@@ -10,13 +10,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getCommonPinningStyles } from '@/lib/data-table';
+import { ACTIONS_COLUMN_SIZE, getCommonPinningStyles } from '@/lib/data-table';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface DataTableProps<TData> extends React.ComponentProps<'div'> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+}
+
+function actionsCellClass(isActions: boolean) {
+  return cn(
+    isActions && 'w-8 min-w-8 max-w-8 p-0 text-center whitespace-nowrap',
+  );
 }
 
 export function DataTable<TData>({
@@ -30,7 +36,19 @@ export function DataTable<TData>({
       <div className="relative flex flex-1">
         <div className="absolute inset-0 flex overflow-hidden rounded-lg border">
           <ScrollArea className="h-full w-full">
-            <Table>
+            <Table className="table-fixed">
+              <colgroup>
+                {table.getVisibleLeafColumns().map((column) => (
+                  <col
+                    key={column.id}
+                    style={
+                      column.id === 'actions'
+                        ? { width: ACTIONS_COLUMN_SIZE }
+                        : undefined
+                    }
+                  />
+                ))}
+              </colgroup>
               <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -38,7 +56,9 @@ export function DataTable<TData>({
                       <TableHead
                         key={header.id}
                         colSpan={header.colSpan}
-                        className={cn(header.column.id === 'actions' && 'px-1')}
+                        className={actionsCellClass(
+                          header.column.id === 'actions',
+                        )}
                         style={{
                           ...getCommonPinningStyles({ column: header.column }),
                         }}
@@ -64,7 +84,9 @@ export function DataTable<TData>({
                       {row.getVisibleCells().map((cell) => (
                         <TableCell
                           key={cell.id}
-                          className={cn(cell.column.id === 'actions' && 'px-1')}
+                          className={actionsCellClass(
+                            cell.column.id === 'actions',
+                          )}
                           style={{
                             ...getCommonPinningStyles({ column: cell.column }),
                           }}

@@ -5,13 +5,14 @@ import type { Product } from '../../api/types';
 import { Column, ColumnDef } from '@tanstack/react-table';
 import { Icons } from '@/components/icons';
 import Image from 'next/image';
+import { ACTIONS_COLUMN_SIZE } from '@/lib/data-table';
 import { CellAction } from './cell-action';
 import { CATEGORY_OPTIONS } from './options';
 
 const actionsColumn = {
-  size: 52,
-  minSize: 52,
-  maxSize: 52,
+  size: ACTIONS_COLUMN_SIZE,
+  minSize: ACTIONS_COLUMN_SIZE,
+  maxSize: ACTIONS_COLUMN_SIZE,
   enableSorting: false,
   enableHiding: false,
 } as const;
@@ -87,10 +88,6 @@ export const columns: ColumnDef<Product>[] = [
     id: 'actions',
     ...actionsColumn,
     header: () => <span className="sr-only">Actions</span>,
-    cell: ({ row }) => (
-      <div className="flex justify-center">
-        <CellAction data={row.original} />
-      </div>
-    ),
+    cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

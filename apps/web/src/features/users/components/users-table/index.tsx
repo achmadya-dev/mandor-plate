@@ -11,6 +11,7 @@ import {
   useQueryStates,
 } from 'nuqs';
 import { getSortingStateParser } from '@/lib/parsers';
+import { ACTIONS_COLUMN_SIZE } from '@/lib/data-table';
 import { usersQueryOptions } from '../../api/queries';
 import { columns } from './columns';
 
@@ -45,6 +46,7 @@ export function UsersTable() {
     debounceMs: 500,
     initialState: {
       columnPinning: { right: ['actions'] },
+      columnSizing: { actions: ACTIONS_COLUMN_SIZE },
     },
   });
 

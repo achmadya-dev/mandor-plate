@@ -7,7 +7,7 @@ import type { Column } from '@tanstack/react-table';
 
 import { dataTableConfig } from '@/config/data-table';
 
-export const ACTIONS_COLUMN_SIZE = 52;
+export const ACTIONS_COLUMN_SIZE = 32;
 
 export function getCommonPinningStyles<TData>({
   column,
@@ -31,6 +31,7 @@ export function getCommonPinningStyles<TData>({
     position: isPinned ? 'sticky' : 'relative',
     background: isPinned ? 'var(--background)' : undefined,
     width: column.id === 'actions' ? ACTIONS_COLUMN_SIZE : column.getSize(),
+    minWidth: column.id === 'actions' ? ACTIONS_COLUMN_SIZE : undefined,
     maxWidth: column.id === 'actions' ? ACTIONS_COLUMN_SIZE : undefined,
     zIndex: isPinned ? 1 : 0,
   };

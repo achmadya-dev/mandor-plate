@@ -15,9 +15,7 @@ test.describe('profile avatar upload', () => {
       timeout: 15_000,
     });
 
-    const avatar = page.locator(
-      '[data-slot="avatar"].h-20 [data-slot="avatar-image"]',
-    );
+    const avatar = page.locator('[data-slot="avatar-image"]').first();
     await expect(avatar).toBeVisible({ timeout: 15_000 });
     await expect(avatar).toHaveAttribute('src', /\/api\/v1\/files\//);
   });

@@ -6,6 +6,7 @@ import { useDataTable } from '@/hooks/use-data-table';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { getSortingStateParser } from '@/lib/parsers';
+import { ACTIONS_COLUMN_SIZE } from '@/lib/data-table';
 import { productsQueryOptions } from '../../api/queries';
 import { columns } from './columns';
 
@@ -17,7 +18,7 @@ export function ProductTable() {
     perPage: parseAsInteger.withDefault(10),
     name: parseAsString,
     category: parseAsString,
-    sort: getSortingStateParser(columnIds).withDefault([])
+    sort: getSortingStateParser(columnIds).withDefault([]),
   });
 
   const filters = {
@@ -25,7 +26,7 @@ export function ProductTable() {
     limit: params.perPage,
     ...(params.name && { search: params.name }),
     ...(params.category && { categories: params.category }),
-    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) })
+    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) }),
   };
 
   const { data } = useSuspenseQuery(productsQueryOptions(filters));
@@ -39,8 +40,9 @@ export function ProductTable() {
     shallow: true,
     debounceMs: 500,
     initialState: {
-      columnPinning: { right: ['actions'] }
-    }
+      columnPinning: { right: ['actions'] },
+      columnSizing: { actions: ACTIONS_COLUMN_SIZE },
+    },
   });
 
   return (
