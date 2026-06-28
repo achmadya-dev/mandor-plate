@@ -87,10 +87,6 @@ flowchart LR
     G[grill-me]
   end
 
-  subgraph setup [Once after clone]
-    S[setup-matt-pocock-skills]
-  end
-
   subgraph plan [Plan]
     P[to-prd-project]
     D[domain-modeling]
@@ -108,7 +104,6 @@ flowchart LR
   end
 
   G --> P
-  S --> I
   P --> D
   D --> I
   I --> M
@@ -118,21 +113,22 @@ flowchart LR
   L --> M
 ```
 
-| Step              | Skill / command            | Output                                        |
-| ----------------- | -------------------------- | --------------------------------------------- |
-| Sharpen the plan  | `grill-me`                 | Clear scope, trade-offs, and open questions   |
-| Configure tracker | `setup-matt-pocock-skills` | GitHub Issues + triage labels (once per team) |
-| Write PRD         | `to-prd-project`           | GitHub issue or `.scratch/<feature>/PRD.md`   |
-| Domain terms      | `domain-modeling`          | Updates `CONTEXT.md`                          |
-| Create tickets    | `to-issues-project`        | GitHub issues (`ready-for-agent`)             |
-| Implement         | `implement`, `tdd`         | Code in monorepo                              |
-| Quality gate      | `pnpm check`               | Lint + typecheck + unit tests                 |
-| Review            | `review`                   | Standards + spec check                        |
-| Batch work        | `/loop /issue-loop`        | Next open `ready-for-agent` issue             |
+| Step             | Skill / command     | Output                                      |
+| ---------------- | ------------------- | ------------------------------------------- |
+| Sharpen the plan | `grill-me`          | Clear scope, trade-offs, and open questions |
+| Write PRD        | `to-prd-project`    | GitHub issue or `.scratch/<feature>/PRD.md` |
+| Domain terms     | `domain-modeling`   | Updates `CONTEXT.md`                        |
+| Create tickets   | `to-issues-project` | GitHub issues (`ready-for-agent`)           |
+| Implement        | `implement`, `tdd`  | Code in monorepo                            |
+| Quality gate     | `pnpm check`        | Lint + typecheck + unit tests               |
+| Review           | `review`            | Standards + spec check                      |
+| Batch work       | `/loop /issue-loop` | Next open `ready-for-agent` issue           |
 
 Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke directly in Cursor).
 
-**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md) and [`CLAUDE.md`](./CLAUDE.md). Local drafts go to `.scratch/` (gitignored).
+**Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `setup-matt-pocock-skills` and go straight to planning skills. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
+
+**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). Local drafts go to `.scratch/` (gitignored).
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
