@@ -4,7 +4,7 @@ import { searchParamsCache } from '@/lib/searchparams';
 import { usersQueryOptions } from '../api/queries';
 import { UsersTable } from './users-table';
 
-export default function UserListingPage() {
+export default async function UserListingPage() {
   const page = searchParamsCache.get('page');
   const search = searchParamsCache.get('name');
   const pageLimit = searchParamsCache.get('perPage');
@@ -16,12 +16,12 @@ export default function UserListingPage() {
     limit: pageLimit,
     ...(search && { search }),
     ...(roles && { roles }),
-    ...(sort && { sort })
+    ...(sort && { sort }),
   };
 
   const queryClient = getQueryClient();
 
-  void queryClient.prefetchQuery(usersQueryOptions(filters));
+  await queryClient.prefetchQuery(usersQueryOptions(filters));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
