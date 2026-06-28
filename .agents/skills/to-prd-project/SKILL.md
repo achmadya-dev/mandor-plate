@@ -32,14 +32,15 @@ Use **grill-me** first if scope is fuzzy. Then flesh out:
 
 ## Where to write the PRD
 
-Follow the issue tracker configured by **setup-matt-pocock-skills**:
+**Always draft locally first:**
 
-| Tracker                     | Output                                                                |
-| --------------------------- | --------------------------------------------------------------------- |
-| **GitHub Issues** (default) | Create a tracking issue with the full PRD in the body, or link a gist |
-| **Local markdown**          | `.scratch/<feature-slug>/PRD.md` (gitignored — not committed)         |
+```
+.scratch/<feature-slug>/PRD.md
+```
 
-Do not recreate a root `PRD.md` or `docs/agents/` unless the user explicitly asks.
+Do not publish a PRD directly to GitHub. Issues derived from the PRD follow the same scratch-first rule via **to-issues-project**.
+
+Do not recreate a root `PRD.md` or committed planning docs unless the user explicitly asks.
 
 ## After the PRD
 

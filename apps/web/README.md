@@ -11,8 +11,6 @@ Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). D
 - **Forms** — `useAppForm` + `useFormFields<T>()` from `@/components/ui/tanstack-form`
 - **Headers** — `PageContainer` props, not manual `<Heading>`
 
-Invoke the **shadcn** and **next-best-practices** skills for UI work.
-
 ---
 
 ## Forms (TanStack Form + shadcn)

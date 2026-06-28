@@ -143,9 +143,9 @@ flowchart LR
 </thead>
 <tbody>
 <tr><td>Sharpen the plan</td><td><code>grill-me</code></td><td>Scope, trade-offs, open questions</td></tr>
-<tr><td>Write PRD</td><td><code>to-prd-project</code></td><td>GitHub issue or <code>.scratch/&lt;feature&gt;/PRD.md</code></td></tr>
+<tr><td>Write PRD</td><td><code>to-prd-project</code></td><td><code>.scratch/&lt;feature&gt;/PRD.md</code></td></tr>
 <tr><td>Domain terms</td><td><code>domain-modeling</code></td><td>Updates <code>CONTEXT.md</code></td></tr>
-<tr><td>Create tickets</td><td><code>to-issues-project</code></td><td>GitHub issues (<code>ready-for-agent</code>)</td></tr>
+<tr><td>Create tickets</td><td><code>to-issues-project</code></td><td>Draft in <code>.scratch/…/issues/</code>, then publish to GitHub (<code>ready-for-agent</code>)</td></tr>
 <tr><td>Implement</td><td><code>implement</code>, <code>tdd</code></td><td>Code in monorepo</td></tr>
 <tr><td>Quality gate</td><td><code>pnpm check</code></td><td>Lint, typecheck, unit tests</td></tr>
 <tr><td>Review</td><td><code>review</code></td><td>Standards + spec check</td></tr>
@@ -157,7 +157,7 @@ Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke
 
 **Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `setup-matt-pocock-skills` and go straight to planning skills. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
 
-**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). Local drafts go to `.scratch/` (gitignored).
+**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). **Scratch-first:** PRDs and issues must be drafted in `.scratch/` (gitignored) before `gh issue create`.
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
@@ -178,8 +178,7 @@ Mandor Plate is built on these open-source projects:
 <tr><td>API</td><td><a href="https://github.com/brocoders/nestjs-boilerplate">brocoders/nestjs-boilerplate</a></td><td>NestJS REST API foundation (PostgreSQL only)</td></tr>
 <tr><td>Web dashboard</td><td><a href="https://github.com/Kiranism/next-shadcn-dashboard-starter">next-shadcn-dashboard-starter</a></td><td>Dashboard shell, forms, and UI patterns</td></tr>
 <tr><td>UI components</td><td><a href="https://ui.shadcn.com">shadcn/ui</a></td><td>Radix + Tailwind component primitives</td></tr>
-<tr><td>Agent skills</td><td><a href="https://github.com/mattpocock/skills">mattpocock/skills</a></td><td>PRD, triage, review, TDD, and related workflow skills</td></tr>
-<tr><td>Agent skill packs</td><td><a href="https://github.com/vercel-labs/agent-skills">vercel-labs/agent-skills</a></td><td><code>shadcn</code>, Next.js best practices, React composition</td></tr>
+<tr><td>Agent skills</td><td><a href="https://github.com/mattpocock/skills">mattpocock/skills</a></td><td>Core workflow skills shipped in <code>.agents/skills/</code></td></tr>
 </tbody>
 </table>
 
@@ -208,13 +207,20 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 
 ## Optional skills
 
-Core set is already in `.agents/skills/`. Install extras when needed:
+Core workflow skills are in `.agents/skills/`:
+
+`grill-me`, `to-prd-project`, `domain-modeling`, `to-issues-project`, `implement`, `tdd`, `review`, `issue-loop`, `setup-matt-pocock-skills`
+
+Install extras when needed:
 
 ```bash
-npx skills add mattpocock/skills@teach -y
-npx skills add mattpocock/skills@prototype -y
-npx skills add vercel-labs/agent-skills@web-design-guidelines -y
-npx skills add anthropics/skills@frontend-design -y
+npx skills add mattpocock/skills@triage -y
+npx skills add mattpocock/skills@diagnosing-bugs -y
+npx skills add mattpocock/skills@codebase-design -y
+npx skills add vercel-labs/agent-skills@shadcn -y
+npx skills add vercel-labs/agent-skills@next-best-practices -y
+npx skills add vercel-labs/agent-skills@vercel-react-best-practices -y
+npx skills add vercel-labs/agent-skills@vercel-composition-patterns -y
 ```
 
 See [mattpocock/skills](https://github.com/mattpocock/skills) and [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills).
