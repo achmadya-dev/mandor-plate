@@ -40,7 +40,11 @@ pnpm --filter @mandor-plate/api seed:run
 pnpm dev
 ```
 
-<table>
+<table width="100%">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
 <thead>
 <tr><th>Service</th><th>URL</th></tr>
 </thead>
@@ -54,7 +58,12 @@ pnpm dev
 
 Seeded accounts:
 
-<table>
+<table width="100%">
+<colgroup>
+<col width="50%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
 <thead>
 <tr><th>Email</th><th>Password</th><th>Role</th></tr>
 </thead>
@@ -123,7 +132,7 @@ flowchart LR
   L --> M
 ```
 
-<table>
+<table width="100%">
 <colgroup>
 <col width="22%" />
 <col width="28%" />
@@ -156,7 +165,7 @@ Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke
 
 Mandor Plate is built on these open-source projects:
 
-<table>
+<table width="100%">
 <colgroup>
 <col width="18%" />
 <col width="32%" />
@@ -178,7 +187,7 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 
 ## Scripts
 
-<table>
+<table width="100%">
 <colgroup>
 <col width="38%" />
 <col width="62%" />
