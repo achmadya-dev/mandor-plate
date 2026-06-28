@@ -11,7 +11,7 @@ import {
   InfobarHeader,
   InfobarRail,
   InfobarTrigger,
-  useInfobar
+  useInfobar,
 } from '@/components/ui/infobar';
 
 // Default/fallback data when no content is set
@@ -24,58 +24,64 @@ const defaultData = {
       links: [
         {
           title: 'Installation Guide',
-          url: '#'
-        }
-      ]
-    }
-  ]
+          url: '#',
+        },
+      ],
+    },
+  ],
 };
 
-export function InfoSidebar({ ...props }: React.ComponentProps<typeof Infobar>) {
+export function InfoSidebar({
+  ...props
+}: React.ComponentProps<typeof Infobar>) {
   const { content } = useInfobar();
   const data = content || defaultData;
 
   return (
     <Infobar {...props}>
-      <InfobarHeader className='bg-sidebar sticky top-0 z-10 flex flex-row items-center justify-between gap-2 border-b px-4 py-3'>
-        <div className='min-w-0 flex-1'>
-          <h2 className='text-lg font-semibold wrap-break-word'>{data.title}</h2>
+      <InfobarHeader className="bg-sidebar sticky top-0 z-10 flex flex-row items-center justify-between gap-2 border-b px-4 py-3">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-lg font-semibold wrap-break-word">
+            {data.title}
+          </h2>
         </div>
-        <div className='shrink-0'>
+        <div className="shrink-0">
           <InfobarTrigger />
         </div>
       </InfobarHeader>
       <InfobarContent>
         <InfobarGroup>
           <InfobarGroupContent>
-            <div className='flex flex-col gap-6 px-4 py-4'>
+            <div className="flex flex-col gap-6 px-4 py-4">
               {data.sections && data.sections.length > 0 ? (
                 data.sections.map((section) => (
-                  <div key={section.title} className='flex flex-col gap-3'>
+                  <div key={section.title} className="flex flex-col gap-3">
                     {section.title && (
-                      <h3 className='text-foreground text-sm font-semibold'>{section.title}</h3>
+                      <h3 className="text-foreground text-sm font-semibold">
+                        {section.title}
+                      </h3>
                     )}
                     {section.description && (
-                      <p className='text-muted-foreground text-sm leading-relaxed'>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
                         {section.description}
                       </p>
                     )}
                     {section.links && section.links.length > 0 && (
-                      <div className='flex flex-col gap-2'>
-                        <h4 className='text-muted-foreground text-xs font-medium tracking-wide uppercase'>
+                      <div className="flex flex-col gap-2">
+                        <h4 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                           Learn more
                         </h4>
-                        <ul className='flex flex-col gap-1.5'>
+                        <ul className="flex flex-col gap-1.5">
                           {section.links.map((link) => (
                             <li key={link.title}>
                               <Link
                                 href={link.url}
-                                className='text-primary flex items-center gap-1.5 text-sm underline'
-                                target='_blank'
-                                rel='noopener noreferrer'
+                                className="text-primary flex items-center gap-1.5 text-sm underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
                               >
                                 <span>{link.title}</span>
-                                <Icons.chevronRight className='h-3 w-3' />
+                                <Icons.chevronRight className="h-3 w-3" />
                               </Link>
                             </li>
                           ))}
@@ -85,7 +91,7 @@ export function InfoSidebar({ ...props }: React.ComponentProps<typeof Infobar>) 
                   </div>
                 ))
               ) : (
-                <div className='text-muted-foreground px-2 py-4 text-center text-sm'>
+                <div className="text-muted-foreground px-2 py-4 text-center text-sm">
                   No content available
                 </div>
               )}

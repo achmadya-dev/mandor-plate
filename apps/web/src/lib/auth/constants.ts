@@ -11,7 +11,12 @@ export function apiUrl(path: string): string {
   return `${base}/api/v1${normalized}`;
 }
 
-export const AUTH_PUBLIC_PATHS = ['/auth', '/about', '/privacy-policy', '/terms-of-service'];
+export const AUTH_PUBLIC_PATHS = [
+  '/auth',
+  '/about',
+  '/privacy-policy',
+  '/terms-of-service',
+];
 
 export function isDashboardPath(pathname: string): boolean {
   return pathname === '/dashboard' || pathname.startsWith('/dashboard/');

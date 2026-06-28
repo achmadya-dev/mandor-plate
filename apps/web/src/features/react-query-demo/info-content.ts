@@ -10,9 +10,9 @@ export const reactQueryInfoContent: InfobarContent = {
       links: [
         {
           title: 'TanStack Query SSR Docs',
-          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr'
-        }
-      ]
+          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr',
+        },
+      ],
     },
     {
       title: 'Query Options',
@@ -21,15 +21,15 @@ export const reactQueryInfoContent: InfobarContent = {
       links: [
         {
           title: 'queryOptions API',
-          url: 'https://tanstack.com/query/latest/docs/framework/react/reference/queryOptions'
-        }
-      ]
+          url: 'https://tanstack.com/query/latest/docs/framework/react/reference/queryOptions',
+        },
+      ],
     },
     {
       title: 'Suspense Query',
       description:
         'The client uses useSuspenseQuery() which integrates with React Suspense. Combined with server prefetch, data is available immediately — Suspense only shows the fallback on subsequent navigations if the cache is stale.',
-      links: []
+      links: [],
     },
     {
       title: 'Optimistic Mutations',
@@ -38,9 +38,9 @@ export const reactQueryInfoContent: InfobarContent = {
       links: [
         {
           title: 'Optimistic Updates Guide',
-          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates'
-        }
-      ]
-    }
-  ]
+          url: 'https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates',
+        },
+      ],
+    },
+  ],
 };

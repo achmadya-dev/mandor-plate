@@ -54,9 +54,9 @@ export default function LoginForm() {
 
   return (
     <form.AppForm>
-      <form.Form className='w-full space-y-4'>
+      <form.Form className="w-full space-y-4">
         <form.AppField
-          name='email'
+          name="email"
           children={(field) => (
             <field.FieldSet>
               <field.Field>
@@ -64,13 +64,15 @@ export default function LoginForm() {
                 <Input
                   id={field.name}
                   name={field.name}
-                  type='email'
-                  autoComplete='email'
+                  type="email"
+                  autoComplete="email"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   disabled={loading}
-                  aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+                  aria-invalid={
+                    field.state.meta.isTouched && !field.state.meta.isValid
+                  }
                 />
               </field.Field>
               <field.FieldError />
@@ -78,41 +80,48 @@ export default function LoginForm() {
           )}
         />
         <form.AppField
-          name='password'
+          name="password"
           children={(field) => (
             <field.FieldSet>
               <field.Field>
-                <field.FieldLabel htmlFor={field.name}>Password</field.FieldLabel>
+                <field.FieldLabel htmlFor={field.name}>
+                  Password
+                </field.FieldLabel>
                 <Input
                   id={field.name}
                   name={field.name}
-                  type='password'
-                  autoComplete='current-password'
+                  type="password"
+                  autoComplete="current-password"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   disabled={loading}
-                  aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+                  aria-invalid={
+                    field.state.meta.isTouched && !field.state.meta.isValid
+                  }
                 />
               </field.Field>
               <field.FieldError />
             </field.FieldSet>
           )}
         />
-        <Button disabled={loading} className='w-full' type='submit'>
+        <Button disabled={loading} className="w-full" type="submit">
           Sign in
         </Button>
-        <p className='text-center text-sm'>
+        <p className="text-center text-sm">
           <Link
-            href='/auth/forgot-password'
-            className='text-primary underline-offset-4 hover:underline'
+            href="/auth/forgot-password"
+            className="text-primary underline-offset-4 hover:underline"
           >
             Forgot password?
           </Link>
         </p>
-        <p className='text-muted-foreground text-center text-sm'>
+        <p className="text-muted-foreground text-center text-sm">
           No account?{' '}
-          <Link href='/auth/sign-up' className='text-primary underline-offset-4 hover:underline'>
+          <Link
+            href="/auth/sign-up"
+            className="text-primary underline-offset-4 hover:underline"
+          >
             Create one
           </Link>
         </p>

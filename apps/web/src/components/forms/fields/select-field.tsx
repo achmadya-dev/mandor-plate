@@ -6,7 +6,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/select';
 import { FieldDescription, FieldLabel } from '@/components/ui/field';
 import {
@@ -14,7 +14,7 @@ import {
   FormFieldSet,
   FormField,
   FormFieldError,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 
 type Option = { value: string; label: string };
@@ -32,7 +32,7 @@ export function SelectField({
   description,
   required,
   options,
-  placeholder = 'Select an option'
+  placeholder = 'Select an option',
 }: SelectFieldProps) {
   const field = useFieldContext();
   const isTouched = useStore(field.store, (s) => s.meta.isTouched);

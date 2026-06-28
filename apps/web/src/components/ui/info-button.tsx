@@ -6,9 +6,18 @@ import { Button } from '@/components/ui/button';
 import { useInfobar, type InfobarContent } from '@/components/ui/infobar';
 import { cn } from '@/lib/utils';
 
-interface InfoButtonProps extends Omit<React.ComponentProps<typeof Button>, 'content'> {
+interface InfoButtonProps extends Omit<
+  React.ComponentProps<typeof Button>,
+  'content'
+> {
   content: InfobarContent;
-  variant?: 'default' | 'ghost' | 'outline' | 'secondary' | 'destructive' | 'link';
+  variant?:
+    | 'default'
+    | 'ghost'
+    | 'outline'
+    | 'secondary'
+    | 'destructive'
+    | 'link';
   size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
@@ -41,11 +50,11 @@ export function InfoButton({
       size={size}
       className={cn('shrink-0', className)}
       onClick={handleClick}
-      aria-label='Show information'
+      aria-label="Show information"
       {...props}
     >
-      <Icons.info className='h-4 w-4' />
-      <span className='sr-only'>Show information</span>
+      <Icons.info className="h-4 w-4" />
+      <span className="sr-only">Show information</span>
     </Button>
   );
 }

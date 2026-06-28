@@ -7,7 +7,7 @@ import {
   useFieldContext,
   FormFieldSet,
   FormField,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 
 interface SwitchFieldProps {
@@ -21,12 +21,16 @@ export function SwitchField({ label, description }: SwitchFieldProps) {
 
   return (
     <FormFieldSet>
-      <FormField orientation='horizontal'>
-        <div className='flex flex-1 flex-col gap-1.5 leading-snug'>
-          <FieldLabel className='text-base'>{label}</FieldLabel>
+      <FormField orientation="horizontal">
+        <div className="flex flex-1 flex-col gap-1.5 leading-snug">
+          <FieldLabel className="text-base">{label}</FieldLabel>
           {description && <FieldDescription>{description}</FieldDescription>}
         </div>
-        <Switch checked={value} onCheckedChange={field.handleChange} onBlur={field.handleBlur} />
+        <Switch
+          checked={value}
+          onCheckedChange={field.handleChange}
+          onBlur={field.handleBlur}
+        />
       </FormField>
     </FormFieldSet>
   );

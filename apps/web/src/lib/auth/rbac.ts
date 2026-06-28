@@ -9,7 +9,9 @@ export function isAdminOnlyPath(pathname: string): boolean {
   );
 }
 
-export function getUserRoleName(user: SessionUser | null | undefined): RoleName | undefined {
+export function getUserRoleName(
+  user: SessionUser | null | undefined,
+): RoleName | undefined {
   return user?.role?.name;
 }
 
@@ -40,7 +42,10 @@ export function canAccessNavItem(
   return true;
 }
 
-function filterNavItem(user: SessionUser | null | undefined, item: NavItem): NavItem | null {
+function filterNavItem(
+  user: SessionUser | null | undefined,
+  item: NavItem,
+): NavItem | null {
   if (item.items?.length) {
     const children = filterNavItems(user, item.items);
     if (children.length === 0) {

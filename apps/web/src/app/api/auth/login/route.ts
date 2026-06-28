@@ -1,4 +1,7 @@
-import { emailLoginRequestSchema, safeParseWithSchema } from '@mandor-plate/shared';
+import {
+  emailLoginRequestSchema,
+  safeParseWithSchema,
+} from '@mandor-plate/shared';
 import { NextResponse } from 'next/server';
 import { apiLogin, ApiProxyError } from '@/lib/auth/backend';
 import { applyAuthCookies } from '@/lib/auth/cookies';

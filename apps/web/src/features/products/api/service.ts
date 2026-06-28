@@ -32,10 +32,12 @@ import type {
   ProductFilters,
   ProductsResponse,
   ProductByIdResponse,
-  ProductMutationPayload
+  ProductMutationPayload,
 } from './types';
 
-export async function getProducts(filters: ProductFilters): Promise<ProductsResponse> {
+export async function getProducts(
+  filters: ProductFilters,
+): Promise<ProductsResponse> {
   return fakeProducts.getProducts(filters);
 }
 

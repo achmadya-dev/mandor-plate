@@ -31,7 +31,9 @@ export const useChatStore = create<ChatState>()(
     selectConversation: (id) =>
       set((state) => ({
         selectedConversationId: id,
-        conversations: state.conversations.map((c) => (c.id === id ? { ...c, unread: 0 } : c))
+        conversations: state.conversations.map((c) =>
+          c.id === id ? { ...c, unread: 0 } : c,
+        ),
       })),
 
     setDraft: (text) => set({ draft: text }),
@@ -40,7 +42,7 @@ export const useChatStore = create<ChatState>()(
       const state = get();
       const timestamp = new Date().toLocaleTimeString('en-US', {
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       });
       const outgoing: Message = {
         id: 'outgoing-' + Date.now().toString(),
@@ -48,7 +50,7 @@ export const useChatStore = create<ChatState>()(
         author: 'You',
         text: text.trim(),
         timestamp,
-        attachments: attachments?.length ? attachments : undefined
+        attachments: attachments?.length ? attachments : undefined,
       };
 
       set({
@@ -56,8 +58,8 @@ export const useChatStore = create<ChatState>()(
         conversations: state.conversations.map((c) =>
           c.id === state.selectedConversationId
             ? { ...c, messages: [...c.messages, outgoing], unread: 0 }
-            : c
-        )
+            : c,
+        ),
       });
     },
 
@@ -69,24 +71,26 @@ export const useChatStore = create<ChatState>()(
           return {
             ...c,
             messages: [...c.messages, message],
-            unread: isActive ? 0 : c.unread + 1
+            unread: isActive ? 0 : c.unread + 1,
           };
-        })
+        }),
       })),
 
     advanceReplyCursor: (conversationId) =>
       set((state) => ({
         replyCursor: {
           ...state.replyCursor,
-          [conversationId]: (state.replyCursor[conversationId] ?? 0) + 1
-        }
+          [conversationId]: (state.replyCursor[conversationId] ?? 0) + 1,
+        },
       })),
 
     getActiveConversation: () => {
       const state = get();
-      return state.conversations.find((c) => c.id === state.selectedConversationId);
-    }
-  })
+      return state.conversations.find(
+        (c) => c.id === state.selectedConversationId,
+      );
+    },
+  }),
   //   ,
   //   { name: 'chat' }
   // )

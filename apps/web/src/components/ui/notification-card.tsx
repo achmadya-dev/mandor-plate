@@ -24,7 +24,11 @@ export interface NotificationCardProps {
   createdAt?: string | Date;
   actions?: NotificationAction[];
   onMarkAsRead?: (id: string) => void;
-  onAction?: (notificationId: string, actionId: string, actionType: ActionType) => void;
+  onAction?: (
+    notificationId: string,
+    actionId: string,
+    actionType: ActionType,
+  ) => void;
   loadingActionId?: string;
   className?: string;
 }
@@ -44,7 +48,7 @@ const formatDate = (date: string | Date): string => {
 
   return d.toLocaleDateString('en-US', {
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
@@ -74,7 +78,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
   onMarkAsRead,
   onAction,
   loadingActionId,
-  className
+  className,
 }) => {
   const isUnread = status === 'unread';
 
@@ -83,31 +87,33 @@ export const NotificationCard: FC<NotificationCardProps> = ({
       className={cn(
         'group relative w-full rounded-2xl transition-all',
         isUnread ? 'bg-muted' : 'bg-muted/40',
-        className
+        className,
       )}
     >
-      <div className='px-4 py-3.5'>
-        <div className='flex items-start justify-between gap-3'>
+      <div className="px-4 py-3.5">
+        <div className="flex items-start justify-between gap-3">
           {/* Main content */}
-          <div className='min-w-0 flex-1 space-y-1'>
+          <div className="min-w-0 flex-1 space-y-1">
             {/* Title with unread indicator */}
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <h3
                 className={cn(
                   'text-[15px] leading-tight font-semibold',
-                  isUnread ? 'text-foreground' : 'text-muted-foreground'
+                  isUnread ? 'text-foreground' : 'text-muted-foreground',
                 )}
               >
                 {title}
               </h3>
-              {isUnread && <div className='h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sky-500' />}
+              {isUnread && (
+                <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sky-500" />
+              )}
             </div>
 
             {/* Description */}
             <p
               className={cn(
                 'mb-0 text-[13px]',
-                isUnread ? 'text-muted-foreground' : 'text-muted-foreground/60'
+                isUnread ? 'text-muted-foreground' : 'text-muted-foreground/60',
               )}
             >
               {body}
@@ -117,23 +123,28 @@ export const NotificationCard: FC<NotificationCardProps> = ({
           {/* Mark as read button */}
           {isUnread && onMarkAsRead && (
             <button
-              type='button'
+              type="button"
               onClick={() => onMarkAsRead(id)}
               className={cn(
                 'rounded-lg p-1.5 transition-colors',
-                'text-muted-foreground hover:bg-accent hover:text-foreground'
+                'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
-              aria-label='Mark as read'
+              aria-label="Mark as read"
             >
               <Icons.check size={16} />
             </button>
           )}
         </div>
 
-        <div className='mt-3 flex items-end justify-between'>
+        <div className="mt-3 flex items-end justify-between">
           {/* Actions */}
           {actions.length > 0 && (
-            <div className={cn('flex flex-wrap items-center gap-2', !isUnread && 'opacity-60')}>
+            <div
+              className={cn(
+                'flex flex-wrap items-center gap-2',
+                !isUnread && 'opacity-60',
+              )}
+            >
               {actions.map((action) => {
                 const isLoading = loadingActionId === action.id;
                 const isExecuted = action.executed || false;
@@ -142,7 +153,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
                 return (
                   <button
                     key={action.id}
-                    type='button'
+                    type="button"
                     disabled={isLoading || isExecuted}
                     onClick={() => onAction?.(id, action.id, action.type)}
                     className={cn(
@@ -153,11 +164,11 @@ export const NotificationCard: FC<NotificationCardProps> = ({
                           ? 'bg-destructive/10 text-destructive hover:bg-destructive/20'
                           : 'bg-accent text-muted-foreground hover:bg-accent hover:text-foreground',
                       showLoading && 'opacity-50',
-                      isExecuted && 'cursor-not-allowed opacity-60'
+                      isExecuted && 'cursor-not-allowed opacity-60',
                     )}
                   >
                     {showLoading ? (
-                      <Icons.spinner size={12} className='animate-spin' />
+                      <Icons.spinner size={12} className="animate-spin" />
                     ) : (
                       <>
                         <span>{action.label}</span>
@@ -176,7 +187,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
 
           {/* Timestamp */}
           {createdAt && (
-            <span className='text-muted-foreground/60 inline-block text-[11px]'>
+            <span className="text-muted-foreground/60 inline-block text-[11px]">
               {formatDate(createdAt)}
             </span>
           )}

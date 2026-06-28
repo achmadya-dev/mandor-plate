@@ -87,15 +87,15 @@ describe('auth request schemas', () => {
 
   describe('confirmEmailRequestSchema', () => {
     it('accepts confirmation hash', () => {
-      expect(
-        confirmEmailRequestSchema.parse({ hash: 'confirm-me' }).hash,
-      ).toBe('confirm-me');
+      expect(confirmEmailRequestSchema.parse({ hash: 'confirm-me' }).hash).toBe(
+        'confirm-me',
+      );
     });
 
     it('rejects empty hash', () => {
-      expect(
-        confirmEmailRequestSchema.safeParse({ hash: '  ' }).success,
-      ).toBe(false);
+      expect(confirmEmailRequestSchema.safeParse({ hash: '  ' }).success).toBe(
+        false,
+      );
     });
   });
 
@@ -107,9 +107,9 @@ describe('auth request schemas', () => {
     });
 
     it('rejects empty id token', () => {
-      expect(
-        googleLoginRequestSchema.safeParse({ idToken: '' }).success,
-      ).toBe(false);
+      expect(googleLoginRequestSchema.safeParse({ idToken: '' }).success).toBe(
+        false,
+      );
     });
   });
 

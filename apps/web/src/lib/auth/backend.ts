@@ -1,4 +1,7 @@
-import type { ForgotPasswordRequest, ResetPasswordRequest } from '@mandor-plate/shared';
+import type {
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+} from '@mandor-plate/shared';
 import {
   loginResponseSchema,
   refreshResponseSchema,
@@ -20,7 +23,9 @@ export async function parseApiErrorBody(response: Response): Promise<unknown> {
   }
 }
 
-export async function apiLogin(body: EmailLoginRequest): Promise<LoginResponse> {
+export async function apiLogin(
+  body: EmailLoginRequest,
+): Promise<LoginResponse> {
   const response = await fetch(apiUrl('/auth/email/login'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -46,7 +51,9 @@ export async function apiRegister(body: RegisterRequest): Promise<void> {
   }
 }
 
-export async function apiGoogleLogin(body: GoogleLoginRequest): Promise<LoginResponse> {
+export async function apiGoogleLogin(
+  body: GoogleLoginRequest,
+): Promise<LoginResponse> {
   const response = await fetch(apiUrl('/auth/google/login'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -60,7 +67,9 @@ export async function apiGoogleLogin(body: GoogleLoginRequest): Promise<LoginRes
   return loginResponseSchema.parse(await response.json());
 }
 
-export async function apiForgotPassword(body: ForgotPasswordRequest): Promise<void> {
+export async function apiForgotPassword(
+  body: ForgotPasswordRequest,
+): Promise<void> {
   const response = await fetch(apiUrl('/auth/forgot/password'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -72,7 +81,9 @@ export async function apiForgotPassword(body: ForgotPasswordRequest): Promise<vo
   }
 }
 
-export async function apiResetPassword(body: ResetPasswordRequest): Promise<void> {
+export async function apiResetPassword(
+  body: ResetPasswordRequest,
+): Promise<void> {
   const response = await fetch(apiUrl('/auth/reset/password'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -84,7 +95,9 @@ export async function apiResetPassword(body: ResetPasswordRequest): Promise<void
   }
 }
 
-export async function apiRefresh(refreshToken: string): Promise<RefreshResponse> {
+export async function apiRefresh(
+  refreshToken: string,
+): Promise<RefreshResponse> {
   const response = await fetch(apiUrl('/auth/refresh'), {
     method: 'POST',
     headers: { Authorization: `Bearer ${refreshToken}` },

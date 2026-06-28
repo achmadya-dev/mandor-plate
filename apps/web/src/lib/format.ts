@@ -1,6 +1,6 @@
 export function formatDate(
   date: Date | string | number | undefined,
-  opts: Intl.DateTimeFormatOptions = {}
+  opts: Intl.DateTimeFormatOptions = {},
 ) {
   if (!date) return '';
 
@@ -9,7 +9,7 @@ export function formatDate(
       month: opts.month ?? 'long',
       day: opts.day ?? 'numeric',
       year: opts.year ?? 'numeric',
-      ...opts
+      ...opts,
     }).format(new Date(date));
   } catch {
     return '';

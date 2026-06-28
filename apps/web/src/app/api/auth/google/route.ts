@@ -1,4 +1,7 @@
-import { googleLoginRequestSchema, safeParseWithSchema } from '@mandor-plate/shared';
+import {
+  googleLoginRequestSchema,
+  safeParseWithSchema,
+} from '@mandor-plate/shared';
 import { NextResponse } from 'next/server';
 import { apiGoogleLogin, ApiProxyError } from '@/lib/auth/backend';
 import { applyAuthCookies } from '@/lib/auth/cookies';

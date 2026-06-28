@@ -1,7 +1,11 @@
 'use client';
 
 import { useCallback, useRef } from 'react';
-import { Kanban, KanbanBoard as KanbanBoardPrimitive, KanbanOverlay } from '@/components/ui/kanban';
+import {
+  Kanban,
+  KanbanBoard as KanbanBoardPrimitive,
+  KanbanOverlay,
+} from '@/components/ui/kanban';
 import { useTaskStore } from '../utils/store';
 import { TaskColumn } from './board-column';
 import { TaskCard } from './task-card';
@@ -14,7 +18,7 @@ export function KanbanBoard() {
   // eslint-disable-next-line react-hooks/exhaustive-deps -- factory function, stable after mount
   const restrictToBoard = useCallback(
     createRestrictToContainer(() => containerRef.current),
-    []
+    [],
   );
 
   return (
@@ -26,8 +30,8 @@ export function KanbanBoard() {
         modifiers={[restrictToBoard]}
         autoScroll={false}
       >
-        <div className='w-full overflow-x-auto rounded-md pb-4'>
-          <KanbanBoardPrimitive className='flex flex-col items-start gap-4 md:flex-row'>
+        <div className="w-full overflow-x-auto rounded-md pb-4">
+          <KanbanBoardPrimitive className="flex flex-col items-start gap-4 md:flex-row">
             {Object.entries(columns).map(([columnValue, tasks]) => (
               <TaskColumn key={columnValue} value={columnValue} tasks={tasks} />
             ))}

@@ -15,7 +15,11 @@ export async function resolveSession(request: Request): Promise<SessionResult> {
       const user = await apiMe(accessToken);
       return { user };
     } catch (error) {
-      if (!(error instanceof ApiProxyError) || error.status !== 401 || !refreshToken) {
+      if (
+        !(error instanceof ApiProxyError) ||
+        error.status !== 401 ||
+        !refreshToken
+      ) {
         return { user: null };
       }
     }

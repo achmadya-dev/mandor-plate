@@ -9,12 +9,15 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import * as z from 'zod';
-import { productSchema, type ProductFormValues } from '@/features/products/schemas/product';
+import {
+  productSchema,
+  type ProductFormValues,
+} from '@/features/products/schemas/product';
 import { categoryOptions } from '@/features/products/constants/product-options';
 
 export default function ProductForm({
   initialData,
-  pageTitle
+  pageTitle,
 }: {
   initialData: Product | null;
   pageTitle: string;
@@ -30,7 +33,7 @@ export default function ProductForm({
     },
     onError: () => {
       toast.error('Failed to create product');
-    }
+    },
   });
 
   const updateMutation = useMutation({
@@ -41,7 +44,7 @@ export default function ProductForm({
     },
     onError: () => {
       toast.error('Failed to update product');
-    }
+    },
   });
 
   const form = useAppForm({
@@ -50,17 +53,17 @@ export default function ProductForm({
       name: initialData?.name ?? '',
       category: initialData?.category ?? '',
       price: initialData?.price,
-      description: initialData?.description ?? ''
+      description: initialData?.description ?? '',
     } as ProductFormValues,
     validators: {
-      onSubmit: productSchema
+      onSubmit: productSchema,
     },
     onSubmit: ({ value }) => {
       const payload = {
         name: value.name,
         category: value.category,
         price: value.price!,
-        description: value.description
+        description: value.description,
       };
 
       if (isEdit) {
@@ -68,81 +71,97 @@ export default function ProductForm({
       } else {
         createMutation.mutate(payload);
       }
-    }
+    },
   });
 
-  const { FormTextField, FormSelectField, FormTextareaField, FormFileUploadField } =
-    useFormFields<ProductFormValues>();
+  const {
+    FormTextField,
+    FormSelectField,
+    FormTextareaField,
+    FormFileUploadField,
+  } = useFormFields<ProductFormValues>();
 
   return (
-    <Card className='mx-auto w-full'>
+    <Card className="mx-auto w-full">
       <CardHeader>
-        <CardTitle className='text-left text-2xl font-bold'>{pageTitle}</CardTitle>
+        <CardTitle className="text-left text-2xl font-bold">
+          {pageTitle}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form.AppForm>
-          <form.Form className='space-y-8'>
+          <form.Form className="space-y-8">
             <FormFileUploadField
-              name='image'
-              label='Product Image'
-              description='Upload a product image'
+              name="image"
+              label="Product Image"
+              description="Upload a product image"
               maxSize={5 * 1024 * 1024}
               maxFiles={4}
             />
 
-            <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <FormTextField
-                name='name'
-                label='Product Name'
+                name="name"
+                label="Product Name"
                 required
-                placeholder='Enter product name'
+                placeholder="Enter product name"
                 validators={{
-                  onBlur: z.string().min(2, 'Product name must be at least 2 characters.')
+                  onBlur: z
+                    .string()
+                    .min(2, 'Product name must be at least 2 characters.'),
                 }}
               />
 
               <FormSelectField
-                name='category'
-                label='Category'
+                name="category"
+                label="Category"
                 required
                 options={categoryOptions}
-                placeholder='Select category'
+                placeholder="Select category"
                 validators={{
-                  onBlur: z.string().min(1, 'Please select a category')
+                  onBlur: z.string().min(1, 'Please select a category'),
                 }}
               />
 
               <FormTextField
-                name='price'
-                label='Price'
+                name="price"
+                label="Price"
                 required
-                type='number'
+                type="number"
                 min={0}
                 step={0.01}
-                placeholder='Enter price'
+                placeholder="Enter price"
                 validators={{
-                  onBlur: z.number({ message: 'Price is required' })
+                  onBlur: z.number({ message: 'Price is required' }),
                 }}
               />
             </div>
 
             <FormTextareaField
-              name='description'
-              label='Description'
+              name="description"
+              label="Description"
               required
-              placeholder='Enter product description'
+              placeholder="Enter product description"
               maxLength={500}
               rows={4}
               validators={{
-                onBlur: z.string().min(10, 'Description must be at least 10 characters.')
+                onBlur: z
+                  .string()
+                  .min(10, 'Description must be at least 10 characters.'),
               }}
             />
 
-            <div className='flex justify-end gap-2'>
-              <Button type='button' variant='outline' onClick={() => router.back()}>
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+              >
                 Back
               </Button>
-              <form.SubmitButton>{isEdit ? 'Update Product' : 'Add Product'}</form.SubmitButton>
+              <form.SubmitButton>
+                {isEdit ? 'Update Product' : 'Add Product'}
+              </form.SubmitButton>
             </div>
           </form.Form>
         </form.AppForm>

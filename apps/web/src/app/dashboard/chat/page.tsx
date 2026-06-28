@@ -1,7 +1,7 @@
 import ChatViewPage from '@/features/chat/components/chat-view-page';
 
 export const metadata = {
-  title: 'Dashboard: Chat'
+  title: 'Dashboard: Chat',
 };
 
 export default function Page() {

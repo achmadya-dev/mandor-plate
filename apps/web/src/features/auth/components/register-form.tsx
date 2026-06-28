@@ -36,7 +36,9 @@ export default function RegisterForm() {
           return;
         }
 
-        toast.success('Account created. Check your email to confirm before signing in.');
+        toast.success(
+          'Account created. Check your email to confirm before signing in.',
+        );
         router.push('/auth/sign-in');
       });
     },
@@ -44,14 +46,16 @@ export default function RegisterForm() {
 
   return (
     <form.AppForm>
-      <form.Form className='w-full space-y-4'>
-        <div className='grid grid-cols-2 gap-4'>
+      <form.Form className="w-full space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <form.AppField
-            name='firstName'
+            name="firstName"
             children={(field) => (
               <field.FieldSet>
                 <field.Field>
-                  <field.FieldLabel htmlFor={field.name}>First name</field.FieldLabel>
+                  <field.FieldLabel htmlFor={field.name}>
+                    First name
+                  </field.FieldLabel>
                   <Input
                     id={field.name}
                     value={field.state.value}
@@ -65,11 +69,13 @@ export default function RegisterForm() {
             )}
           />
           <form.AppField
-            name='lastName'
+            name="lastName"
             children={(field) => (
               <field.FieldSet>
                 <field.Field>
-                  <field.FieldLabel htmlFor={field.name}>Last name</field.FieldLabel>
+                  <field.FieldLabel htmlFor={field.name}>
+                    Last name
+                  </field.FieldLabel>
                   <Input
                     id={field.name}
                     value={field.state.value}
@@ -84,15 +90,15 @@ export default function RegisterForm() {
           />
         </div>
         <form.AppField
-          name='email'
+          name="email"
           children={(field) => (
             <field.FieldSet>
               <field.Field>
                 <field.FieldLabel htmlFor={field.name}>Email</field.FieldLabel>
                 <Input
                   id={field.name}
-                  type='email'
-                  autoComplete='email'
+                  type="email"
+                  autoComplete="email"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
@@ -104,15 +110,17 @@ export default function RegisterForm() {
           )}
         />
         <form.AppField
-          name='password'
+          name="password"
           children={(field) => (
             <field.FieldSet>
               <field.Field>
-                <field.FieldLabel htmlFor={field.name}>Password</field.FieldLabel>
+                <field.FieldLabel htmlFor={field.name}>
+                  Password
+                </field.FieldLabel>
                 <Input
                   id={field.name}
-                  type='password'
-                  autoComplete='new-password'
+                  type="password"
+                  autoComplete="new-password"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
@@ -123,12 +131,15 @@ export default function RegisterForm() {
             </field.FieldSet>
           )}
         />
-        <Button disabled={loading} className='w-full' type='submit'>
+        <Button disabled={loading} className="w-full" type="submit">
           Create account
         </Button>
-        <p className='text-muted-foreground text-center text-sm'>
+        <p className="text-muted-foreground text-center text-sm">
           Already have an account?{' '}
-          <Link href='/auth/sign-in' className='text-primary underline-offset-4 hover:underline'>
+          <Link
+            href="/auth/sign-in"
+            className="text-primary underline-offset-4 hover:underline"
+          >
             Sign in
           </Link>
         </p>

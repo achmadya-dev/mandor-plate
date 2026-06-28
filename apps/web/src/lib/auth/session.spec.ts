@@ -40,7 +40,9 @@ describe('resolveSession', () => {
 
   it('refreshes tokens when access token is expired', async () => {
     mockedApiMe
-      .mockRejectedValueOnce(new ApiProxyError(401, { message: 'Unauthorized' }))
+      .mockRejectedValueOnce(
+        new ApiProxyError(401, { message: 'Unauthorized' }),
+      )
       .mockResolvedValueOnce({
         id: 1,
         email: 'admin@example.com',

@@ -8,7 +8,7 @@ import {
   useFieldContext,
   FormFieldSet,
   FormFieldError,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 
 type Option = { value: string; label: string };
@@ -20,7 +20,12 @@ interface RadioGroupFieldProps {
   options: Option[];
 }
 
-export function RadioGroupField({ label, description, required, options }: RadioGroupFieldProps) {
+export function RadioGroupField({
+  label,
+  description,
+  required,
+  options,
+}: RadioGroupFieldProps) {
   const field = useFieldContext();
   const value = useStore(field.store, (s) => s.value) as string;
 
@@ -35,11 +40,14 @@ export function RadioGroupField({ label, description, required, options }: Radio
         value={value}
         onValueChange={field.handleChange}
         onBlur={field.handleBlur}
-        className='flex flex-wrap gap-x-6 gap-y-2'
+        className="flex flex-wrap gap-x-6 gap-y-2"
       >
         {options.map((opt) => (
-          <div key={opt.value} className='flex items-center space-x-2'>
-            <RadioGroupItem value={opt.value} id={`${field.name}-${opt.value}`} />
+          <div key={opt.value} className="flex items-center space-x-2">
+            <RadioGroupItem
+              value={opt.value}
+              id={`${field.name}-${opt.value}`}
+            />
             <Label htmlFor={`${field.name}-${opt.value}`}>{opt.label}</Label>
           </div>
         ))}

@@ -8,7 +8,7 @@ import {
   FormFieldSet,
   FormField,
   FormFieldError,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -43,7 +43,7 @@ export function TextField({
           {label}
           {required && ' *'}
         </FieldLabel>
-        <div className='relative'>
+        <div className="relative">
           <Input
             id={field.name}
             type={type}
@@ -62,8 +62,8 @@ export function TextField({
             {...inputProps}
           />
           {isValidating && (
-            <div className='absolute top-1/2 right-3 -translate-y-1/2'>
-              <Spinner className='h-4 w-4' />
+            <div className="absolute top-1/2 right-3 -translate-y-1/2">
+              <Spinner className="h-4 w-4" />
             </div>
           )}
         </div>

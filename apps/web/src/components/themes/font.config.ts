@@ -12,82 +12,82 @@ import {
   Playfair_Display,
   Noto_Sans_Mono,
   Outfit,
-  Space_Mono
+  Space_Mono,
 } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
 
 const fontSans = Geist({
   subsets: ['latin'],
-  variable: '--font-sans'
+  variable: '--font-sans',
 });
 
 const fontMono = Geist_Mono({
   subsets: ['latin'],
-  variable: '--font-mono'
+  variable: '--font-mono',
 });
 
 const fontInstrument = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-instrument'
+  variable: '--font-instrument',
 });
 
 const fontNotoMono = Noto_Sans_Mono({
   subsets: ['latin'],
-  variable: '--font-noto-mono'
+  variable: '--font-noto-mono',
 });
 
 const fontMullish = Mulish({
   subsets: ['latin'],
-  variable: '--font-mullish'
+  variable: '--font-mullish',
 });
 
 const fontInter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter'
+  variable: '--font-inter',
 });
 
 const fontArchitectsDaughter = Architects_Daughter({
   subsets: ['latin'],
   weight: '400',
-  variable: '--font-architects-daughter'
+  variable: '--font-architects-daughter',
 });
 
 const fontDMSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-dm-sans'
+  variable: '--font-dm-sans',
 });
 
 const fontFiraCode = Fira_Code({
   subsets: ['latin'],
-  variable: '--font-fira-code'
+  variable: '--font-fira-code',
 });
 
 const fontOutfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-outfit'
+  variable: '--font-outfit',
 });
 
 const fontSpaceMono = Space_Mono({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-space-mono'
+  variable: '--font-space-mono',
 });
 
 const fontJetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono'
+  variable: '--font-jetbrains-mono',
 });
 
 const fontMerriweather = Merriweather({
   subsets: ['latin'],
   weight: ['300', '400', '700'],
-  variable: '--font-merriweather'
+  variable: '--font-merriweather',
 });
 
 const fontPlayfairDisplay = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-playfair-display'
+  variable: '--font-playfair-display',
 });
 
 export const fontVariables = cn(
@@ -104,5 +104,5 @@ export const fontVariables = cn(
   fontSpaceMono.variable,
   fontJetBrainsMono.variable,
   fontMerriweather.variable,
-  fontPlayfairDisplay.variable
+  fontPlayfairDisplay.variable,
 );

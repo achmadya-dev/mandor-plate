@@ -34,17 +34,17 @@ export default function ForgotPasswordForm() {
 
   return (
     <form.AppForm>
-      <form.Form className='w-full space-y-4'>
+      <form.Form className="w-full space-y-4">
         <form.AppField
-          name='email'
+          name="email"
           children={(field) => (
             <field.FieldSet>
               <field.Field>
                 <field.FieldLabel htmlFor={field.name}>Email</field.FieldLabel>
                 <Input
                   id={field.name}
-                  type='email'
-                  autoComplete='email'
+                  type="email"
+                  autoComplete="email"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
@@ -55,11 +55,14 @@ export default function ForgotPasswordForm() {
             </field.FieldSet>
           )}
         />
-        <Button disabled={loading} className='w-full' type='submit'>
+        <Button disabled={loading} className="w-full" type="submit">
           Send reset link
         </Button>
-        <p className='text-muted-foreground text-center text-sm'>
-          <Link href='/auth/sign-in' className='text-primary underline-offset-4 hover:underline'>
+        <p className="text-muted-foreground text-center text-sm">
+          <Link
+            href="/auth/sign-in"
+            className="text-primary underline-offset-4 hover:underline"
+          >
             Back to sign in
           </Link>
         </p>

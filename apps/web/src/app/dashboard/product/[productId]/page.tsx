@@ -5,7 +5,7 @@ import PageContainer from '@/components/layout/page-container';
 import ProductViewPage from '@/features/products/components/product-view-page';
 
 export const metadata = {
-  title: 'Dashboard : Product View'
+  title: 'Dashboard : Product View',
 };
 
 type PageProps = { params: Promise<{ productId: string }> };
@@ -15,12 +15,14 @@ export default async function Page(props: PageProps) {
   const queryClient = getQueryClient();
 
   if (params.productId !== 'new') {
-    void queryClient.prefetchQuery(productByIdOptions(Number(params.productId)));
+    void queryClient.prefetchQuery(
+      productByIdOptions(Number(params.productId)),
+    );
   }
 
   return (
     <PageContainer>
-      <div className='flex-1 space-y-4'>
+      <div className="flex-1 space-y-4">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <ProductViewPage productId={params.productId} />
         </HydrationBoundary>

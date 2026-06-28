@@ -8,7 +8,7 @@ import {
   FormFieldSet,
   FormField,
   FormFieldError,
-  createFormField
+  createFormField,
 } from '@/components/ui/form-context';
 
 interface TextareaFieldProps extends Omit<
@@ -54,7 +54,7 @@ export function TextareaField({
           {...textareaProps}
         />
         {showCount && (
-          <div className='text-muted-foreground text-right text-xs tabular-nums'>
+          <div className="text-muted-foreground text-right text-xs tabular-nums">
             {value.length}
             {maxLength ? ` / ${maxLength}` : ''}
           </div>

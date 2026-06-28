@@ -1,6 +1,12 @@
 'use client';
 import { navGroups } from '@/config/nav-config';
-import { KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarSearch } from 'kbar';
+import {
+  KBarAnimator,
+  KBarPortal,
+  KBarPositioner,
+  KBarProvider,
+  KBarSearch,
+} from 'kbar';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import RenderResults from './render-result';
@@ -31,7 +37,7 @@ export default function KBar({ children }: { children: React.ReactNode }) {
               keywords: navItem.title.toLowerCase(),
               section: 'Navigation',
               subtitle: `Go to ${navItem.title}`,
-              perform: () => navigateTo(navItem.url)
+              perform: () => navigateTo(navItem.url),
             }
           : null;
 
@@ -44,7 +50,7 @@ export default function KBar({ children }: { children: React.ReactNode }) {
           keywords: childItem.title.toLowerCase(),
           section: navItem.title,
           subtitle: `Go to ${childItem.title}`,
-          perform: () => navigateTo(childItem.url)
+          perform: () => navigateTo(childItem.url),
         })) ?? [];
 
       // Return only valid actions (ignoring null base actions for containers)
@@ -64,12 +70,12 @@ const KBarComponent = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <KBarPortal>
-        <KBarPositioner className='bg-background/80 fixed inset-0 z-99999 p-0! backdrop-blur-sm'>
-          <KBarAnimator className='bg-card text-card-foreground relative mt-64! w-full max-w-[600px] -translate-y-12! overflow-hidden rounded-lg border shadow-lg'>
-            <div className='bg-card border-border sticky top-0 z-10 border-b'>
-              <KBarSearch className='bg-card w-full border-none px-6 py-4 text-lg outline-hidden focus:ring-0 focus:ring-offset-0 focus:outline-hidden' />
+        <KBarPositioner className="bg-background/80 fixed inset-0 z-99999 p-0! backdrop-blur-sm">
+          <KBarAnimator className="bg-card text-card-foreground relative mt-64! w-full max-w-[600px] -translate-y-12! overflow-hidden rounded-lg border shadow-lg">
+            <div className="bg-card border-border sticky top-0 z-10 border-b">
+              <KBarSearch className="bg-card w-full border-none px-6 py-4 text-lg outline-hidden focus:ring-0 focus:ring-offset-0 focus:outline-hidden" />
             </div>
-            <div className='max-h-[400px]'>
+            <div className="max-h-[400px]">
               <RenderResults />
             </div>
           </KBarAnimator>
