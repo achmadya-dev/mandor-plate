@@ -40,19 +40,29 @@ pnpm --filter @mandor-plate/api seed:run
 pnpm dev
 ```
 
-| Service | URL                        |
-| ------- | -------------------------- |
-| API     | http://localhost:3001      |
-| Web     | http://localhost:3000      |
-| Swagger | http://localhost:3001/docs |
-| Maildev | http://localhost:1080      |
+<table>
+<thead>
+<tr><th>Service</th><th>URL</th></tr>
+</thead>
+<tbody>
+<tr><td>API</td><td><a href="http://localhost:3001">localhost:3001</a></td></tr>
+<tr><td>Web</td><td><a href="http://localhost:3000">localhost:3000</a></td></tr>
+<tr><td>Swagger</td><td><a href="http://localhost:3001/docs">localhost:3001/docs</a></td></tr>
+<tr><td>Maildev</td><td><a href="http://localhost:1080">localhost:1080</a></td></tr>
+</tbody>
+</table>
 
 Seeded accounts:
 
-| Email                  | Password | Role  |
-| ---------------------- | -------- | ----- |
-| `admin@example.com`    | `secret` | admin |
-| `john.doe@example.com` | `secret` | user  |
+<table>
+<thead>
+<tr><th>Email</th><th>Password</th><th>Role</th></tr>
+</thead>
+<tbody>
+<tr><td><code>admin@example.com</code></td><td><code>secret</code></td><td>admin</td></tr>
+<tr><td><code>john.doe@example.com</code></td><td><code>secret</code></td><td>user</td></tr>
+</tbody>
+</table>
 
 ## Quality gates
 
@@ -113,16 +123,26 @@ flowchart LR
   L --> M
 ```
 
-| Step             | Skill / command     | Output                                      |
-| ---------------- | ------------------- | ------------------------------------------- |
-| Sharpen the plan | `grill-me`          | Clear scope, trade-offs, and open questions |
-| Write PRD        | `to-prd-project`    | GitHub issue or `.scratch/<feature>/PRD.md` |
-| Domain terms     | `domain-modeling`   | Updates `CONTEXT.md`                        |
-| Create tickets   | `to-issues-project` | GitHub issues (`ready-for-agent`)           |
-| Implement        | `implement`, `tdd`  | Code in monorepo                            |
-| Quality gate     | `pnpm check`        | Lint + typecheck + unit tests               |
-| Review           | `review`            | Standards + spec check                      |
-| Batch work       | `/loop /issue-loop` | Next open `ready-for-agent` issue           |
+<table>
+<colgroup>
+<col width="22%" />
+<col width="28%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr><th>Step</th><th>Skill / command</th><th>Output</th></tr>
+</thead>
+<tbody>
+<tr><td>Sharpen the plan</td><td><code>grill-me</code></td><td>Scope, trade-offs, open questions</td></tr>
+<tr><td>Write PRD</td><td><code>to-prd-project</code></td><td>GitHub issue or <code>.scratch/&lt;feature&gt;/PRD.md</code></td></tr>
+<tr><td>Domain terms</td><td><code>domain-modeling</code></td><td>Updates <code>CONTEXT.md</code></td></tr>
+<tr><td>Create tickets</td><td><code>to-issues-project</code></td><td>GitHub issues (<code>ready-for-agent</code>)</td></tr>
+<tr><td>Implement</td><td><code>implement</code>, <code>tdd</code></td><td>Code in monorepo</td></tr>
+<tr><td>Quality gate</td><td><code>pnpm check</code></td><td>Lint, typecheck, unit tests</td></tr>
+<tr><td>Review</td><td><code>review</code></td><td>Standards + spec check</td></tr>
+<tr><td>Batch work</td><td><code>/loop /issue-loop</code></td><td>Next open <code>ready-for-agent</code> issue</td></tr>
+</tbody>
+</table>
 
 Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke directly in Cursor).
 
@@ -136,27 +156,46 @@ Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke
 
 Mandor Plate is built on these open-source projects:
 
-| Area              | Source                                                                                              | Notes                                                                   |
-| ----------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| API               | [brocoders/nestjs-boilerplate](https://github.com/brocoders/nestjs-boilerplate)                     | NestJS REST API foundation (PostgreSQL only)                            |
-| Web dashboard     | [Kiranism/next-shadcn-dashboard-starter](https://github.com/Kiranism/next-shadcn-dashboard-starter) | Dashboard shell, forms, and UI patterns                                 |
-| UI components     | [shadcn/ui](https://ui.shadcn.com)                                                                  | Radix + Tailwind component primitives                                   |
-| Agent skills      | [mattpocock/skills](https://github.com/mattpocock/skills)                                           | Engineering workflow skills (PRD, triage, review, TDD, …)               |
-| Agent skill packs | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)                             | `shadcn`, `next-best-practices`, React composition & performance skills |
+<table>
+<colgroup>
+<col width="18%" />
+<col width="32%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr><th>Area</th><th>Source</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>API</td><td><a href="https://github.com/brocoders/nestjs-boilerplate">brocoders/nestjs-boilerplate</a></td><td>NestJS REST API foundation (PostgreSQL only)</td></tr>
+<tr><td>Web dashboard</td><td><a href="https://github.com/Kiranism/next-shadcn-dashboard-starter">next-shadcn-dashboard-starter</a></td><td>Dashboard shell, forms, and UI patterns</td></tr>
+<tr><td>UI components</td><td><a href="https://ui.shadcn.com">shadcn/ui</a></td><td>Radix + Tailwind component primitives</td></tr>
+<tr><td>Agent skills</td><td><a href="https://github.com/mattpocock/skills">mattpocock/skills</a></td><td>PRD, triage, review, TDD, and related workflow skills</td></tr>
+<tr><td>Agent skill packs</td><td><a href="https://github.com/vercel-labs/agent-skills">vercel-labs/agent-skills</a></td><td><code>shadcn</code>, Next.js best practices, React composition</td></tr>
+</tbody>
+</table>
 
 See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream notes.
 
 ## Scripts
 
-| Command                 | Description                      |
-| ----------------------- | -------------------------------- |
-| `pnpm dev`              | Start API + web (Turborepo)      |
-| `pnpm check`            | Lint, typecheck, and unit tests  |
-| `pnpm docker:up`        | Start PostgreSQL + Maildev       |
-| `pnpm typecheck`        | TypeScript check all packages    |
-| `pnpm test`             | Unit tests all packages          |
-| `pnpm test:e2e`         | API + web E2E tests              |
-| `pnpm test:e2e:prepare` | Build, migrate, and seed for E2E |
+<table>
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead>
+<tr><th>Command</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>pnpm dev</code></td><td>Start API + web (Turborepo)</td></tr>
+<tr><td><code>pnpm check</code></td><td>Lint, typecheck, and unit tests</td></tr>
+<tr><td><code>pnpm docker:up</code></td><td>Start PostgreSQL + Maildev</td></tr>
+<tr><td><code>pnpm typecheck</code></td><td>TypeScript check all packages</td></tr>
+<tr><td><code>pnpm test</code></td><td>Unit tests all packages</td></tr>
+<tr><td><code>pnpm test:e2e</code></td><td>API + web E2E tests</td></tr>
+<tr><td><code>pnpm test:e2e:prepare</code></td><td>Build, migrate, and seed for E2E</td></tr>
+</tbody>
+</table>
 
 ## Optional skills
 
