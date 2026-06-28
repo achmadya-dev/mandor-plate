@@ -161,6 +161,8 @@ Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
+**Example workflow:** [docs/examples/account-status-chip/](./docs/examples/account-status-chip/) — sample PRD + issues for testing scratch-first and `/loop /issue-loop`.
+
 ## Credits
 
 Mandor Plate is built on these open-source projects:
