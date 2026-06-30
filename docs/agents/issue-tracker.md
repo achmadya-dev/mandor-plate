@@ -72,6 +72,8 @@ Keep labels, body fields, and comments distinct:
 - body fields are structured planning and execution metadata
 - comments are audit trail for commits, handoff, and blockers
 
+See `docs/agents/triage-labels.md` for the canonical execution-state, gating, and priority label vocabulary.
+
 ### Scratch issue file format
 
 ```markdown
