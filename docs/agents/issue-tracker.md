@@ -254,6 +254,59 @@ The selector supports an optional parent filter:
 pnpm work:next <parent-issue-number>
 ```
 
+## Pull request opening rules
+
+Use separate PR behavior for the two workflow modes.
+
+### Standalone issues
+
+When a standalone issue is complete:
+
+- keep the issue in `in-progress` until the PR is opened
+- open a PR immediately from branch `feat/issue-<number>-<slug>`
+- use issue-closing keywords in the PR body for that standalone issue
+
+### Parent-managed aggregate PR
+
+The repo provides a dedicated parent-managed PR template:
+
+- `.github/PULL_REQUEST_TEMPLATE/parent-managed.md`
+
+Open the aggregate PR with:
+
+```bash
+pnpm pr:open-parent <parent-issue-number> [base-branch]
+```
+
+The command enforces these gates before opening the PR:
+
+- the parent issue is not labeled `hold-pr`
+- every child marked `required-for-current-parent-pr: yes` is complete
+- completion means the child is closed or labeled `awaiting-parent-pr`
+- the current git branch matches the shared parent branch shape `feat/parent-<parent-number>-<parent-slug>`
+
+Use `--dry-run` to inspect the generated title and body without opening the PR:
+
+```bash
+pnpm pr:open-parent <parent-issue-number> --dry-run
+```
+
+The generated parent PR body includes:
+
+- parent issue reference
+- included child issues
+- implementation summary derived from child issue bodies
+- quality gates
+- risks and follow-up
+
+### Scope locking after PR open
+
+Once the parent PR is opened:
+
+- the batch scope is considered locked
+- child issues may still be added to the parent, but they default to not being part of the open batch
+- only humans may change inclusion for the currently open parent PR batch
+
 ## GitHub conventions
 
 - **Publish an issue**: via **mandor-publish** and the publish flow above

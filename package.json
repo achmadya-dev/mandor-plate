@@ -12,6 +12,7 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "publish:parent-child": "node scripts/publish-parent-child-issues.mjs",
     "work:next": "node scripts/select-next-work-item.mjs",
+    "pr:open-parent": "node scripts/open-parent-pr.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
