@@ -307,6 +307,31 @@ Once the parent PR is opened:
 - child issues may still be added to the parent, but they default to not being part of the open batch
 - only humans may change inclusion for the currently open parent PR batch
 
+## Post-merge reconciliation
+
+Parent-managed PRs reconcile through GitHub Actions:
+
+- workflow: `.github/workflows/reconcile-parent-pr.yml`
+- script: `pnpm reconcile:parent-pr <pr-number>`
+
+The reconciler reads:
+
+- the merged PR body
+- the referenced parent issue
+- the included child issue list in the PR body
+
+Then it performs these steps idempotently:
+
+1. rebuild the parent issue's child summary with updated state for merged children
+2. close only included child issues that are complete for merge
+3. close the parent issue only when all required child issues are already complete or are closed by this reconciliation run
+
+Use dry-run mode to debug the reconciliation logic without editing GitHub state:
+
+```bash
+pnpm reconcile:parent-pr <pr-number> --dry-run
+```
+
 ## GitHub conventions
 
 - **Publish an issue**: via **mandor-publish** and the publish flow above
