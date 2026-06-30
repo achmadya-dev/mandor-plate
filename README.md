@@ -244,6 +244,7 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 <tr><td><code>pnpm test:e2e</code></td><td>API + web E2E tests</td></tr>
 <tr><td><code>pnpm test:e2e:prepare</code></td><td>Build, migrate, and seed for E2E</td></tr>
 <tr><td><code>pnpm publish:parent-child &lt;feature-slug&gt;</code></td><td>Publish one scratch PRD + child batch as a parent issue with native GitHub sub-issues</td></tr>
+<tr><td><code>pnpm work:next [parent-issue-number]</code></td><td>Select the next eligible standalone or parent-managed child issue from GitHub</td></tr>
 </tbody>
 </table>
 

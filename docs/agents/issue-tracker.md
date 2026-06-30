@@ -171,6 +171,89 @@ What the command does:
 
 After publish, GitHub issue bodies, labels, and comments become the operational source of truth. `.scratch/` remains a local archive or drafting artifact only.
 
+## Implementation queue rules
+
+Use these rules for the GitHub-native worker loop.
+
+### Queue selection
+
+Use:
+
+```bash
+pnpm work:next
+```
+
+The selector inspects open GitHub issues and returns the highest-priority eligible work item. It understands:
+
+- `standalone`
+- `parent-managed-child`
+
+The selector only considers issues that are open and labeled `ready-for-agent`.
+
+### Standalone issue rules
+
+A standalone issue is eligible when:
+
+- it is open
+- it is labeled `ready-for-agent`
+
+When work starts:
+
+- move the label from `ready-for-agent` to `in-progress`
+- create or switch to branch `feat/issue-<number>-<slug>`
+
+When implementation is complete:
+
+- keep the issue body current
+- post a structured progress comment with commit, checklist updates, and quality-gate results
+- open a PR immediately for that standalone issue
+
+### Parent-managed child rules
+
+A parent-managed child is eligible when:
+
+- it is open
+- it is labeled `ready-for-agent`
+- all issues listed under `## Depends on` are satisfied
+
+For dependency purposes, an issue is satisfied when it is:
+
+- closed, or
+- labeled `awaiting-parent-pr`
+
+When work starts:
+
+- move the label from `ready-for-agent` to `in-progress`
+- create or switch to the shared parent branch `feat/parent-<parent-number>-<parent-slug>`
+
+When implementation is complete:
+
+- update the child issue body to reflect current state
+- post a structured progress comment with commit, completed checklist items, and quality-gate results
+- move the child from `in-progress` to `awaiting-parent-pr`
+- do not open a PR per child
+
+### Blocked handoff
+
+If a worker cannot continue:
+
+- keep the issue in `in-progress` when context needs to be preserved
+- post a structured blocked handoff comment with blocker type, attempts made, current branch, and next action needed
+- only return an issue to `ready-for-agent` when the attempt is cleanly abandoned and no special context must be preserved
+
+### Parent locality
+
+When several child issues are eligible in the same parent:
+
+- stay on the shared parent branch
+- prefer continuing within that parent before switching context elsewhere
+
+The selector supports an optional parent filter:
+
+```bash
+pnpm work:next <parent-issue-number>
+```
+
 ## GitHub conventions
 
 - **Publish an issue**: via **mandor-publish** and the publish flow above
