@@ -8,7 +8,7 @@ description: >-
 
 # Mandor Publish
 
-Push reviewed issue drafts from `.scratch/` to **GitHub Issues**. **Publish only — never draft PRDs or issues here.**
+Push reviewed issue drafts from `.scratch/` to **GitHub Issues**. **Publish only — never draft PRDs or issues here.** Scratch issue files are temporary staging files; delete each one after it has been published successfully.
 
 See [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md).
 
@@ -33,22 +33,24 @@ gh issue create \
   --label "ready-for-agent"
 ```
 
-Then update the scratch file: `GitHub: #NN` (use the number returned by `gh`).
+Capture the GitHub issue number returned by `gh issue create` for the publish summary, then delete the published scratch issue file. The GitHub issue becomes the source of truth.
 
 ## Publish a feature batch
 
 For each `*.md` in `.scratch/<feature-slug>/issues/` that is `ready-for-agent` with empty `GitHub:`:
 
 1. Run the publish command above
-2. Write `GitHub: #NN` back into that scratch file
-3. Report a summary table: scratch path → GitHub issue URL
+2. Record the returned GitHub issue number in the publish summary
+3. Delete the published scratch issue file
+4. Report a summary table: deleted scratch path → GitHub issue URL
 
 ## Rules
 
 - **Never** call `gh issue create` without a scratch file
 - **Never** publish `Status: draft` files — tell the user to finish criteria or set `ready-for-agent` first
-- **Never** re-publish if `GitHub: #NN` is already set (edit scratch + GitHub separately if needed)
-- If a GitHub issue exists without a scratch file, create the scratch file first via **mandor-issues**, not by publishing blindly
+- **Never** re-publish a scratch file that already records a GitHub issue number; treat it as stale and use the GitHub issue directly
+- After a scratch issue file is published successfully, delete it. Do not keep scratch issues as a second source of truth.
+- If a GitHub issue already exists without a scratch file, use the GitHub issue directly; do not recreate scratch just to edit or implement it.
 
 ## After publishing
 

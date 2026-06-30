@@ -60,11 +60,11 @@ When acceptance criteria are complete, set `Status: ready-for-agent`. Stop here 
 
 ## Status values
 
-| Status            | Meaning                                        |
-| ----------------- | ---------------------------------------------- |
-| `draft`           | Still being written or missing criteria        |
-| `ready-for-agent` | Ready for **mandor-publish**                   |
-| `done`            | Implemented (set by **mandor-implement-loop**) |
+| Status            | Meaning                                                            |
+| ----------------- | ------------------------------------------------------------------ |
+| `draft`           | Still being written or missing criteria                            |
+| `ready-for-agent` | Ready for **mandor-publish**                                       |
+| `done`            | Merged after implementation (tracked on GitHub after the PR lands) |
 
 ## Labels (for publish step)
 
