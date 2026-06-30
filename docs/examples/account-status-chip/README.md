@@ -1,13 +1,13 @@
 # Example: account-status-chip workflow
 
-End-to-end sample for testing the Mandor Plate agent workflow: **skills → scratch → GitHub → loop**.
+End-to-end sample for testing the Mandor Plate agent workflow: **skills → scratch → GitHub → mandor-implement-loop**.
 
 **Two modes:**
 
-| Mode                         | When to use                                             |
-| ---------------------------- | ------------------------------------------------------- |
-| **A — Generate with skills** | Learn or re-run the full planning pipeline from an idea |
-| **B — Use template**         | Skip planning; test publish + `/loop /mandor-loop` only |
+| Mode                         | When to use                                                |
+| ---------------------------- | ---------------------------------------------------------- |
+| **A — Generate with skills** | Learn or re-run the full planning pipeline from an idea    |
+| **B — Use template**         | Skip planning; test publish + `mandor-implement-loop` only |
 
 Scratch files live under `.scratch/` (gitignored). The committed template is at `.scratch-template/`.
 
@@ -23,7 +23,7 @@ Before running this example:
 | Core skills available    | `.agents/skills/` present (clone this repo)              |
 | Scratch directory        | `mkdir -p .scratch`                                      |
 
-For **Mode A**, invoke skills from Cursor. For **Mode B**, only publish + loop are needed.
+For **Mode A**, invoke the repo skills in order. For **Mode B**, only publish + `mandor-implement-loop` are needed.
 
 ---
 
@@ -33,28 +33,28 @@ Invoke skills **in this order** (matches [README Dev workflow](../../../README.m
 
 ```mermaid
 flowchart LR
-  G[mandor-grill] --> P[mandor-prd]
+  G[mandor-grill-me] --> P[mandor-prd]
   P --> D[mandor-domain]
   D --> I[mandor-issues]
   I --> Pub[mandor-publish]
-  Pub --> L["/loop /mandor-loop"]
+  Pub --> L[mandor-implement-loop]
 ```
 
-| Step | Skill              | Invoke                         | Output                                     |
-| ---- | ------------------ | ------------------------------ | ------------------------------------------ |
-| 1    | **mandor-grill**   | `/mandor-grill` or `/grilling` | Sharpen scope (optional)                   |
-| 2    | **mandor-prd**     | `mandor-prd`                   | `.scratch/account-status-chip/PRD.md`      |
-| 3    | **mandor-domain**  | `mandor-domain`                | Updates `CONTEXT.md` if needed             |
-| 4    | **mandor-issues**  | `mandor-issues`                | `.scratch/…/issues/*.md` (`Status: draft`) |
-| 5    | **mandor-publish** | `mandor-publish`               | GitHub issues + `GitHub: #NN` in scratch   |
-| 6    | **mandor-loop**    | `/loop /mandor-loop`           | Implement, commit, close each issue        |
+| Step | Skill                     | Invoke                  | Output                                     |
+| ---- | ------------------------- | ----------------------- | ------------------------------------------ |
+| 1    | **mandor-grill-me**       | `mandor-grill-me`       | Sharpen scope (optional)                   |
+| 2    | **mandor-prd**            | `mandor-prd`            | `.scratch/account-status-chip/PRD.md`      |
+| 3    | **mandor-domain**         | `mandor-domain`         | Updates `CONTEXT.md` if needed             |
+| 4    | **mandor-issues**         | `mandor-issues`         | `.scratch/…/issues/*.md` (`Status: draft`) |
+| 5    | **mandor-publish**        | `mandor-publish`        | GitHub issues + `GitHub: #NN` in scratch   |
+| 6    | **mandor-implement-loop** | `mandor-implement-loop` | Implement, commit, close each issue        |
 
 ### Example prompts
 
-**Step 1 — mandor-grill** (optional):
+**Step 1 — mandor-grill-me** (optional):
 
 ```
-/mandor-grill
+mandor-grill-me
 
 I want to show account status (active/inactive) on the profile page and user nav.
 Stress-test scope before we write a PRD.
@@ -99,11 +99,13 @@ Publish all ready-for-agent issues under .scratch/account-status-chip/issues/
 to GitHub with label ready-for-agent.
 ```
 
-**Step 6 — mandor-loop**:
+**Step 6 — mandor-implement-loop**:
 
 ```
-/loop /mandor-loop
+mandor-implement-loop
 ```
+
+In webhook mode, labeling the GitHub issue `ready-for-agent` triggers the runner, which invokes **mandor-implement-loop**.
 
 Compare agent output to the reference template in `.scratch-template/` if helpful.
 
@@ -118,7 +120,7 @@ mkdir -p .scratch
 cp -r docs/examples/account-status-chip/.scratch-template .scratch/account-status-chip
 ```
 
-Then run **mandor-publish** (step 5) and **mandor-loop** (step 6). Issues are pre-filled with `Status: ready-for-agent`.
+Then run **mandor-publish** (step 5) and **mandor-implement-loop** (step 6). Issues are pre-filled with `Status: ready-for-agent`.
 
 ---
 
@@ -163,7 +165,7 @@ rm -rf .scratch/account-status-chip
 ## Related docs
 
 - [Issue tracker (scratch-first)](../../agents/issue-tracker.md)
-- [mandor-loop skill](../../../.agents/skills/mandor-loop/SKILL.md)
+- [mandor-implement-loop skill](../../../.agents/skills/mandor-implement-loop/SKILL.md)
 - [mandor-prd skill](../../../.agents/skills/mandor-prd/SKILL.md)
 - [mandor-issues skill](../../../.agents/skills/mandor-issues/SKILL.md)
 - [mandor-publish skill](../../../.agents/skills/mandor-publish/SKILL.md)
