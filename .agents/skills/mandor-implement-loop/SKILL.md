@@ -12,7 +12,7 @@ Implement GitHub epic issues that are marked with `ready-for-agent`. This skill 
 
 Each run implements at most one child issue from the epic. The epic keeps one branch; later runs add more child-issue commits to that same branch. **Do not open the pull request until every child issue is implemented. Do not merge the pull request automatically. Do not close the source issue before the pull request is merged.**
 
-GitHub Issues are the source of truth — see [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). Do not use local draft files for this loop.
+GitHub Issues are the source of truth — see [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). Do not use `.scratch` for this loop.
 
 ## Before each iteration
 
@@ -69,6 +69,6 @@ Use this prompt payload when the runner needs an explicit instruction:
 
 ```json
 {
-  "prompt": "Run the mandor-implement-loop workflow for Mandor Plate. Find the next open GitHub epic issue with labels ready-for-agent and epic (`gh issue list --label ready-for-agent --label epic --state open`). Read the epic body/comments and its linked child issues from GitHub as the source of truth. Read README.md (Dev workflow) and CONTEXT.md. Use one feature branch per epic. If the epic already has a branch, continue it. Do not open a PR while any child issue remains unimplemented. Pick the first child issue from the epic that is not already implemented in branch commits or issue comments. Implement only that child issue in this run, make one atomic commit using the child issue number in the commit message, run focused checks, push the branch, and comment on the child and epic with progress. If all child issues are implemented, run pnpm check, open one PR to main for the epic, add Refs for the epic and Closes lines for every completed child issue, remove ready-for-agent from the epic, add ready-for-human to the epic, and comment that the epic is ready for human review. Do not merge the PR. Do not close the epic before the PR is merged. Stop when no ready-for-agent epic has remaining unimplemented child issues."
+  "prompt": "Run the mandor-implement-loop workflow for Mandor Plate. Find the next open GitHub epic issue with labels ready-for-agent and epic (`gh issue list --label ready-for-agent --label epic --state open`). Read the epic body/comments and its linked child issues from GitHub as the source of truth. Do not use .scratch. Read README.md (Dev workflow) and CONTEXT.md. Use one feature branch per epic. If the epic already has a branch, continue it. Do not open a PR while any child issue remains unimplemented. Pick the first child issue from the epic that is not already implemented in branch commits or issue comments. Implement only that child issue in this run, make one atomic commit using the child issue number in the commit message, run focused checks, push the branch, and comment on the child and epic with progress. If all child issues are implemented, run pnpm check, open one PR to main for the epic, add Refs for the epic and Closes lines for every completed child issue, remove ready-for-agent from the epic, add ready-for-human to the epic, and comment that the epic is ready for human review. Do not merge the PR. Do not close the epic before the PR is merged. Stop when no ready-for-agent epic has remaining unimplemented child issues."
 }
 ```

@@ -1,6 +1,6 @@
 ---
 name: mandor-prd
-description: Draft product requirements for Mandor Plate features as local planning docs. Use when writing a PRD or scoping work before mandor-issues. Does not publish to GitHub.
+description: Draft product requirements for Mandor Plate features in .scratch. Use when writing a PRD or scoping work before mandor-issues. Does not publish to GitHub.
 ---
 
 # Mandor PRD
@@ -32,15 +32,19 @@ Use **mandor-grill-me** first if scope is fuzzy. Then flesh out:
 
 ## Where to write the PRD
 
-**Always draft locally first** as a planning document for the feature.
+**Always draft locally first:**
 
-Do not publish a PRD directly to GitHub. Local issue drafts are a separate optional planning step; GitHub publish is a separate step via **mandor-publish**.
+```
+.scratch/<feature-slug>/PRD.md
+```
+
+Do not publish a PRD directly to GitHub. Issue drafts go to `.scratch/` via **mandor-issues**; GitHub publish is a separate step via **mandor-publish**.
 
 Do not recreate a root `PRD.md` or committed planning docs unless the user explicitly asks.
 
 ## After the PRD
 
 1. Run **mandor-domain** to update `CONTEXT.md` with new terms
-2. Run **mandor-issues** to draft local implementation issues if you want a local planning pass first
-3. Review those draft issues; set `Status: ready-for-agent` when criteria are complete
+2. Run **mandor-issues** to draft issues under `.scratch/<feature-slug>/issues/`
+3. Review scratch issues; set `Status: ready-for-agent` when criteria are complete
 4. Run **mandor-publish** to push to GitHub (only when the user asks)
