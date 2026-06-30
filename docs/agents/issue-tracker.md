@@ -28,6 +28,50 @@ Create skills **never** call `gh`. Publish skill **never** drafts new scratch fi
     └── 02-<slug>.md
 ```
 
+## GitHub-native issue forms
+
+For GitHub-native planning and execution, the repo provides two issue forms under `.github/ISSUE_TEMPLATE/`:
+
+- `parent-managed.yml` — use for a parent issue that acts as the control plane for a batch of child issues
+- `execution.yml` — use for either a standalone execution issue or a child issue in a parent-managed batch
+
+### Parent-managed issue form
+
+Use the parent form when you need one issue to hold compact PRD sections plus child issue rollout state. Fill these sections consistently:
+
+- `Mode`: always `parent-managed`
+- `Priority`: default priority inherited by child issues unless a child overrides it
+- `Feature slug`: stable short identifier for local drafting or references
+- `Context`, `Goal`, `Non-goals`
+- `Acceptance criteria`: feature-level done conditions
+- `Child issue summary`: one parseable line per child issue
+- `PR readiness rule`: exact rule for when the aggregate PR may be opened
+
+### Execution issue form
+
+Use the execution form for either:
+
+- a `standalone` issue that opens its own PR when complete
+- a `parent-managed-child` issue that is implemented on the parent branch and stays open until the aggregate PR merges
+
+Fill these sections consistently:
+
+- `Mode`
+- `Parent`: required for parent-managed child issues
+- `Priority`
+- `Depends on`
+- `Required for current parent PR`
+- `What to build`
+- `Acceptance criteria`
+- `Implementation checklist`
+- `Quality gates`
+
+Keep labels, body fields, and comments distinct:
+
+- labels are queryable state such as `ready-for-agent` or `in-progress`
+- body fields are structured planning and execution metadata
+- comments are audit trail for commits, handoff, and blockers
+
 ### Scratch issue file format
 
 ```markdown

@@ -1,0 +1,108 @@
+name: Parent-managed workflow
+description: Create a parent issue with compact PRD sections and child issue control-plane fields.
+title: '[Parent]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for a parent-managed batch of work.
+
+        This issue is the control plane for:
+        - compact PRD context,
+        - child issue inventory,
+        - aggregate PR readiness.
+
+        After publish, keep GitHub as the operational source of truth.
+  - type: input
+    id: mode
+    attributes:
+      label: Mode
+      description: Workflow mode for this issue.
+      value: parent-managed
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Default priority inherited by child issues unless a child overrides it.
+      options:
+        - P0
+        - P1
+        - P2
+      default: 1
+    validations:
+      required: true
+  - type: input
+    id: feature-slug
+    attributes:
+      label: Feature slug
+      description: Short stable identifier for the feature or batch.
+      placeholder: github-native-parent-child-workflow
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why this work matters and what current workflow or product behavior it changes.
+      placeholder: Describe the current situation, constraints, and why this parent issue exists.
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: Outcome this parent batch should achieve.
+      placeholder: Describe the intended end state for this batch.
+    validations:
+      required: true
+  - type: textarea
+    id: non-goals
+    attributes:
+      label: Non-goals
+      description: Explicitly list what this parent batch does not attempt to solve.
+      placeholder: |
+        - Out of scope item 1
+        - Out of scope item 2
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Feature-level conditions that must hold for this parent batch to be considered complete.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+  - type: textarea
+    id: child-issue-summary
+    attributes:
+      label: Child issue summary
+      description: Keep one parseable line per child. Replace placeholders with real issue numbers after child issues exist.
+      value: |
+        - [ ] #<issue-number> | title: <child title> | priority: P1 | depends-on: none | required-for-current-parent-pr: yes | state: planned
+    validations:
+      required: true
+  - type: textarea
+    id: pr-readiness-rule
+    attributes:
+      label: PR readiness rule
+      description: State exactly when the aggregate parent PR may be opened.
+      value: |
+        Open the parent PR only when every child marked `required-for-current-parent-pr: yes` is complete, quality gates pass, and the parent is not labeled `hold-pr`.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Link PRDs, ADRs, domain docs, prototypes, or related issues.
+      placeholder: |
+        - PRD:
+        - Domain:
+        - Related issue:
+    validations:
+      required: false
