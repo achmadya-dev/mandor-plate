@@ -6,11 +6,11 @@ For the shortest end-to-end operational flow, see [`happy-path-parent-child-work
 
 ## Create vs publish
 
-| Action         | Skill              | Writes to                         |
-| -------------- | ------------------ | --------------------------------- |
-| Draft PRD      | **mandor-prd**     | `.scratch/<feature>/PRD.md`       |
-| Draft issues   | **mandor-issues**  | `.scratch/<feature>/issues/*.md`  |
-| Publish issues | **mandor-publish** | GitHub Issues (`gh issue create`) |
+| Action         | Skill                       | Writes to                         |
+| -------------- | --------------------------- | --------------------------------- |
+| Draft PRD      | manual draft / `to-prd`     | `.scratch/<feature>/PRD.md`       |
+| Draft issues   | manual draft / `to-issues`  | `.scratch/<feature>/issues/*.md`  |
+| Publish issues | `pnpm publish:parent-child` | GitHub Issues (`gh issue create`) |
 
 Create skills **never** call `gh`. Publish skill **never** drafts new scratch files.
 
@@ -336,7 +336,7 @@ pnpm reconcile:parent-pr <pr-number> --dry-run
 
 ## GitHub conventions
 
-- **Publish an issue**: via **mandor-publish** and the publish flow above
+- **Publish an issue**: via `pnpm publish:parent-child` and the publish flow above
 - **Read an issue**: `gh issue view <number> --comments`
 - **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters
 - **Comment on an issue**: `gh issue comment <number> --body "..."`
@@ -359,11 +359,11 @@ GitHub shares one number space across issues and PRs, so a bare `#42` may be eit
 
 ## When a skill says "publish to the issue tracker"
 
-Use **mandor-publish** (not **mandor-issues**):
+Use `pnpm publish:parent-child` for parent-managed batches:
 
 1. Ensure the scratch file exists and `Status:` is `ready-for-agent`
-2. Run `gh issue create` using the publish flow above
-3. Write `GitHub: #NN` back into the scratch file
+2. Run the publish flow above
+3. Write `GitHub: #NN` back into the scratch file or `PRD.md`
 
 ## When a skill says "fetch the relevant ticket"
 

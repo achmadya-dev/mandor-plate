@@ -26,7 +26,7 @@ NestJS API · Next.js dashboard · PostgreSQL · Turborepo · agent skills workf
 
 ## Before you build
 
-Start with **`mandor-grill-me`** to stress-test an idea, plan, or design — one question at a time — before writing a PRD or opening issues.
+Start with **`grill-me`** to stress-test an idea, plan, or design — one question at a time — before writing a PRD or opening issues.
 
 ## Prerequisites
 
@@ -40,16 +40,16 @@ Start with **`mandor-grill-me`** to stress-test an idea, plan, or design — one
 
 ### Agent workflow
 
-| Requirement               | Notes                                                      |
-| ------------------------- | ---------------------------------------------------------- |
-| **Agent runtime**         | Core skills ship in [`.agents/skills/`](./.agents/skills/) |
-| **GitHub CLI** (`gh`)     | Install and run `gh auth login`                            |
-| **Git remote** on GitHub  | Required to publish issues and run `mandor-implement-loop` |
-| **`.scratch/`** directory | Created automatically; gitignored — local PRD/issue drafts |
+| Requirement               | Notes                                                                 |
+| ------------------------- | --------------------------------------------------------------------- |
+| **Agent runtime**         | Core skills ship in [`.agents/skills/`](./.agents/skills/)            |
+| **GitHub CLI** (`gh`)     | Install and run `gh auth login`                                       |
+| **Git remote** on GitHub  | Required to publish issues and run the parent/child workflow commands |
+| **`.scratch/`** directory | Created automatically; gitignored — local PRD/issue drafts            |
 
-The documented workflow uses the Mandor skills shipped in this repo. External skill packs are optional and not required.
+The documented workflow uses the active skills shipped in this repo plus repo-level workflow commands. External skill packs are optional and not required.
 
-Agent config (`docs/agents/`, `CLAUDE.md`) is pre-shipped — skip **`mandor-setup`** unless changing issue tracker or label vocabulary.
+Agent config (`docs/agents/`, `CLAUDE.md`) is pre-shipped — skip **`setup-matt-pocock-skills`** unless changing issue tracker or label vocabulary.
 
 ## Quickstart
 
@@ -126,24 +126,24 @@ Planning docs are **not** committed — generate them with skills when needed. R
 ```mermaid
 flowchart LR
   subgraph start [Start]
-    G[mandor-grill-me]
+    G[grill-me]
   end
 
   subgraph plan [Plan]
-    P[mandor-prd]
-    D[mandor-domain]
-    I[mandor-issues]
-    Pub[mandor-publish]
+    P[Draft PRD in .scratch]
+    D[domain-modeling]
+    I[Draft child issues in .scratch]
+    Pub[pnpm publish:parent-child]
   end
 
   subgraph code [Build]
-    M[mandor-implement / mandor-tdd]
+    M[implement / tdd]
     C[pnpm check]
-    R[mandor-review]
+    R[review]
   end
 
   subgraph auto [Optional batch]
-    L[mandor-implement-loop]
+    L[pnpm work:next]
   end
 
   G --> P
@@ -167,40 +167,36 @@ flowchart LR
 <tr><th>Step</th><th>Skill / command</th><th>Output</th></tr>
 </thead>
 <tbody>
-<tr><td>Sharpen the plan</td><td><code>mandor-grill-me</code></td><td>Scope, trade-offs, open questions</td></tr>
-<tr><td>Write PRD</td><td><code>mandor-prd</code></td><td><code>.scratch/&lt;feature&gt;/PRD.md</code></td></tr>
-<tr><td>Domain terms</td><td><code>mandor-domain</code></td><td>Updates <code>CONTEXT.md</code></td></tr>
-<tr><td>Create tickets</td><td><code>mandor-issues</code></td><td>Draft in <code>.scratch/…/issues/</code> (<code>Status: draft</code>)</td></tr>
-<tr><td>Publish tickets</td><td><code>mandor-publish</code></td><td><code>gh issue create</code> → GitHub (<code>ready-for-agent</code>)</td></tr>
-<tr><td>Implement</td><td><code>mandor-implement</code>, <code>mandor-tdd</code></td><td>Code in monorepo</td></tr>
+<tr><td>Sharpen the plan</td><td><code>grill-me</code></td><td>Scope, trade-offs, open questions</td></tr>
+<tr><td>Write PRD</td><td>manual draft in <code>.scratch/</code></td><td><code>.scratch/&lt;feature&gt;/PRD.md</code></td></tr>
+<tr><td>Domain terms</td><td><code>domain-modeling</code></td><td>Updates <code>CONTEXT.md</code></td></tr>
+<tr><td>Create tickets</td><td>manual draft in <code>.scratch/</code></td><td><code>.scratch/…/issues/</code> (<code>Status: draft</code>)</td></tr>
+<tr><td>Publish tickets</td><td><code>pnpm publish:parent-child</code></td><td>GitHub parent issue + native child sub-issues</td></tr>
+<tr><td>Implement</td><td><code>implement</code>, <code>tdd</code></td><td>Code in monorepo</td></tr>
 <tr><td>Quality gate</td><td><code>pnpm check</code></td><td>Lint, typecheck, unit tests</td></tr>
-<tr><td>Review</td><td><code>mandor-review</code></td><td>Standards + spec check</td></tr>
-<tr><td>Batch work</td><td><code>mandor-implement-loop</code></td><td>Next open <code>ready-for-agent</code> issue</td></tr>
+<tr><td>Review</td><td><code>review</code></td><td>Standards + spec check</td></tr>
+<tr><td>Batch work</td><td><code>pnpm work:next</code></td><td>Next eligible standalone or parent-managed child issue</td></tr>
 </tbody>
 </table>
 
-Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke by name, e.g. `mandor-prd`).
+Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke by name, e.g. `grill-me`).
 
-| Skill                   | Role                                         |
-| ----------------------- | -------------------------------------------- |
-| `mandor-grill-me`       | Sharpen plan / scope                         |
-| `mandor-prd`            | Draft PRD → `.scratch/`                      |
-| `mandor-domain`         | Update `CONTEXT.md`                          |
-| `mandor-issues`         | Draft issues → `.scratch/`                   |
-| `mandor-publish`        | Push scratch issues → GitHub                 |
-| `mandor-implement`      | Build vertical slice                         |
-| `mandor-tdd`            | Test-driven development                      |
-| `mandor-review`         | Standards + spec review                      |
-| `mandor-implement-loop` | Implement published `ready-for-agent` issues |
-| `mandor-setup`          | Configure issue tracker + labels (once)      |
+| Skill                      | Role                                       |
+| -------------------------- | ------------------------------------------ |
+| `grill-me`                 | Sharpen plan / scope                       |
+| `domain-modeling`          | Update `CONTEXT.md` and ADR language       |
+| `implement`                | Build a piece of work from a spec or issue |
+| `tdd`                      | Test-driven development                    |
+| `review`                   | Standards + spec review                    |
+| `setup-matt-pocock-skills` | Configure issue tracker + labels (once)    |
 
-**Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `mandor-setup` and go straight to planning skills. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
+**Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `setup-matt-pocock-skills` and go straight to planning skills. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
 
-**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). **Create** in `.scratch/` (`mandor-prd`, `mandor-issues`); **publish** to GitHub (`mandor-publish`).
+**Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). **Create** in `.scratch/`; **publish** to GitHub with `pnpm publish:parent-child`.
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
-**Example workflow:** [docs/examples/account-status-chip/](./docs/examples/account-status-chip/) — skills `mandor-grill-me` → `mandor-prd` → `mandor-domain` → `mandor-issues` → `mandor-publish` → `mandor-implement-loop`.
+**Example workflow:** [docs/examples/account-status-chip/](./docs/examples/account-status-chip/) — `grill-me` → draft `.scratch` PRD/issues → `domain-modeling` → `pnpm publish:parent-child` → `pnpm work:next`.
 
 ## Credits
 
@@ -254,6 +250,6 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 
 Core workflow skills are in `.agents/skills/`:
 
-`mandor-grill-me`, `mandor-prd`, `mandor-domain`, `mandor-issues`, `mandor-publish`, `mandor-implement`, `mandor-tdd`, `mandor-review`, `mandor-implement-loop`, `mandor-setup`
+`grill-me`, `domain-modeling`, `implement`, `tdd`, `review`, `setup-matt-pocock-skills`, `to-prd`, `to-issues`, and related Matt Pocock skills.
 
-The documented Mandor workflow uses only the skills committed in this repo.
+The documented project workflow uses the skills committed in this repo plus the repo-level `pnpm` workflow commands above.
