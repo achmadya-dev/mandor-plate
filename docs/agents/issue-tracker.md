@@ -72,9 +72,9 @@ Each child issue should be small enough for one atomic commit:
 
 Infer the repo from `git remote -v`; `gh` does this automatically when run inside a clone.
 
-## Implementation Loop Contract
+## Implementation Contract
 
-`mandor-implement-loop`:
+`mandor-implement`:
 
 1. Finds the next open epic labeled `epic` and `ready-for-agent`.
 2. Reads the epic body/comments and linked child issues.

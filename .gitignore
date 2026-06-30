@@ -9,5 +9,5 @@ coverage
 apps/web/test-results
 apps/web/playwright-report
 apps/web/blob-report
-.scratch/*
+.scratch/
 !.scratch/.gitkeep
