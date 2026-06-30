@@ -9,7 +9,7 @@ disable-model-invocation: true
 Scaffold the per-repo configuration that Mandor Plate agent skills assume:
 
 - **Issue tracker** — where issues live (GitHub by default; local markdown is also supported out of the box)
-- **Triage labels** — the strings used for the epic type label and the three workflow statuses
+- **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
@@ -35,7 +35,7 @@ Assume the user does not know what these terms mean. Each section starts with a 
 
 **Section A — Issue tracker.**
 
-> Explainer: The "issue tracker" is where issues live for this repo. The default Mandor Plate workflow reads GitHub epic and child issues directly; `.scratch` skills are optional local planning helpers. Pick the place you actually track work for this repo.
+> Explainer: The "issue tracker" is where issues live for this repo. Skills like `mandor-issues`, `mandor-publish`, `mandor-prd`, and `mandor-implement-loop` read from and write to it — create skills draft in `.scratch/`; **mandor-publish** calls `gh issue create`. Pick the place you actually track work for this repo.
 
 Default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
 
@@ -52,14 +52,15 @@ If — and only if — the user picked **GitHub** or **GitLab**, ask one follow-
 
 **Section B — Triage label vocabulary.**
 
-> Explainer: `mandor-implement-loop` looks for GitHub epics labeled `epic` and `ready-for-agent`. If your repo already uses different label names (e.g. `type:epic` instead of `epic`), map them here so skills use the right vocabulary.
+> Explainer: Skills like `mandor-issues` draft labels as `Status:` in scratch files; **mandor-publish** applies GitHub labels when pushing to the tracker. If your repo already uses different label names (e.g. `bug:triage` instead of `needs-triage`), map them here so the publish skill applies the right ones instead of creating duplicates.
 
-The canonical labels:
+The five canonical roles:
 
-- `epic` — groups child implementation issues for one PR
 - `needs-triage` — maintainer needs to evaluate
+- `needs-info` — waiting on reporter
 - `ready-for-agent` — fully specified, AFK-ready (an agent can pick it up with no human context)
-- `ready-for-human` — implementation is complete and needs human review/merge
+- `ready-for-human` — needs human implementation
+- `wontfix` — will not be actioned
 
 Default: each role's string equals its name. Ask the user if they want to override any. If their issue tracker has no existing labels, the defaults are fine.
 

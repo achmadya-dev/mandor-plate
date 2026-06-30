@@ -1,6 +1,15 @@
-# Example: account-status-chip GitHub workflow
+# Example: account-status-chip workflow
 
-End-to-end sample for testing the Mandor Plate agent workflow: **GitHub epic → child issues → one child per run → one PR**.
+End-to-end sample for testing the Mandor Plate agent workflow: **skills → scratch → GitHub → mandor-implement-loop**.
+
+**Two modes:**
+
+| Mode                         | When to use                                                |
+| ---------------------------- | ---------------------------------------------------------- |
+| **A — Generate with skills** | Learn or re-run the full planning pipeline from an idea    |
+| **B — Use template**         | Skip planning; test publish + `mandor-implement-loop` only |
+
+Scratch files live under `.scratch/` (gitignored). The committed template is at `.scratch-template/`.
 
 ## Prerequisites
 
@@ -11,127 +20,152 @@ Before running this example:
 | Monorepo running locally | [Quickstart](../../../README.md#quickstart) — `pnpm dev` |
 | `gh` authenticated       | `gh auth status`                                         |
 | GitHub remote configured | `git remote -v`                                          |
-| Labels exist             | `epic`, `ready-for-agent`                                |
 | Core skills available    | `.agents/skills/` present (clone this repo)              |
+| Scratch directory        | `mkdir -p .scratch`                                      |
 
-## Workflow
+For **Mode A**, invoke the repo skills in order. For **Mode B**, only publish + `mandor-implement-loop` are needed.
+
+---
+
+## Mode A — Generate PRD & issues with skills
+
+Invoke skills **in this order** (matches [README Dev workflow](../../../README.md#dev-workflow)):
 
 ```mermaid
 flowchart LR
-  E[GitHub epic issue] --> C[Child issues]
-  C --> L[mandor-implement-loop]
-  L --> B[feat/account-status-chip]
-  B --> P[One PR to main after all children]
-  L --> B
+  G[mandor-grill-me] --> P[mandor-prd]
+  P --> D[mandor-domain]
+  D --> I[mandor-issues]
+  I --> Pub[mandor-publish]
+  Pub --> L[mandor-implement-loop]
 ```
 
-| Step | Surface                   | Output                                      |
-| ---- | ------------------------- | ------------------------------------------- |
-| 1    | GitHub child issues       | One commit-sized issue per vertical slice   |
-| 2    | GitHub epic issue         | Links child issues                          |
-| 3    | GitHub labels             | Epic has `epic` + `ready-for-agent`         |
-| 4    | **mandor-implement-loop** | Implements one child issue per run          |
-| 5    | GitHub PR                 | One epic PR opens after all child commits   |
-| 6    | Human/admin review        | Merge PR after all children are implemented |
+| Step | Skill                     | Invoke                  | Output                                     |
+| ---- | ------------------------- | ----------------------- | ------------------------------------------ |
+| 1    | **mandor-grill-me**       | `mandor-grill-me`       | Sharpen scope (optional)                   |
+| 2    | **mandor-prd**            | `mandor-prd`            | `.scratch/account-status-chip/PRD.md`      |
+| 3    | **mandor-domain**         | `mandor-domain`         | Updates `CONTEXT.md` if needed             |
+| 4    | **mandor-issues**         | `mandor-issues`         | `.scratch/…/issues/*.md` (`Status: draft`) |
+| 5    | **mandor-publish**        | `mandor-publish`        | GitHub issues + `GitHub: #NN` in scratch   |
+| 6    | **mandor-implement-loop** | `mandor-implement-loop` | Implement, commit, close each issue        |
 
-## Child Issues
+### Example prompts
 
-Create the child issues first.
+**Step 1 — mandor-grill-me** (optional):
 
-### Child 1 — Shared Status Label
+```
+mandor-grill-me
 
-```markdown
-## Summary
-
-Create a shared helper for rendering account status labels consistently.
-
-## Acceptance criteria
-
-- [ ] Active accounts render as `Active`
-- [ ] Inactive accounts render as `Inactive`
-- [ ] Helper is reusable from profile and user nav surfaces
+I want to show account status (active/inactive) on the profile page and user nav.
+Stress-test scope before we write a PRD.
 ```
 
-### Child 2 — Profile Status Badge
+**Step 2 — mandor-prd**:
 
-```markdown
-## Summary
+```
+mandor-prd
 
-Show the current user's account status on the profile page.
-
-## Acceptance criteria
-
-- [ ] Profile page displays the session user's status
-- [ ] Badge uses the shared status label helper
-- [ ] Empty or unknown status falls back safely
+Feature: account-status-chip
+Problem: users can't see account status in the dashboard UI.
+Vertical slice: web only, reuse session user status — no new API.
+Write PRD to .scratch/account-status-chip/PRD.md
 ```
 
-### Child 3 — User Nav Status Chip
+**Step 3 — mandor-domain**:
 
-```markdown
-## Summary
+```
+mandor-domain
 
-Show the current user's account status in the user navigation dropdown.
-
-## Acceptance criteria
-
-- [ ] User nav displays the session user's status
-- [ ] Chip uses the shared status label helper
-- [ ] Layout remains stable in the compact nav menu
+Review .scratch/account-status-chip/PRD.md — add any missing terms to CONTEXT.md
+(e.g. account status vs role).
 ```
 
-## Epic Issue
+**Step 4 — mandor-issues** (create only — scratch):
 
-Create an epic issue after the child issues exist. Replace the issue numbers below with the real child issue numbers.
+```
+mandor-issues
 
-Apply labels: `epic`, `ready-for-agent`.
-
-```markdown
-## Summary
-
-Show account status (`active` / `inactive`) as a consistent UI signal on the profile page and in the user nav dropdown. Session user already includes `status`; this feature should reuse that existing data.
-
-## Implementation issues
-
-- #101
-- #102
-- #103
-
-## Acceptance
-
-- [ ] Each linked child issue is implemented
-- [ ] One branch is created for this epic
-- [ ] One atomic commit exists per child issue
-- [ ] One PR is opened to `main`
-- [ ] `pnpm check` passes
+Break .scratch/account-status-chip/PRD.md into vertical slices.
+Draft issues under .scratch/account-status-chip/issues/.
+Set Status: ready-for-agent when criteria are complete. Do not publish.
 ```
 
-## Run
+**Step 5 — mandor-publish** (publish to GitHub):
 
-Invoke:
+```
+mandor-publish
 
-```text
+Publish all ready-for-agent issues under .scratch/account-status-chip/issues/
+to GitHub with label ready-for-agent.
+```
+
+**Step 6 — mandor-implement-loop**:
+
+```
 mandor-implement-loop
 ```
 
-In cron mode, the VPS job checks for open issues with labels `epic` and `ready-for-agent`, then invokes **mandor-implement-loop**. Each run implements the next unimplemented child issue and pushes it to the same epic branch. The PR is opened only after all child issues are implemented.
+In webhook mode, labeling the GitHub issue `ready-for-agent` triggers the runner, which invokes **mandor-implement-loop**.
 
-Expected result:
+Compare agent output to the reference template in `.scratch-template/` if helpful.
 
-- Branch: `feat/account-status-chip`
-- Commits:
-  - `feat(...): #101 — shared status label`
-  - `feat(...): #102 — profile status badge`
-  - `feat(...): #103 — user nav status chip`
-- PR body:
-  - `Refs #<epic>`
-  - `Closes #101`
-  - `Closes #102`
-  - `Closes #103`
+---
 
-The agent must not merge the PR. The child issues close through the PR body when the epic PR merges. When all child issues are implemented, the agent removes `ready-for-agent`, adds `ready-for-human`, and leaves the epic open for human review until the PR is merged.
+## Mode B — Copy template (skip generate)
 
-## Related Docs
+Use when you only want to test **publish** and **loop**, not PRD/issue generation.
 
-- [Issue tracker](../../agents/issue-tracker.md)
+```bash
+mkdir -p .scratch
+cp -r docs/examples/account-status-chip/.scratch-template .scratch/account-status-chip
+```
+
+Then run **mandor-publish** (step 5) and **mandor-implement-loop** (step 6). Issues are pre-filled with `Status: ready-for-agent`.
+
+---
+
+## Publish manually (or use mandor-publish)
+
+Prefer the **mandor-publish** skill. Equivalent shell:
+
+```bash
+ISSUE=.scratch/account-status-chip/issues/01-shared-status-label.md
+TITLE=$(sed -n '1s/^# //p' "$ISSUE")
+gh issue create \
+  --title "$TITLE" \
+  --body "$(sed -n '/^## Summary/,$p' "$ISSUE")" \
+  --label "ready-for-agent"
+# Then edit the scratch file: GitHub: #NN
+```
+
+Repeat for `02-profile-status-badge.md` and `03-user-nav-status-chip.md`.
+
+---
+
+## Reference template contents
+
+| File                                                  | Purpose                        |
+| ----------------------------------------------------- | ------------------------------ |
+| `.scratch-template/PRD.md`                            | Sample PRD (3 vertical slices) |
+| `.scratch-template/issues/01-shared-status-label.md`  | Shared status label helper     |
+| `.scratch-template/issues/02-profile-status-badge.md` | Profile page badge             |
+| `.scratch-template/issues/03-user-nav-status-chip.md` | User nav chip                  |
+
+## Feature summary
+
+Show **account status** (`active` / `inactive`) as a colored badge on the profile page and in the user nav dropdown. Session user already includes `status`; this example adds consistent labeling and UI.
+
+## Cleanup
+
+```bash
+rm -rf .scratch/account-status-chip
+# Close/delete GitHub issues created during the test
+```
+
+## Related docs
+
+- [Issue tracker (scratch-first)](../../agents/issue-tracker.md)
 - [mandor-implement-loop skill](../../../.agents/skills/mandor-implement-loop/SKILL.md)
+- [mandor-prd skill](../../../.agents/skills/mandor-prd/SKILL.md)
+- [mandor-issues skill](../../../.agents/skills/mandor-issues/SKILL.md)
+- [mandor-publish skill](../../../.agents/skills/mandor-publish/SKILL.md)

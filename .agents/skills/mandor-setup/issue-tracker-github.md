@@ -1,56 +1,44 @@
-# Issue Tracker: GitHub
+# Issue tracker: GitHub
 
-Issues for this repo live on **GitHub Issues** (`gh` CLI). The automated loop reads GitHub directly; `.scratch` is not part of the default implementation workflow.
+Issues and PRDs for this repo live on **GitHub Issues** (`gh` CLI). **All planning drafts start in `.scratch/`** (gitignored) before anything is published.
 
-## Work Shape
+## Create vs publish
 
-Use one epic issue per feature and one child issue per implementation slice.
+| Action         | Skill              | Writes to                         |
+| -------------- | ------------------ | --------------------------------- |
+| Draft PRD      | **mandor-prd**     | `.scratch/<feature>/PRD.md`       |
+| Draft issues   | **mandor-issues**  | `.scratch/<feature>/issues/*.md`  |
+| Publish issues | **mandor-publish** | GitHub Issues (`gh issue create`) |
 
-| Item         | Location      | Labels                          | Purpose                                                         |
-| ------------ | ------------- | ------------------------------- | --------------------------------------------------------------- |
-| Epic issue   | GitHub Issues | `epic`, `ready-for-agent`       | Defines the feature and groups children                         |
-| Child issue  | GitHub Issues | Optional, usually no loop label | Defines one commit-sized vertical slice                         |
-| Pull request | GitHub PRs    | N/A                             | One PR per epic, opened only after all children are implemented |
+Create skills **never** call `gh`. Publish skill **never** drafts new scratch files.
 
-The loop only picks epic issues that are open and have both `epic` and `ready-for-agent`.
+| Stage           | Location                                        | Committed?      |
+| --------------- | ----------------------------------------------- | --------------- |
+| PRD draft       | `.scratch/<feature-slug>/PRD.md`                | No              |
+| Issue draft     | `.scratch/<feature-slug>/issues/<NN>-<slug>.md` | No              |
+| Published issue | GitHub Issues                                   | Yes (on GitHub) |
 
-## Epic Format
+### Scratch layout
 
-Create the epic directly in GitHub. Include child issue links in a dedicated section:
-
-```markdown
-## Summary
-
-<feature goal and relevant context>
-
-## Implementation issues
-
-- #123
-- #124
-- #125
-
-## Acceptance
-
-- [ ] The linked child issues are implemented
-- [ ] `pnpm check` passes
-- [ ] One PR is opened for this epic
-- [ ] One commit exists per child issue
+```
+.scratch/<feature-slug>/
+├── PRD.md
+└── issues/
+    ├── 01-<slug>.md
+    └── 02-<slug>.md
 ```
 
-Accepted child section headings:
-
-- `Implementation issues`
-- `Child issues`
-- `Tasks`
-
-## Child Issue Format
-
-Each child issue should be small enough for one atomic commit:
+### Scratch issue file format
 
 ```markdown
+# <title>
+
+Status: draft
+GitHub:
+
 ## Summary
 
-<one vertical slice>
+<one paragraph vertical slice goal>
 
 ## Acceptance criteria
 
@@ -58,46 +46,61 @@ Each child issue should be small enough for one atomic commit:
 
 ## References
 
-- Epic: #122
+- PRD: `.scratch/<feature-slug>/PRD.md`
+- Domain: CONTEXT.md
 ```
 
-## GitHub Conventions
+**Status values:** `draft` → `ready-for-agent` (ready to publish) → update `GitHub: #NN` after publish.
 
-- **Find next epic**: `gh issue list --label ready-for-agent --label epic --state open --json number,title --jq '.[0]'`
+## Publish flow
+
+Use **mandor-publish** for step 3:
+
+1. **Draft** — **mandor-issues** writes files under `.scratch/<feature-slug>/issues/`
+2. **Review** — set `Status: ready-for-agent` when acceptance criteria are complete
+3. **Publish** — **mandor-publish** runs `gh issue create`. Use the `#` line for `--title`. For the body, pass everything from `## Summary` onward:
+
+```bash
+gh issue create \
+  --title "<title from # heading>" \
+  --body "$(sed -n '/^## Summary/,$p' .scratch/<feature-slug>/issues/<NN>-<slug>.md)" \
+  --label "ready-for-agent"
+```
+
+4. **Link back** — record the issue number in the scratch file: `GitHub: #42`
+
+## GitHub conventions
+
+- **Publish an issue**: via **mandor-publish** and the publish flow above
 - **Read an issue**: `gh issue view <number> --comments`
-- **List issues**: `gh issue list --state open --json number,title,body,labels,comments`
+- **List issues**: `gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters
 - **Comment on an issue**: `gh issue comment <number> --body "..."`
 - **Apply / remove labels**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
 - **Close**: `gh issue close <number> --comment "..."`
 
-Infer the repo from `git remote -v`; `gh` does this automatically when run inside a clone.
+Infer the repo from `git remote -v` — `gh` does this automatically when run inside a clone.
 
-## Implementation Loop Contract
-
-`mandor-implement-loop`:
-
-1. Finds the next open epic labeled `epic` and `ready-for-agent`.
-2. Reads the epic body/comments and linked child issues.
-3. Creates or reuses one feature branch for the epic.
-4. Does not open a PR while any child issue remains unimplemented.
-5. Implements only the next unimplemented child issue in each run.
-6. Makes one atomic commit for that child issue.
-7. Pushes the branch and comments progress on the child issue and epic.
-8. Runs `pnpm check` after all child issues are implemented.
-9. Opens one PR with `Refs #<epic>` and `Closes #<child>` lines for every child issue.
-10. Removes `ready-for-agent` from the epic so cron does not keep triggering it.
-11. Adds `ready-for-human` to the epic and comments that the PR is ready for human review.
-
-The loop does **not** merge PRs and does **not** close the epic before the PR is merged.
-
-## Pull Requests As A Triage Surface
+## Pull requests as a triage surface
 
 **PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests.)_
 
-When set to `yes`, external PRs run through the same labels and states as issues, using the `gh pr` equivalents:
+When set to `yes`, PRs run through the same labels and states as issues, using the `gh pr` equivalents:
 
 - **Read a PR**: `gh pr view <number> --comments` and `gh pr diff <number>` for the diff
 - **List external PRs for triage**: `gh pr list --state open --json number,title,body,labels,author,authorAssociation,comments` then keep only `authorAssociation` of `CONTRIBUTOR`, `FIRST_TIME_CONTRIBUTOR`, or `NONE` (drop `OWNER`/`MEMBER`/`COLLABORATOR`)
 - **Comment / label / close**: `gh pr comment`, `gh pr edit --add-label`/`--remove-label`, `gh pr close`
 
-GitHub shares one number space across issues and PRs, so a bare `#42` may be either; resolve with `gh pr view 42` and fall back to `gh issue view 42`.
+GitHub shares one number space across issues and PRs, so a bare `#42` may be either — resolve with `gh pr view 42` and fall back to `gh issue view 42`.
+
+## When a skill says "publish to the issue tracker"
+
+Use **mandor-publish** (not **mandor-issues**):
+
+1. Ensure the scratch file exists and `Status:` is `ready-for-agent`
+2. Run `gh issue create` using the publish flow above
+3. Write `GitHub: #NN` back into the scratch file
+
+## When a skill says "fetch the relevant ticket"
+
+- **Scratch path given** — read `.scratch/<feature-slug>/issues/<NN>-<slug>.md`
+- **GitHub number given** — run `gh issue view <number> --comments`; prefer the linked scratch file if `GitHub: #NN` is recorded locally
