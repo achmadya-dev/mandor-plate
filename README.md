@@ -243,6 +243,10 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 <tr><td><code>pnpm test</code></td><td>Unit tests all packages</td></tr>
 <tr><td><code>pnpm test:e2e</code></td><td>API + web E2E tests</td></tr>
 <tr><td><code>pnpm test:e2e:prepare</code></td><td>Build, migrate, and seed for E2E</td></tr>
+<tr><td><code>pnpm publish:parent-child &lt;feature-slug&gt;</code></td><td>Publish one scratch PRD + child batch as a parent issue with native GitHub sub-issues</td></tr>
+<tr><td><code>pnpm work:next [parent-issue-number]</code></td><td>Select the next eligible standalone or parent-managed child issue from GitHub</td></tr>
+<tr><td><code>pnpm pr:open-parent &lt;parent-issue-number&gt; [base-branch]</code></td><td>Open the aggregate parent PR after required child issues are complete and no <code>hold-pr</code> gate remains</td></tr>
+<tr><td><code>pnpm reconcile:parent-pr &lt;pr-number&gt;</code></td><td>Reconcile a merged parent PR back into parent and child issues</td></tr>
 </tbody>
 </table>
 

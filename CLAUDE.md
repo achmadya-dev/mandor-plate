@@ -10,7 +10,12 @@ GitHub Issues via `gh` CLI; external PRs are not a triage surface. See `docs/age
 
 ### Triage labels
 
-Five canonical roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) — defaults match skill vocabulary. See `docs/agents/triage-labels.md`.
+The repo uses both canonical triage roles and GitHub-native workflow state labels. See `docs/agents/triage-labels.md` for:
+
+- intake labels such as `needs-triage` and `ready-for-agent`
+- execution labels such as `in-progress`, `awaiting-parent-pr`, and `cancelled`
+- parent gating label `hold-pr`
+- priority labels `P0`, `P1`, `P2`
 
 ### Domain docs
 

@@ -1,0 +1,30 @@
+name: Reconcile Parent PR
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  reconcile:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Reconcile merged parent PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm reconcile:parent-pr ${{ github.event.pull_request.number }}

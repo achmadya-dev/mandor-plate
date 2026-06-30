@@ -1,0 +1,113 @@
+name: Execution issue
+description: Create a child issue for a parent batch or a standalone issue for direct agent implementation.
+title: '[Execution]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for:
+        - a child issue under a parent-managed batch, or
+        - a standalone issue that should open its own PR when complete.
+
+        After publish, keep the issue body, labels, and comments in GitHub as the operational source of truth.
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      description: Choose whether this issue is a standalone work item or a child in a parent-managed batch.
+      options:
+        - standalone
+        - parent-managed-child
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: parent
+    attributes:
+      label: Parent
+      description: Required for parent-managed child issues. Leave blank for standalone work.
+      placeholder: '#123'
+    validations:
+      required: false
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Explicit priority for this execution issue.
+      options:
+        - P0
+        - P1
+        - P2
+      default: 1
+    validations:
+      required: true
+  - type: textarea
+    id: depends-on
+    attributes:
+      label: Depends on
+      description: One issue reference per line. Use `None` if this issue can start immediately.
+      value: |
+        None
+    validations:
+      required: true
+  - type: dropdown
+    id: required-for-current-parent-pr
+    attributes:
+      label: Required for current parent PR
+      description: For parent-managed child issues, state whether this issue blocks opening the current aggregate parent PR.
+      options:
+        - 'yes'
+        - 'no'
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: what-to-build
+    attributes:
+      label: What to build
+      description: Describe the end-to-end behavior this issue must deliver.
+      placeholder: Describe the behavior, outcome, and user-visible change.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Conditions that must be true for this issue to be considered correct.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] `pnpm check` passes
+    validations:
+      required: true
+  - type: textarea
+    id: implementation-checklist
+    attributes:
+      label: Implementation checklist
+      description: Track execution steps separately from acceptance criteria. Agent and humans should edit this as work progresses.
+      placeholder: |
+        - [ ] Step 1
+        - [ ] Step 2
+        - [ ] Step 3
+    validations:
+      required: true
+  - type: textarea
+    id: quality-gates
+    attributes:
+      label: Quality gates
+      description: Commands or checks that must pass before the issue can be considered complete.
+      value: |
+        - `pnpm check`
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Link parent issue, PRD, domain docs, related issues, or design notes.
+      placeholder: |
+        - Parent:
+        - PRD:
+        - Domain:
+    validations:
+      required: false
