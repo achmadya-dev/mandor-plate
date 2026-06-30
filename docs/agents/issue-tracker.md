@@ -2,6 +2,8 @@
 
 Issues and PRDs for this repo live on **GitHub Issues** (`gh` CLI). **All planning drafts start in `.scratch/`** (gitignored) before anything is published.
 
+For the shortest end-to-end operational flow, see [`happy-path-parent-child-workflow.md`](./happy-path-parent-child-workflow.md).
+
 ## Create vs publish
 
 | Action         | Skill              | Writes to                         |
