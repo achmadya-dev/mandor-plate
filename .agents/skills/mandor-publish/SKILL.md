@@ -52,4 +52,4 @@ For each `*.md` in `.scratch/<feature-slug>/issues/` that is `ready-for-agent` w
 
 ## After publishing
 
-Tell the user they can run **mandor-loop** or `/loop /mandor-loop` to implement published issues.
+Tell the user they can run **mandor-implement-loop**, or rely on their webhook/scheduler runner if configured, to implement published issues.

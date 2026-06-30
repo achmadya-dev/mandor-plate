@@ -16,7 +16,7 @@ Draft product requirements for Mandor Plate features.
 
 ## Interview (one question at a time)
 
-Use **mandor-grill** first if scope is fuzzy. Then flesh out:
+Use **mandor-grill-me** first if scope is fuzzy. Then flesh out:
 
 1. **Problem** — who is blocked, and how?
 2. **Vertical slice** — what ships in API + web + `packages/shared`?
