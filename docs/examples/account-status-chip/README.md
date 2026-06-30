@@ -1,6 +1,6 @@
-# Example: account-status-chip workflow
+# Example: account-status-chip GitHub workflow
 
-End-to-end sample for testing the Mandor Plate agent workflow: **plan → epic → one child per run → one PR**.
+End-to-end sample for testing the Mandor Plate agent workflow: **GitHub epic → child issues → one child per run → one PR**.
 
 ## Prerequisites
 
@@ -18,21 +18,21 @@ Before running this example:
 
 ```mermaid
 flowchart LR
-  P[mandor-plan] --> E[GitHub epic issue]
-  E --> C[Child issues]
-  C --> L[mandor-implement]
+  E[GitHub epic issue] --> C[Child issues]
+  C --> L[mandor-implement-loop]
   L --> B[feat/account-status-chip]
   B --> P[One PR to main after all children]
   L --> B
 ```
 
-| Step | Surface              | Output                                          |
-| ---- | -------------------- | ----------------------------------------------- |
-| 1    | `mandor-plan`        | Local planning or published epic + child issues |
-| 2    | GitHub labels        | Epic has `epic` + `ready-for-agent`             |
-| 3    | **mandor-implement** | Implements one child issue per run              |
-| 4    | GitHub PR            | One epic PR opens after all child commits       |
-| 5    | Human/admin review   | Merge PR after all children are implemented     |
+| Step | Surface                   | Output                                      |
+| ---- | ------------------------- | ------------------------------------------- |
+| 1    | GitHub child issues       | One commit-sized issue per vertical slice   |
+| 2    | GitHub epic issue         | Links child issues                          |
+| 3    | GitHub labels             | Epic has `epic` + `ready-for-agent`         |
+| 4    | **mandor-implement-loop** | Implements one child issue per run          |
+| 5    | GitHub PR                 | One epic PR opens after all child commits   |
+| 6    | Human/admin review        | Merge PR after all children are implemented |
 
 ## Child Issues
 
@@ -111,10 +111,10 @@ Show account status (`active` / `inactive`) as a consistent UI signal on the pro
 Invoke:
 
 ```text
-mandor-implement
+mandor-implement-loop
 ```
 
-In cron mode, the VPS job checks for open issues with labels `epic` and `ready-for-agent`, then invokes **mandor-implement**. Each run implements the next unimplemented child issue and pushes it to the same epic branch. The PR is opened only after all child issues are implemented.
+In cron mode, the VPS job checks for open issues with labels `epic` and `ready-for-agent`, then invokes **mandor-implement-loop**. Each run implements the next unimplemented child issue and pushes it to the same epic branch. The PR is opened only after all child issues are implemented.
 
 Expected result:
 
@@ -134,4 +134,4 @@ The agent must not merge the PR. The child issues close through the PR body when
 ## Related Docs
 
 - [Issue tracker](../../agents/issue-tracker.md)
-- [mandor-implement skill](../../../.agents/skills/mandor-implement/SKILL.md)
+- [mandor-implement-loop skill](../../../.agents/skills/mandor-implement-loop/SKILL.md)

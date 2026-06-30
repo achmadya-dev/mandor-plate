@@ -92,7 +92,7 @@ The loop does **not** merge PRs and does **not** close the epic before the PR is
 
 ## Pull Requests As A Triage Surface
 
-**PRs as a request surface: no.**
+**PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests.)_
 
 When set to `yes`, external PRs run through the same labels and states as issues, using the `gh pr` equivalents:
 

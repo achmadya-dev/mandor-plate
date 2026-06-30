@@ -26,7 +26,7 @@ NestJS API · Next.js dashboard · PostgreSQL · Turborepo · agent skills workf
 
 ## Before you build
 
-Start with **`mandor-plan`**. It can sharpen the scope, align terminology, and either keep planning local first or publish directly to GitHub.
+Start by writing the epic and child issues directly in GitHub. Use **`mandor-grill-me`** first only when the plan needs stress-testing.
 
 ## Prerequisites
 
@@ -40,15 +40,15 @@ Start with **`mandor-plan`**. It can sharpen the scope, align terminology, and e
 
 ### Agent workflow
 
-| Requirement              | Notes                                                                        |
-| ------------------------ | ---------------------------------------------------------------------------- |
-| **Agent runtime**        | Core skills ship in [`.agents/skills/`](./.agents/skills/)                   |
-| **GitHub CLI** (`gh`)    | Install and run `gh auth login`                                              |
-| **Git remote** on GitHub | Required to read issues, push branches, and open PRs with `mandor-implement` |
+| Requirement              | Notes                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------- |
+| **Agent runtime**        | Core skills ship in [`.agents/skills/`](./.agents/skills/)                        |
+| **GitHub CLI** (`gh`)    | Install and run `gh auth login`                                                   |
+| **Git remote** on GitHub | Required to read issues, push branches, and open PRs with `mandor-implement-loop` |
 
 The documented workflow uses the Mandor skills shipped in this repo. External skill packs are optional and not required.
 
-Agent config (`docs/agents/`, `CLAUDE.md`) is pre-shipped and read directly by the remaining skills.
+Agent config (`docs/agents/`, `CLAUDE.md`) is pre-shipped — skip **`mandor-setup`** unless changing issue tracker or label vocabulary.
 
 ## Quickstart
 
@@ -124,22 +124,26 @@ GitHub Issues are the source of truth. Read [CONTEXT.md](./CONTEXT.md) before co
 
 ```mermaid
 flowchart LR
+  subgraph start [Start]
+    G[mandor-grill-me]
+  end
+
   subgraph github [GitHub]
     E[Epic issue: epic + ready-for-agent]
     I[Child issues linked in epic]
   end
 
   subgraph code [Build]
-    P[mandor-plan]
-    M[mandor-implement]
+    L[mandor-implement-loop]
+    M[mandor-implement / mandor-tdd]
     C[pnpm check]
     PR[One PR per epic after all children]
   end
 
+  G --> E
   E --> I
-  P --> E
-  P --> I
-  I --> M
+  I --> L
+  L --> M
   M --> C
   C --> PR
 ```
@@ -154,27 +158,37 @@ flowchart LR
 <tr><th>Step</th><th>Skill / command</th><th>Output</th></tr>
 </thead>
 <tbody>
-<tr><td>Plan feature</td><td><code>mandor-plan</code></td><td>Scope, terminology, local drafts or published epic + child issues</td></tr>
-<tr><td>Implement epic</td><td><code>mandor-implement</code></td><td>One child issue per run; PR opens after all children</td></tr>
+<tr><td>Sharpen the plan</td><td><code>mandor-grill-me</code> (optional)</td><td>Scope, trade-offs, open questions</td></tr>
+<tr><td>Create epic</td><td>GitHub issue</td><td>Issue labeled <code>epic</code> + <code>ready-for-agent</code></td></tr>
+<tr><td>Create child issues</td><td>GitHub issues</td><td>Acceptance criteria linked from the epic body</td></tr>
+<tr><td>Implement epic</td><td><code>mandor-implement-loop</code></td><td>One child issue per run; PR opens after all children</td></tr>
 <tr><td>Quality gate</td><td><code>pnpm check</code></td><td>Lint, typecheck, unit tests</td></tr>
-<tr><td>Review</td><td>GitHub review</td><td>Human review before merge</td></tr>
+<tr><td>Review</td><td><code>mandor-review</code> or GitHub review</td><td>Standards + spec check before merge</td></tr>
 </tbody>
 </table>
 
-Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke by name, e.g. `mandor-implement`).
+Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke by name, e.g. `mandor-implement-loop`).
 
-| Skill              | Role                                        |
-| ------------------ | ------------------------------------------- |
-| `mandor-plan`      | Plan locally or publish epic + child issues |
-| `mandor-implement` | Implement GitHub epics and open PRs         |
+| Skill                   | Role                                        |
+| ----------------------- | ------------------------------------------- |
+| `mandor-grill-me`       | Sharpen plan / scope                        |
+| `mandor-prd`            | Optional local planning draft               |
+| `mandor-domain`         | Update `CONTEXT.md`                         |
+| `mandor-issues`         | Optional local issue drafting               |
+| `mandor-publish`        | Optional scratch-to-GitHub migration helper |
+| `mandor-implement`      | Build vertical slice                        |
+| `mandor-tdd`            | Test-driven development                     |
+| `mandor-review`         | Standards + spec review                     |
+| `mandor-implement-loop` | Implement GitHub epics and open PRs         |
+| `mandor-setup`          | Configure issue tracker + labels (once)     |
 
-**Agent config:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md).
+**Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `mandor-setup`. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
 
 **Issue tracker:** GitHub Issues — see [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md). Create epic and child issues directly in GitHub for the automated loop.
 
 **Reference docs:** [CONTEXT.md](./CONTEXT.md) (vocabulary), [apps/web/README.md](./apps/web/README.md) (forms, themes, web conventions).
 
-**Example workflow:** use `mandor-plan` to prepare/publish an epic and child issues, then run `mandor-implement`.
+**Example workflow:** create a GitHub epic issue labeled `epic` + `ready-for-agent`, link child issues in the epic body, then run `mandor-implement-loop`.
 
 ## Credits
 
@@ -224,6 +238,6 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 
 Workflow skills are in `.agents/skills/`:
 
-`mandor-plan`, `mandor-implement`
+`mandor-grill-me`, `mandor-prd`, `mandor-domain`, `mandor-issues`, `mandor-publish`, `mandor-implement`, `mandor-tdd`, `mandor-review`, `mandor-implement-loop`, `mandor-setup`
 
-The default automated workflow is GitHub-first: create an epic issue with child issue links, label the epic `epic` and `ready-for-agent`, then run `mandor-implement`. `mandor-plan` remains available when local planning is useful before publish.
+The default automated workflow is GitHub-first: create an epic issue with child issue links, label the epic `epic` and `ready-for-agent`, then run `mandor-implement-loop`. The scratch-based planning skills remain available as optional local helpers.
