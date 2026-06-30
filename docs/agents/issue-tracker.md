@@ -115,6 +115,62 @@ gh issue create \
 
 Do not skip step 1–2. If an issue already exists on GitHub without a scratch file, create the scratch file from the GitHub body before editing or republishing.
 
+## Parent-managed publish flow
+
+Use this flow when one local feature draft should become one parent issue plus child sub-issues on GitHub.
+
+### Scratch inputs
+
+Expected layout:
+
+```text
+.scratch/<feature-slug>/
+├── PRD.md
+└── issues/
+    ├── 01-<slug>.md
+    └── 02-<slug>.md
+```
+
+Parent input:
+
+- `PRD.md` remains the planning source for parent publish
+- after publish, the script writes `GitHub: #NN` back into `PRD.md`
+
+Child input:
+
+- use the usual scratch issue files under `issues/`
+- `Status:` must be `ready-for-agent`
+- `GitHub:` must be empty for unpublished issues
+- `## Blocked by` may reference GitHub issues such as `#123` or earlier local draft files such as `01-setup.md`
+
+Optional child metadata lines may be added near the top of the scratch file:
+
+```markdown
+Priority: P1
+Required for current parent PR: yes
+```
+
+If omitted, the publish flow defaults to `Priority: P1` and `Required for current parent PR: yes`.
+
+### Command
+
+```bash
+pnpm publish:parent-child <feature-slug>
+```
+
+What the command does:
+
+1. Creates the parent issue from `PRD.md` if it has not been published yet
+2. Publishes each ready child issue as a native GitHub sub-issue of that parent
+3. Applies initial labels consistently:
+   - parent: priority label such as `P1`
+   - child: `ready-for-agent` plus a priority label
+   - missing workflow labels such as `P0/P1/P2`, `in-progress`, `awaiting-parent-pr`, `cancelled`, and `hold-pr` are created or updated automatically
+4. Writes `GitHub: #NN` back into the local scratch files
+5. Updates the parent issue body with a parseable child issue summary that includes real GitHub issue numbers
+
+After publish, GitHub issue bodies, labels, and comments become the operational source of truth. `.scratch/` remains a local archive or drafting artifact only.
+
 ## GitHub conventions
 
 - **Publish an issue**: via **mandor-publish** and the publish flow above

@@ -10,6 +10,7 @@
     "test:e2e": "pnpm --filter @mandor-plate/web test:e2e",
     "test:e2e:prepare": "pnpm --filter @mandor-plate/shared build && pnpm --filter @mandor-plate/api migration:run && pnpm --filter @mandor-plate/api seed:run && pnpm --filter @mandor-plate/api build && pnpm --filter @mandor-plate/web build",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "publish:parent-child": "node scripts/publish-parent-child-issues.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
