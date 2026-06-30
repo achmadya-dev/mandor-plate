@@ -1,14 +1,14 @@
 ---
 name: mandor-issues
 description: >-
-  Draft GitHub-ready issue files in .scratch from a PRD. Use when breaking a PRD
+  Draft GitHub-ready local issue files from a PRD. Use when breaking a PRD
   into implementable tickets. Does not call gh — use mandor-publish to
   send to GitHub.
 ---
 
 # Mandor Issues
 
-Break a PRD into vertical-slice issue **drafts** in `.scratch/`. **Create only — never publish.**
+Break a PRD into vertical-slice local issue **drafts**. **Create only — never publish.**
 
 See [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). To push issues to GitHub, run **mandor-publish** after review.
 
@@ -16,17 +16,12 @@ See [`docs/agents/issue-tracker.md`](../../../docs/agents/issue-tracker.md). To 
 
 1. Read [README.md](../../../README.md) → Dev workflow
 2. Read [CONTEXT.md](../../../CONTEXT.md) for terminology
-3. Confirm the PRD exists at `.scratch/<feature-slug>/PRD.md`
+3. Confirm the PRD exists as a local planning document for the feature
 4. Read triage label vocabulary from **mandor-setup** output (or defaults below)
 
 ## Workflow
 
-Write one file per vertical slice:
-
-```
-.scratch/<feature-slug>/issues/01-<slug>.md
-.scratch/<feature-slug>/issues/02-<slug>.md
-```
+Write one local file per vertical slice using the repo's planning-doc convention.
 
 Use this template:
 
@@ -46,7 +41,7 @@ GitHub:
 
 ## References
 
-- PRD: `.scratch/<feature-slug>/PRD.md`
+- PRD: the local PRD for this feature
 - Domain: CONTEXT.md
 ```
 
@@ -54,7 +49,7 @@ Split large PRDs into one issue per vertical slice. Each issue should be impleme
 
 ## When ready for publish
 
-When acceptance criteria are complete, set `Status: ready-for-agent`. Stop here — tell the user to review the scratch files and run **mandor-publish** when they want GitHub issues created.
+When acceptance criteria are complete, set `Status: ready-for-agent`. Stop here — tell the user to review the local draft files and run **mandor-publish** when they want GitHub issues created.
 
 **Never** call `gh issue create` from this skill.
 

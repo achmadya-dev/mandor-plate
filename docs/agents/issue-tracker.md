@@ -1,6 +1,6 @@
 # Issue Tracker: GitHub
 
-Issues for this repo live on **GitHub Issues** (`gh` CLI). The automated loop reads GitHub directly; `.scratch` is not part of the default implementation workflow.
+Issues for this repo live on **GitHub Issues** (`gh` CLI). The automated loop reads GitHub directly.
 
 ## Work Shape
 
