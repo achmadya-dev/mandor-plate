@@ -32,7 +32,7 @@ Pre-commit only runs `lint-staged`. CI runs the full pipeline including E2E, so 
 
 ## Agent-driven workflow
 
-The repo ships skills in `.agents/skills/` (e.g. `mandor-prd`, `mandor-issues`, `mandor-publish`, `mandor-review`). When an agent is doing the work, prefer routing through that workflow instead of opening ad-hoc PRs.
+The repo ships skills in `.agents/skills/` (e.g. `grill-me`, `domain-modeling`, `implement`, `tdd`, `review`, `to-prd`, `to-issues`). When an agent is doing the work, prefer routing through that workflow instead of opening ad-hoc PRs.
 
 ## Reporting bugs
 
