@@ -12,6 +12,7 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import {
   type AuthUpdateRequest,
   type ConfirmEmailRequest,
@@ -55,6 +56,7 @@ export class AuthController {
     type: LoginResponseDto,
   })
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @UsePipes(new ZodValidationPipe(emailLoginRequestSchema))
   public login(@Body() loginDto: EmailLoginRequest): Promise<LoginResponseDto> {
     return this.service.validateLogin(loginDto);
@@ -62,6 +64,7 @@ export class AuthController {
 
   @Post('email/register')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @UsePipes(new ZodValidationPipe(registerRequestSchema))
   async register(@Body() createUserDto: RegisterRequest): Promise<void> {
     return this.service.register(createUserDto);
@@ -87,6 +90,7 @@ export class AuthController {
 
   @Post('forgot/password')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Throttle({ default: { limit: 3, ttl: 60_000 } })
   @UsePipes(new ZodValidationPipe(forgotPasswordRequestSchema))
   async forgotPassword(
     @Body() forgotPasswordDto: ForgotPasswordRequest,
@@ -96,6 +100,7 @@ export class AuthController {
 
   @Post('reset/password')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @UsePipes(new ZodValidationPipe(resetPasswordRequestSchema))
   resetPassword(@Body() resetPasswordDto: ResetPasswordRequest): Promise<void> {
     return this.service.resetPassword(

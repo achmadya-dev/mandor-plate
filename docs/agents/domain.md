@@ -2,26 +2,25 @@
 
 How the engineering skills should consume this repo's domain documentation when exploring the codebase.
 
-## Before exploring, read these
+## Mandor Plate domain layout
 
-- **`CONTEXT.md`** at the repo root, or
-- **`CONTEXT-MAP.md`** at the repo root if it exists — it points at one `CONTEXT.md` per context. Read each one relevant to the topic.
-- **`docs/adr/`** — read ADRs that touch the area you're about to work in. In multi-context repos, also check `src/<context>/docs/adr/` for context-scoped decisions.
-
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The **domain-modeling** skill (often after **grill-me**) creates them lazily when terms or decisions actually get resolved.
-
-## File structure
-
-**Single-context** — Mandor Plate uses one global `CONTEXT.md` at the repo root and `docs/adr/` for architectural decisions.
+**Single-context** — one `CONTEXT.md` at the repo root, `docs/adr/` for architectural decisions.
 
 ```
 /
-├── CONTEXT.md
-├── docs/adr/
-└── apps/
-    ├── api/
-    └── web/
+├── CONTEXT.md          ← ubiquitous language (User, Role, Session, BFF)
+├── docs/adr/           ← ADR 001: session-aware JWT access tokens
+├── apps/api/           ← NestJS REST API
+├── apps/web/           ← Next.js dashboard + BFF
+└── packages/shared/    ← Zod schemas (shared validation contracts)
 ```
+
+## Before exploring, read these
+
+- **`CONTEXT.md`** at the repo root — project vocabulary
+- **`docs/adr/`** — read ADRs that touch the area you're about to work in
+
+If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The **domain-modeling** skill (often after **grill-me**) creates them lazily when terms or decisions actually get resolved.
 
 ## Use the glossary's vocabulary
 

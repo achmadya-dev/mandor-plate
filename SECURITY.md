@@ -29,3 +29,5 @@ This boilerplate ships with safe defaults, but you must override them before goi
 - Set `DATABASE_SSL_ENABLED=true` and provide CA/cert/key when connecting to managed Postgres.
 - Rotate `AUTH_REFRESH_TOKEN_EXPIRES_IN` and the refresh secret together if either is compromised.
 - Review `helmet`, CORS, and `@nestjs/throttler` configuration before exposing the API publicly.
+- Swagger docs are disabled in production (`NODE_ENV=production`). To enable, override the guard in `src/main.ts`.
+- Auth endpoints (login, register, forgot/reset password) have stricter rate limits than the global default (5 req/min for login/register/reset, 3 req/min for forgot-password).

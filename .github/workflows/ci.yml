@@ -34,9 +34,8 @@ jobs:
       - run: pnpm test
 
   audit:
-    name: Dependency audit (non-blocking)
+    name: Dependency audit
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -49,8 +48,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Audit production deps for high/critical advisories
-        run: pnpm audit --prod --audit-level=high
+      - name: Audit production deps for critical advisories
+        run: pnpm audit --prod --audit-level=critical
 
   e2e:
     name: Full-stack E2E

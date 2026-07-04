@@ -188,7 +188,12 @@ Core skills live in [`.agents/skills/`](./.agents/skills/) (committed — invoke
 | `implement`                | Build a piece of work from a spec or issue |
 | `tdd`                      | Test-driven development                    |
 | `review`                   | Standards + spec review                    |
+| `to-prd`                   | Turn a conversation into a PRD             |
+| `to-issues`                | Break a PRD into grabbable issues          |
+| `triage`                   | Move issues through triage states          |
 | `setup-matt-pocock-skills` | Configure issue tracker + labels (once)    |
+
+Additional skills available in `.agents/skills/`: `ask-matt`, `codebase-design`, `decision-mapping`, `design-an-interface`, `diagnosing-bugs`, `edit-article`, `grilling`, `grill-with-docs`, `handoff`, `improve-codebase-architecture`, `loop-me`, `prototype`, `qa`, `request-refactor-plan`, `resolving-merge-conflicts`, `scaffold-exercises`, `setup-pre-commit`, `teach`, `ubiquitous-language`, and writing skills (`writing-beats`, `writing-fragments`, `writing-shape`).
 
 **Agent setup:** This repo already ships with issue tracker, triage labels, and domain doc layout in [`docs/agents/`](./docs/agents/) and [`CLAUDE.md`](./CLAUDE.md). After clone, skip `setup-matt-pocock-skills` and go straight to planning skills. Re-run it only if you want to switch issue trackers or change triage label vocabulary.
 
@@ -250,6 +255,6 @@ See also [apps/api/README.md](./apps/api/README.md) for API-specific upstream no
 
 Core workflow skills are in `.agents/skills/`:
 
-`grill-me`, `domain-modeling`, `implement`, `tdd`, `review`, `setup-matt-pocock-skills`, `to-prd`, `to-issues`, and related Matt Pocock skills.
+`grill-me`, `domain-modeling`, `implement`, `tdd`, `review`, `to-prd`, `to-issues`, `triage`, and related Matt Pocock skills.
 
 The documented project workflow uses the skills committed in this repo plus the repo-level `pnpm` workflow commands above.
