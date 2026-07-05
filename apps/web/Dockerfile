@@ -7,7 +7,7 @@ WORKDIR /app
 ENV BUILD_STANDALONE=true
 ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/shared/package.json ./packages/shared/
 RUN pnpm install --frozen-lockfile

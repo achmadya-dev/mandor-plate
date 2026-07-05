@@ -14,12 +14,88 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - mandor-plate-net
 
   maildev:
     image: maildev/maildev:2.1.0
     ports:
       - '1080:1080'
       - '1025:1025'
+    networks:
+      - mandor-plate-net
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - '3001:3001'
+    environment:
+      NODE_ENV: production
+      APP_PORT: 3001
+      APP_NAME: 'Mandor Plate API'
+      API_PREFIX: api
+      FRONTEND_DOMAIN: https://mandor-plate.madya.online
+      BACKEND_DOMAIN: https://mandor-plate.madya.online
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: secret
+      DATABASE_NAME: api
+      DATABASE_SYNCHRONIZE: false
+      DATABASE_MAX_CONNECTIONS: 100
+      DATABASE_SSL_ENABLED: false
+      DATABASE_REJECT_UNAUTHORIZED: false
+      FILE_DRIVER: local
+      MAIL_HOST: maildev
+      MAIL_PORT: 1025
+      MAIL_USER: ''
+      MAIL_PASSWORD: ''
+      MAIL_IGNORE_TLS: true
+      MAIL_SECURE: false
+      MAIL_REQUIRE_TLS: false
+      MAIL_DEFAULT_EMAIL: noreply@example.com
+      MAIL_DEFAULT_NAME: Mandor Plate
+      MAIL_CLIENT_PORT: 1080
+      AUTH_JWT_SECRET: mandor-plate-dev-jwt-secret-min-32-chars!!
+      AUTH_JWT_TOKEN_EXPIRES_IN: 15m
+      AUTH_REFRESH_SECRET: mandor-plate-dev-refresh-secret-min-32!
+      AUTH_REFRESH_TOKEN_EXPIRES_IN: 3650d
+      AUTH_FORGOT_SECRET: mandor-plate-dev-forgot-secret-min-32!
+      AUTH_FORGOT_TOKEN_EXPIRES_IN: 30m
+      AUTH_CONFIRM_EMAIL_SECRET: mandor-plate-dev-confirm-secret-min-32!
+      AUTH_CONFIRM_EMAIL_TOKEN_EXPIRES_IN: 1d
+    volumes:
+      - mandor-plate-files:/app/files
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mandor-plate-net
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      NEXT_PUBLIC_APP_URL: https://mandor-plate.madya.online
+      API_URL: http://api:3001
+    depends_on:
+      - api
+    networks:
+      - mandor-plate-net
 
 volumes:
   mandor-plate-db:
+  mandor-plate-files:
+
+networks:
+  mandor-plate-net:
+    driver: bridge
