@@ -8,7 +8,7 @@ WORKDIR /app
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/api/package.json ./apps/api/
 COPY packages/shared/package.json ./packages/shared/
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --config.node-linker=hoisted
 
 COPY packages/shared ./packages/shared
 COPY apps/api ./apps/api
@@ -30,7 +30,7 @@ COPY --from=build /app/apps/api/dist ./apps/api/dist
 # Install production deps from lockfile (creates flat hoisted node_modules)
 RUN corepack enable && \
     cd /app/apps/api && \
-    pnpm install --prod --frozen-lockfile --ignore-scripts
+    pnpm install --prod --frozen-lockfile --ignore-scripts --config.node-linker=hoisted
 
 # Symlink shared package so api can resolve @mandor-plate/shared
 RUN mkdir -p /app/apps/api/node_modules/@mandor-plate && \
