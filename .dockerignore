@@ -9,9 +9,7 @@
 .github
 .vscode
 .husky
-.agents
-.claude
-.scratch
+.hermes
 docs
 **/.env
 **/.env.local

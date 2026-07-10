@@ -3,5 +3,6 @@ dist
 .next
 coverage
 .turbo
+.hermes
 pnpm-lock.yaml
 *.min.js

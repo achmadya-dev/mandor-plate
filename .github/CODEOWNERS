@@ -1,8 +1,8 @@
 # Default owner for everything in the repo.
 * @achmadya-dev
 
-# Agent tooling and skill definitions need careful review.
-/.agents/ @achmadya-dev
-/docs/agents/ @achmadya-dev
-/CLAUDE.md @achmadya-dev
-/CONTEXT.md @achmadya-dev
+# Core app areas.
+/apps/api/ @achmadya-dev
+/apps/web/ @achmadya-dev
+/packages/shared/ @achmadya-dev
+/docs/adr/ @achmadya-dev
