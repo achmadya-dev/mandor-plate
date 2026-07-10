@@ -6,8 +6,7 @@ dist
 *.log
 coverage
 .DS_Store
+.hermes/
 apps/web/test-results
 apps/web/playwright-report
 apps/web/blob-report
-.scratch/*
-!.scratch/.gitkeep

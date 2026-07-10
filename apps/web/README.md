@@ -1,6 +1,6 @@
 # Mandor Plate Web
 
-Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). Domain vocabulary: [CONTEXT.md](../../CONTEXT.md). Agent config: [CLAUDE.md](../../CLAUDE.md).
+Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). Shared contracts live in [`packages/shared`](../../packages/shared). Architecture decisions live in [`docs/adr`](../../docs/adr).
 
 ## Conventions
 

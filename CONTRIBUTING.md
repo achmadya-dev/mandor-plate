@@ -13,7 +13,7 @@ pnpm --filter @mandor-plate/api migration:run
 pnpm --filter @mandor-plate/api seed:run
 ```
 
-Node ≥ 20 and pnpm 10 are required (see `engines` fields).
+Node >= 20 and pnpm 10 are required. See the `engines` fields in `package.json` files.
 
 ## Before opening a PR
 
@@ -30,10 +30,17 @@ Pre-commit only runs `lint-staged`. CI runs the full pipeline including E2E, so 
 - Follow [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): subject`.
 - Keep commits focused; small PRs review faster.
 
-## Agent-driven workflow
+## Pull requests
 
-The repo ships skills in `.agents/skills/` (e.g. `grill-me`, `domain-modeling`, `implement`, `tdd`, `review`, `to-prd`, `to-issues`). When an agent is doing the work, prefer routing through that workflow instead of opening ad-hoc PRs.
+A good PR includes:
+
+- A short summary of what changed and why.
+- Screenshots or screen recordings for UI changes.
+- Notes for migrations, seed changes, environment variables, or deployment impact.
+- Test evidence: at minimum `pnpm check`, plus E2E tests for auth, database, or fullstack changes.
 
 ## Reporting bugs
 
-Open a GitHub issue with the `needs-triage` label. Include reproduction steps, expected vs. actual behaviour, and relevant env (Node, pnpm, OS, Postgres version). See [SECURITY.md](./SECURITY.md) for security reports — those should not go through public issues.
+Open a GitHub issue using the bug report template. Include reproduction steps, expected vs. actual behavior, and relevant environment details such as Node, pnpm, OS, browser, and PostgreSQL version.
+
+Security issues should not be reported through public issues. See [SECURITY.md](./SECURITY.md).
