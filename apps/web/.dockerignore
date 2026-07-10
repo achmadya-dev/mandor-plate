@@ -68,10 +68,8 @@ husky/
 .DS_Store
 Thumbs.db
 
-# AI tool configs
+# Editor configs
 .cursor/
-.claude
-AGENTS.md
 
 # Cleanup guide
 __CLEANUP__/
