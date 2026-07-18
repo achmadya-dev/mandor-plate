@@ -9,7 +9,7 @@ The following features from the upstream boilerplate were removed or not include
 - MongoDB support (PostgreSQL only)
 - `@nestjs/cacher` / Redis caching layer
 - BullMQ / background workers
-- Apple Sign-In adapter (kept as stub, disabled by default)
+- Apple Sign-In and Facebook social login adapters
 
 The following additions were made on top of the upstream:
 
