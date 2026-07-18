@@ -26,6 +26,7 @@ services:
       - mandor-plate-net
 
   api:
+    profiles: ['app']
     build:
       context: .
       dockerfile: apps/api/Dockerfile
@@ -76,6 +77,7 @@ services:
       - mandor-plate-net
 
   web:
+    profiles: ['app']
     build:
       context: .
       dockerfile: apps/web/Dockerfile
