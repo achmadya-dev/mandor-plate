@@ -47,12 +47,16 @@ Use it when you want to start from a working product foundation instead of stitc
 
 ## Prerequisites
 
-| Requirement      | Notes                                                         |
-| ---------------- | ------------------------------------------------------------- | --------------------------------------------------- |
-| Node.js >= 24    | See `engines` in [`package.json`](./package.json)             |
-| pnpm 10.12.1     | `corepack enable && corepack prepare pnpm@10.12.1 --activate` |
-| Docker + Compose | Runs the API and web application containers                   |
-| PostgreSQL/SMTP  | External services                                             | Configure through `DATABASE_URL` and SMTP variables |
+- **Node.js >= 24**. See `engines` in [`package.json`](./package.json).
+- **pnpm 10.12.1**. Enable it with:
+
+  ```bash
+  corepack enable
+  corepack prepare pnpm@10.12.1 --activate
+  ```
+
+- **Docker + Compose** for running the API and web application containers.
+- **PostgreSQL and SMTP** as external services configured through `DATABASE_URL` and the SMTP variables.
 
 ## Quickstart
 
