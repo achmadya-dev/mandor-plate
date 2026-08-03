@@ -100,6 +100,19 @@ export class UsersRelationalRepository implements UserRepository {
     return entity ? UserMapper.toDomain(entity) : null;
   }
 
+  async findByEmailIncludingDeleted(
+    email: User['email'],
+  ): Promise<NullableType<User>> {
+    if (!email) return null;
+
+    const entity = await this.usersRepository.findOne({
+      where: { email },
+      withDeleted: true,
+    });
+
+    return entity ? UserMapper.toDomain(entity) : null;
+  }
+
   async findBySocialIdAndProvider({
     socialId,
     provider,

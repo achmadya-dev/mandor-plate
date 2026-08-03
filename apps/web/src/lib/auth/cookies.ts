@@ -2,7 +2,14 @@ import type { TokenPair } from '@mandor-plate/shared';
 import { NextResponse } from 'next/server';
 import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from './constants';
 
-const REFRESH_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+const DEFAULT_REFRESH_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+
+function refreshMaxAgeSeconds(): number {
+  const configured = Number(process.env.AUTH_REFRESH_COOKIE_MAX_AGE_SECONDS);
+  return Number.isSafeInteger(configured) && configured > 0
+    ? configured
+    : DEFAULT_REFRESH_MAX_AGE_SECONDS;
+}
 
 export function authCookieOptions(maxAgeSeconds: number) {
   return {
@@ -31,7 +38,7 @@ export function applyAuthCookies(
   response.cookies.set(
     REFRESH_TOKEN_COOKIE,
     tokens.refreshToken,
-    authCookieOptions(REFRESH_MAX_AGE_SECONDS),
+    authCookieOptions(refreshMaxAgeSeconds()),
   );
 
   return response;

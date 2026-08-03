@@ -1,5 +1,5 @@
 import { getCookieValue } from './cookies';
-import { apiUrl, isDashboardPath } from './constants';
+import { apiUrl, isDashboardPath, safeAuthRedirect } from './constants';
 
 describe('auth constants', () => {
   it('builds versioned API URLs', () => {
@@ -13,6 +13,19 @@ describe('auth constants', () => {
     expect(isDashboardPath('/dashboard')).toBe(true);
     expect(isDashboardPath('/dashboard/overview')).toBe(true);
     expect(isDashboardPath('/auth/sign-in')).toBe(false);
+  });
+
+  it.each([null, '', 'https://evil.example', '//evil.example'])(
+    'rejects external redirect %s',
+    (value) => {
+      expect(safeAuthRedirect(value)).toBe('/dashboard/overview');
+    },
+  );
+
+  it('allows an internal redirect', () => {
+    expect(safeAuthRedirect('/dashboard/users?page=2')).toBe(
+      '/dashboard/users?page=2',
+    );
   });
 });
 

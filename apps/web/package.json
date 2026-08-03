@@ -10,8 +10,6 @@
     "pretypecheck": "pnpm --filter @mandor-plate/shared build",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
-    "test:e2e": "playwright test",
-    "test:e2e:install": "playwright install chromium",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" --config ../../.prettierrc"
   },
   "dependencies": {
@@ -63,11 +61,11 @@
     "kbar": "^0.1.0-beta.48",
     "match-sorter": "^8.2.0",
     "motion": "^11.18.2",
-    "next": "16.2.6",
+    "next": "16.2.12",
     "next-themes": "^0.4.6",
     "nextjs-toploader": "^3.9.17",
     "nuqs": "^2.8.9",
-    "postcss": "8.5.14",
+    "postcss": "8.5.25",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
     "react-day-picker": "^9.14.0",
@@ -77,7 +75,7 @@
     "react-responsive": "^10.0.1",
     "recharts": "^2.15.4",
     "server-only": "^0.0.1",
-    "sharp": "^0.33.5",
+    "sharp": "0.35.3",
     "sonner": "^1.7.4",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^3.5.0",
@@ -91,7 +89,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
-    "@playwright/test": "^1.61.1",
     "@swc/core": "1.15.18",
     "@swc/jest": "0.2.39",
     "@types/jest": "30.0.0",
@@ -111,6 +108,9 @@
   "overrides": {
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "postcss": "8.5.14"
+    "postcss": "8.5.25"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

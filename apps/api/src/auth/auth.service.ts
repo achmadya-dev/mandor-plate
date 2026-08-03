@@ -72,6 +72,15 @@ export class AuthService {
       });
     }
 
+    if (user.status?.id !== StatusEnum.active) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          email: 'emailNotConfirmed',
+        },
+      });
+    }
+
     const isValidPassword = await bcrypt.compare(
       loginDto.password,
       user.password,

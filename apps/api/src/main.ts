@@ -34,7 +34,10 @@ async function bootstrap() {
       ),
     };
     for (const [name, value] of Object.entries(secrets)) {
-      if (value.startsWith('replace-with-strong-random-')) {
+      if (
+        value.startsWith('replace-with-strong-random-') ||
+        value.startsWith('mandor-plate-dev-')
+      ) {
         throw new Error(
           `Production refused: ${name} is still the .env.example placeholder. Generate a strong random value (>=32 chars).`,
         );
@@ -47,6 +50,12 @@ async function bootstrap() {
   const frontendDomain = configService.get('app.frontendDomain', {
     infer: true,
   });
+  if (
+    configService.get('app.nodeEnv', { infer: true }) === 'production' &&
+    !frontendDomain
+  ) {
+    throw new Error('Production refused: FRONTEND_DOMAIN is required.');
+  }
   app.enableCors({
     origin: frontendDomain ? [frontendDomain] : true,
     credentials: true,

@@ -13,7 +13,7 @@ pnpm --filter @mandor-plate/api migration:run
 pnpm --filter @mandor-plate/api seed:run
 ```
 
-Node >= 20 and pnpm 10 are required. See the `engines` fields in `package.json` files.
+Node >= 24 and pnpm 10.12.1 are required. See `.nvmrc` and the `engines` fields in `package.json` files.
 
 ## Before opening a PR
 
@@ -22,7 +22,9 @@ pnpm check        # lint + typecheck + unit tests
 pnpm format:check # prettier verification
 ```
 
-Pre-commit only runs `lint-staged`. CI runs the full pipeline including E2E, so a clean local `pnpm check` is the minimum bar.
+Pre-commit only runs `lint-staged`. CI runs the application quality pipeline, so a clean local `pnpm check` is the minimum bar.
+
+Changes to Dockerfiles, Compose, migrations, environment variables, or startup behavior must also follow the release checklist in [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md).
 
 ## Branching and commits
 
@@ -37,10 +39,12 @@ A good PR includes:
 - A short summary of what changed and why.
 - Screenshots or screen recordings for UI changes.
 - Notes for migrations, seed changes, environment variables, or deployment impact.
-- Test evidence: at minimum `pnpm check`, plus E2E tests for auth, database, or fullstack changes.
+- Test evidence: at minimum `pnpm check`, plus focused unit tests for changed behavior.
 
 ## Reporting bugs
 
 Open a GitHub issue using the bug report template. Include reproduction steps, expected vs. actual behavior, and relevant environment details such as Node, pnpm, OS, browser, and PostgreSQL version.
 
 Security issues should not be reported through public issues. See [SECURITY.md](./SECURITY.md).
+
+All contributors must follow [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).

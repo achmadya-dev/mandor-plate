@@ -7,6 +7,7 @@ import { JwtPayloadType } from './types/jwt-payload.type';
 import { AllConfigType } from '../../config/config.type';
 import { SessionService } from '../../session/session.service';
 import { UsersService } from '../../users/users.service';
+import { StatusEnum } from '../../statuses/statuses.enum';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -34,7 +35,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     }
 
     const user = await this.usersService.findById(payload.id);
-    if (!user) {
+    if (!user || user.status?.id !== StatusEnum.active) {
       throw new UnauthorizedException();
     }
 

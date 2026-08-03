@@ -6,8 +6,8 @@ Only the latest release line of Mandor Plate receives security updates.
 
 | Version | Supported |
 | ------- | --------- |
-| latest  | ✅        |
-| older   | ❌        |
+| latest  | Yes       |
+| older   | No        |
 
 ## Reporting a Vulnerability
 
@@ -25,9 +25,11 @@ You should receive an initial response within 72 hours. Please avoid public disc
 
 This boilerplate ships with safe defaults, but you must override them before going to production:
 
-- Generate strong (≥32 character) random values for every `AUTH_*_SECRET` env var. The API refuses to start in production if a placeholder is detected.
+- Generate independent strong (at least 32 character) random values for every `AUTH_*_SECRET` variable. The API refuses the checked-in placeholders in production.
 - Set `DATABASE_SSL_ENABLED=true` and provide CA/cert/key when connecting to managed Postgres.
-- Rotate `AUTH_REFRESH_TOKEN_EXPIRES_IN` and the refresh secret together if either is compromised.
+- Keep refresh-token lifetime aligned with the web cookie lifetime (the default is 30 days), and rotate the refresh secret if tokens are compromised.
 - Review `helmet`, CORS, and `@nestjs/throttler` configuration before exposing the API publicly.
 - Swagger docs are disabled in production (`NODE_ENV=production`). To enable, override the guard in `src/main.ts`.
 - Auth endpoints (login, register, forgot/reset password) have stricter rate limits than the global default (5 req/min for login/register/reset, 3 req/min for forgot-password).
+- Run `pnpm audit --prod --audit-level=high` before every release; CI enforces the same threshold.
+- Follow the backup, migration, and rollback controls in [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md).

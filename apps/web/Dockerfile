@@ -1,16 +1,20 @@
 # syntax=docker/dockerfile:1.7
 
 # ---- Build stage ----
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 RUN corepack enable
 WORKDIR /app
 ENV BUILD_STANDALONE=true
 ENV NEXT_TELEMETRY_DISABLED=1
+ARG API_URL=http://api:3001
+ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID=
+ENV API_URL=$API_URL
+ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/shared/package.json ./packages/shared/
-RUN pnpm install --frozen-lockfile --config.node-linker=hoisted
+RUN pnpm install --filter @mandor-plate/web... --frozen-lockfile --config.node-linker=hoisted
 
 COPY packages/shared ./packages/shared
 RUN pnpm --filter @mandor-plate/shared build
@@ -19,7 +23,7 @@ COPY apps/web ./apps/web
 RUN pnpm --filter @mandor-plate/web build
 
 # ---- Runtime stage ----
-FROM node:20-alpine AS runtime
+FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
@@ -34,6 +38,6 @@ COPY --from=build /app/apps/web/public ./apps/web/public
 USER node
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD node -e "require('http').get('http://127.0.0.1:'+process.env.PORT+'/',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+  CMD node -e "require('http').get('http://127.0.0.1:'+process.env.PORT+'/api/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 
 CMD ["node", "apps/web/server.js"]

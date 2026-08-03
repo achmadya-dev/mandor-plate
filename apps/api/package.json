@@ -6,8 +6,10 @@
   "scripts": {
     "typeorm": "env-cmd -- node -r ts-node/register/transpile-only -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:run": "pnpm run typeorm migration:run -d src/database/data-source.ts",
+    "migration:run:prod": "node dist/database/run-migrations.js",
     "migration:revert": "pnpm run typeorm migration:revert -d src/database/data-source.ts",
     "seed:run": "ts-node -r tsconfig-paths/register ./src/database/seeds/relational/run-seed.ts",
+    "seed:run:prod": "node dist/database/seeds/relational/run-production-seed.js",
     "prebuild": "pnpm --filter @mandor-plate/shared build && rimraf dist",
     "build": "nest build",
     "dev": "nest start --watch",
@@ -16,12 +18,11 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit -p tsconfig.build.json",
     "pretypecheck": "pnpm --filter @mandor-plate/shared build",
-    "test": "jest --passWithNoTests",
-    "test:e2e": "env-cmd -- jest --config ./test/jest-e2e.json --runInBand"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.1011.0",
-    "@aws-sdk/s3-request-presigner": "3.1011.0",
+    "@aws-sdk/client-s3": "3.1101.0",
+    "@aws-sdk/s3-request-presigner": "3.1101.0",
     "@mandor-plate/shared": "workspace:*",
     "@nestjs/common": "11.1.18",
     "@nestjs/config": "4.0.3",
@@ -29,7 +30,7 @@
     "@nestjs/jwt": "11.0.2",
     "@nestjs/passport": "11.0.5",
     "@nestjs/platform-express": "11.1.18",
-    "@nestjs/swagger": "11.2.6",
+    "@nestjs/swagger": "11.4.6",
     "@nestjs/throttler": "^6.5.0",
     "@nestjs/typeorm": "11.0.1",
     "@types/multer-s3": "3.0.3",
@@ -53,7 +54,7 @@
     "rxjs": "7.8.2",
     "source-map-support": "0.5.21",
     "swagger-ui-express": "5.0.1",
-    "typeorm": "0.3.28",
+    "typeorm": "0.3.31",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -66,7 +67,6 @@
     "@swc/cli": "0.7.10",
     "@swc/core": "1.15.18",
     "@swc/jest": "0.2.39",
-    "@types/bcryptjs": "3.0.0",
     "@types/express": "5.0.6",
     "@types/jest": "30.0.0",
     "@types/ms": "2.1.0",
@@ -108,6 +108,6 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }

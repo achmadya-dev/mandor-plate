@@ -5,4 +5,4 @@
 /apps/api/ @achmadya-dev
 /apps/web/ @achmadya-dev
 /packages/shared/ @achmadya-dev
-/docs/adr/ @achmadya-dev
+/docs/ @achmadya-dev

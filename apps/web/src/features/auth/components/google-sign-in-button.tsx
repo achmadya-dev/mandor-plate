@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useTransition } from 'react';
 import { toast } from 'sonner';
 import { fetchBff } from '@/lib/auth/client';
+import { safeAuthRedirect } from '@/lib/auth/constants';
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
@@ -49,8 +50,7 @@ export default function GoogleSignInButton() {
         }
 
         toast.success('Signed in with Google');
-        const redirect = searchParams.get('redirect') ?? '/dashboard/overview';
-        router.push(redirect);
+        router.push(safeAuthRedirect(searchParams.get('redirect')));
         router.refresh();
       });
     };

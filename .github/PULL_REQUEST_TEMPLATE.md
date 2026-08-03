@@ -12,7 +12,7 @@
 
 ## Test evidence
 
-<!-- Paste commands and results, e.g. `pnpm check`, `pnpm test:e2e` -->
+<!-- Paste commands and results, e.g. `pnpm check` -->
 
 ## Screenshots / recordings
 

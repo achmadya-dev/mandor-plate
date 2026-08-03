@@ -1,5 +1,6 @@
 export const ACCESS_TOKEN_COOKIE = 'mp_access_token';
 export const REFRESH_TOKEN_COOKIE = 'mp_refresh_token';
+export const DEFAULT_AUTH_REDIRECT = '/dashboard/overview';
 
 export function getApiBaseUrl(): string {
   return process.env.API_URL ?? 'http://localhost:3001';
@@ -24,4 +25,11 @@ export function isDashboardPath(pathname: string): boolean {
 
 export function isAuthApiPath(pathname: string): boolean {
   return pathname.startsWith('/api/auth');
+}
+
+export function safeAuthRedirect(value: string | null): string {
+  if (!value || !value.startsWith('/') || value.startsWith('//')) {
+    return DEFAULT_AUTH_REDIRECT;
+  }
+  return value;
 }

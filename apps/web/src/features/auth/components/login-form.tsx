@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { fetchBff } from '@/lib/auth/client';
+import { safeAuthRedirect } from '@/lib/auth/constants';
 
 type LoginResponse = {
   user: {
@@ -45,8 +46,7 @@ export default function LoginForm() {
         }
 
         toast.success('Signed in successfully');
-        const redirect = searchParams.get('redirect') ?? '/dashboard/overview';
-        router.push(redirect);
+        router.push(safeAuthRedirect(searchParams.get('redirect')));
         router.refresh();
       });
     },

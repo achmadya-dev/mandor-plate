@@ -1,6 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: pnpm
+  - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
@@ -27,7 +27,6 @@ updates:
         patterns:
           - 'jest*'
           - '@swc*'
-          - '@playwright*'
 
   - package-ecosystem: github-actions
     directory: /

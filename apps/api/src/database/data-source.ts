@@ -1,11 +1,8 @@
 import 'reflect-metadata';
-import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-const appRoot = join(process.cwd(), 'src');
-
 export const AppDataSource = new DataSource({
-  type: process.env.DATABASE_TYPE,
+  type: process.env.DATABASE_TYPE || 'postgres',
   url: process.env.DATABASE_URL,
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT
@@ -18,8 +15,8 @@ export const AppDataSource = new DataSource({
   dropSchema: false,
   keepConnectionAlive: true,
   logging: process.env.NODE_ENV !== 'production',
-  entities: [join(appRoot, '**/*.entity{.ts,.js}')],
-  migrations: [join(appRoot, 'database/migrations/**/*{.ts,.js}')],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   cli: {
     entitiesDir: 'src',
 
