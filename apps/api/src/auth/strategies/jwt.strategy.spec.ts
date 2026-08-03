@@ -59,11 +59,25 @@ describe('JwtStrategy', () => {
     usersService.findById.mockResolvedValue({
       id: payload.id,
       role: { id: 2, name: 'user' },
+      status: { id: 1, name: 'Active' },
     });
 
     await expect(strategy.validate(payload)).resolves.toEqual({
       ...payload,
       role: { id: 2, name: 'user' },
     });
+  });
+
+  it('should reject payloads when the user is inactive', async () => {
+    sessionService.findById.mockResolvedValue({ id: payload.sessionId });
+    usersService.findById.mockResolvedValue({
+      id: payload.id,
+      role: { id: 2, name: 'user' },
+      status: { id: 2, name: 'Inactive' },
+    });
+
+    await expect(strategy.validate(payload)).rejects.toBeInstanceOf(
+      UnauthorizedException,
+    );
   });
 });

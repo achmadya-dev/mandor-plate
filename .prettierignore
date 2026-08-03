@@ -6,3 +6,4 @@ coverage
 .hermes
 pnpm-lock.yaml
 *.min.js
+apps/web/next-env.d.ts

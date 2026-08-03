@@ -19,6 +19,7 @@ import { HomeModule } from './home/home.module';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SessionModule } from './session/session.module';
 import { MailerModule } from './mailer/mailer.module';
+import { HealthModule } from './health/health.module';
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -36,6 +37,7 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
       {
         ttl: 60_000,
         limit: 100,
+        skipIf: () => process.env.NODE_ENV === 'test',
       },
     ]),
     ConfigModule.forRoot({
@@ -58,6 +60,7 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
     SessionModule,
     MailModule,
     MailerModule,
+    HealthModule,
     HomeModule,
   ],
   providers: [

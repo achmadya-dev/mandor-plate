@@ -1,4 +1,5 @@
 import type {
+  ConfirmEmailRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
 } from '@mandor-plate/shared';
@@ -41,6 +42,33 @@ export async function apiLogin(
 
 export async function apiRegister(body: RegisterRequest): Promise<void> {
   const response = await fetch(apiUrl('/auth/email/register'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new ApiProxyError(response.status, await parseApiErrorBody(response));
+  }
+}
+
+export async function apiConfirmEmail(
+  body: ConfirmEmailRequest,
+): Promise<void> {
+  await postConfirmation('/auth/email/confirm', body);
+}
+
+export async function apiConfirmNewEmail(
+  body: ConfirmEmailRequest,
+): Promise<void> {
+  await postConfirmation('/auth/email/confirm/new', body);
+}
+
+async function postConfirmation(
+  path: string,
+  body: ConfirmEmailRequest,
+): Promise<void> {
+  const response = await fetch(apiUrl(path), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

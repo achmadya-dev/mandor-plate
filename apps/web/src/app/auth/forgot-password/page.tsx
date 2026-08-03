@@ -11,19 +11,7 @@ export default function ForgotPasswordPage() {
   return (
     <AuthShell
       title="Forgot password"
-      description={
-        <>
-          Enter your email and we will send a reset link. In local dev, open
-          Maildev at{' '}
-          <a
-            href="http://localhost:1080"
-            className="text-primary underline-offset-4 hover:underline"
-          >
-            localhost:1080
-          </a>
-          .
-        </>
-      }
+      description={<>Enter your email and we will send a reset link.</>}
     >
       <ForgotPasswordForm />
     </AuthShell>

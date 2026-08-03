@@ -1,6 +1,6 @@
 # Mandor Plate Web
 
-Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). Shared contracts live in [`packages/shared`](../../packages/shared). Architecture decisions live in [`docs/adr`](../../docs/adr).
+Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). Shared contracts live in [`packages/shared`](../../packages/shared). Production deployment is documented in [`docs/DEPLOYMENT.md`](../../docs/DEPLOYMENT.md).
 
 ## Conventions
 
@@ -10,6 +10,7 @@ Next.js 16 dashboard + BFF. Monorepo quickstart: [README.md](../../README.md). S
 - **Icons** — only `@/components/icons`, never `@tabler/icons-react` directly
 - **Forms** — `useAppForm` + `useFormFields<T>()` from `@/components/ui/tanstack-form`
 - **Headers** — `PageContainer` props, not manual `<Heading>`
+- **Health** — `GET /api/health` always returns `200` for container checks
 
 ---
 
@@ -123,7 +124,7 @@ Use `FormErrors` and `scrollToFirstError` for form-level errors.
 ### Examples in codebase
 
 - `src/features/products/components/product-form.tsx`
-- `src/features/auth/components/user-auth-form.tsx`
+- `src/features/auth/components/login-form.tsx`
 - `src/features/forms/components/sheet-product-form.tsx`
 
 ---

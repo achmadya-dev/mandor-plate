@@ -40,7 +40,7 @@ export class UsersService {
     let email: string | null = null;
 
     if (createUserDto.email) {
-      const userObject = await this.usersRepository.findByEmail(
+      const userObject = await this.usersRepository.findByEmailIncludingDeleted(
         createUserDto.email,
       );
       if (userObject) {
@@ -190,7 +190,7 @@ export class UsersService {
     let email: string | null | undefined = undefined;
 
     if (updateUserDto.email) {
-      const userObject = await this.usersRepository.findByEmail(
+      const userObject = await this.usersRepository.findByEmailIncludingDeleted(
         updateUserDto.email,
       );
 

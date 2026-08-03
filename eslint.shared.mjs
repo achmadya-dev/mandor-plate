@@ -49,7 +49,6 @@ export function createPackageEslintConfig(tsconfigRootDir, options = {}) {
         'coverage/**',
         '**/*.{mjs,cjs,js}',
         'eslint.config.mjs',
-        ...(isWeb ? ['e2e/**', 'playwright.config.ts'] : []),
       ],
     },
     eslint.configs.recommended,

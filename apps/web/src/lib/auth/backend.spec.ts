@@ -1,5 +1,7 @@
 import {
   ApiProxyError,
+  apiConfirmEmail,
+  apiConfirmNewEmail,
   apiForgotPassword,
   apiGoogleLogin,
   apiResetPassword,
@@ -90,6 +92,25 @@ describe('password recovery proxy', () => {
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify({ email: 'user@example.com' }),
+      }),
+    );
+  });
+
+  it.each([
+    [apiConfirmEmail, '/auth/email/confirm'],
+    [apiConfirmNewEmail, '/auth/email/confirm/new'],
+  ])('forwards email confirmation to %s', async (confirm, path) => {
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue(new Response(null, { status: 204 }));
+
+    await confirm({ hash: 'confirmation-token' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining(path),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ hash: 'confirmation-token' }),
       }),
     );
   });

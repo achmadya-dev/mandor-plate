@@ -18,7 +18,7 @@ NestJS API · Next.js dashboard · PostgreSQL · TypeScript · Turborepo
 
 <br />
 
-[Prerequisites](#prerequisites) · [Quickstart](#quickstart) · [What is included](#what-is-included) · [Scripts](#scripts) · [Quality gates](#quality-gates) · [Customization checklist](#customization-checklist)
+[Prerequisites](#prerequisites) · [Quickstart](#quickstart) · [What is included](#what-is-included) · [Deployment](#deployment) · [Scripts](#scripts) · [Quality gates](#quality-gates) · [Customization checklist](#customization-checklist)
 
 </div>
 
@@ -37,21 +37,22 @@ Use it when you want to start from a working product foundation instead of stitc
 | Monorepo         | pnpm workspaces + Turborepo          | API, web app, and shared package in one repository   |
 | API              | NestJS 11                            | REST API, Swagger, JWT auth, RBAC-ready structure    |
 | Web              | Next.js 16 + React 19                | Dashboard shell, BFF route handlers, protected pages |
-| Database         | PostgreSQL + TypeORM                 | Migrations, seed data, local Docker Compose service  |
+| Database         | PostgreSQL + TypeORM                 | External database configured through environment     |
 | Shared contracts | Zod                                  | Reusable schemas for API and web validation          |
 | UI               | shadcn/ui, Radix, Tailwind CSS 4     | Components, themes, forms, tables, charts            |
 | Data fetching    | TanStack Query                       | Server prefetch + client hydration patterns          |
 | Forms            | TanStack Form + Zod                  | Type-safe form patterns and reusable fields          |
-| Testing          | Jest + Playwright                    | Unit tests and fullstack E2E tests                   |
+| Testing          | Jest                                 | Application unit tests                               |
 | Tooling          | ESLint, Prettier, Husky, lint-staged | Baseline quality checks before commits               |
 
 ## Prerequisites
 
 | Requirement      | Notes                                                         |
-| ---------------- | ------------------------------------------------------------- |
-| Node.js >= 20    | See `engines` in [`package.json`](./package.json)             |
+| ---------------- | ------------------------------------------------------------- | --------------------------------------------------- |
+| Node.js >= 24    | See `engines` in [`package.json`](./package.json)             |
 | pnpm 10.12.1     | `corepack enable && corepack prepare pnpm@10.12.1 --activate` |
-| Docker + Compose | Runs PostgreSQL and Maildev locally                           |
+| Docker + Compose | Runs the API and web application containers                   |
+| PostgreSQL/SMTP  | External services                                             | Configure through `DATABASE_URL` and SMTP variables |
 
 ## Quickstart
 
@@ -59,18 +60,16 @@ Use it when you want to start from a working product foundation instead of stitc
 pnpm install
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
-pnpm docker:up
-pnpm --filter @mandor-plate/api migration:run
-pnpm --filter @mandor-plate/api seed:run
 pnpm dev
 ```
+
+Development requires an external PostgreSQL database and SMTP account. Configure them in `apps/api/.env`; this repository does not start infrastructure containers.
 
 | Service       | URL                        |
 | ------------- | -------------------------- |
 | Web dashboard | http://localhost:3000      |
 | API           | http://localhost:3001      |
 | Swagger       | http://localhost:3001/docs |
-| Maildev       | http://localhost:1080      |
 
 Seeded accounts:
 
@@ -89,9 +88,10 @@ Seeded accounts:
 ├── packages/
 │   └── shared/           # Shared Zod schemas and typed contracts
 ├── docs/
-│   ├── adr/              # Architecture decision records
+│   ├── DEPLOYMENT.md     # Coolify, migrations, backup, and rollback
+│   ├── ENVIRONMENT.md    # Environment variable reference
 │   └── assets/           # README and documentation assets
-├── docker-compose.yml    # PostgreSQL + Maildev
+├── docker-compose.yml    # API + web application services
 ├── package.json          # Root scripts and workspace tooling
 ├── pnpm-workspace.yaml   # pnpm workspace config
 └── turbo.json            # Turborepo pipeline
@@ -108,25 +108,33 @@ cp apps/web/.env.example apps/web/.env
 
 Keep real secrets out of Git. If you add new environment variables, update the relevant `.env.example` file and document what each value is used for.
 
+The complete variable reference, including build-time versus runtime values, is in [`docs/ENVIRONMENT.md`](./docs/ENVIRONMENT.md).
+
+## Deployment
+
+Production deployment uses [`docker-compose.yml`](./docker-compose.yml). It runs only the API and web containers; PostgreSQL is external/managed, Gmail provides SMTP, and migrations and reference data run before API startup.
+
+Follow [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) for Coolify setup, first-admin bootstrap, health checks, storage, backups, releases, and rollback.
+
 ## Scripts
 
 Run these from the repository root.
 
-| Command                 | Description                                     |
-| ----------------------- | ----------------------------------------------- |
-| `pnpm dev`              | Start API and web in development mode           |
-| `pnpm build`            | Build all packages/apps through Turborepo       |
-| `pnpm lint`             | Lint all workspaces                             |
-| `pnpm typecheck`        | Run TypeScript checks across workspaces         |
-| `pnpm test`             | Run unit tests across workspaces                |
-| `pnpm check`            | Run lint, typecheck, and unit tests             |
-| `pnpm format`           | Format the repository with Prettier             |
-| `pnpm format:check`     | Check formatting without writing changes        |
-| `pnpm docker:up`        | Start PostgreSQL and Maildev                    |
-| `pnpm docker:down`      | Stop local Docker services                      |
-| `pnpm docker:logs`      | Follow Docker service logs                      |
-| `pnpm test:e2e:prepare` | Build, migrate, seed, and prepare for E2E tests |
-| `pnpm test:e2e`         | Run Playwright fullstack E2E tests              |
+| Command             | Description                               |
+| ------------------- | ----------------------------------------- |
+| `pnpm dev`          | Start API and web in development mode     |
+| `pnpm build`        | Build all packages/apps through Turborepo |
+| `pnpm lint`         | Lint all workspaces                       |
+| `pnpm typecheck`    | Run TypeScript checks across workspaces   |
+| `pnpm test`         | Run unit tests across workspaces          |
+| `pnpm check`        | Run lint, typecheck, and unit tests       |
+| `pnpm format`       | Format the repository with Prettier       |
+| `pnpm format:check` | Check formatting without writing changes  |
+| `pnpm docker:up`    | Start the application containers          |
+| `pnpm docker:app`   | Build and run the application containers  |
+| `pnpm docker:build` | Build both production application images  |
+| `pnpm docker:down`  | Stop local Docker services                |
+| `pnpm docker:logs`  | Follow Docker service logs                |
 
 ## Quality gates
 
@@ -136,21 +144,18 @@ Before opening a PR or handing work to another developer, run:
 pnpm check
 ```
 
-For fullstack verification with local infrastructure:
+For running the application containers:
 
 ```bash
-pnpm docker:up
-pnpm test:e2e:prepare
-pnpm test:e2e
+pnpm docker:app
 ```
-
-Playwright specs live in [`apps/web/e2e/`](./apps/web/e2e/).
 
 ## Development notes
 
 - API-specific notes: [`apps/api/README.md`](./apps/api/README.md)
 - Web-specific notes: [`apps/web/README.md`](./apps/web/README.md)
-- Architecture decisions: [`docs/adr/`](./docs/adr/)
+- Production deployment: [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)
+- Environment reference: [`docs/ENVIRONMENT.md`](./docs/ENVIRONMENT.md)
 - Shared contracts: [`packages/shared`](./packages/shared)
 
 Recommended feature flow:
@@ -159,8 +164,8 @@ Recommended feature flow:
 2. Implement API behavior in `apps/api` with migrations/seeds when needed.
 3. Add or update BFF/client API helpers in `apps/web/src/lib` or `apps/web/src/features/<feature>/api`.
 4. Build UI under `apps/web/src/features/<feature>`.
-5. Add unit tests close to the code and E2E tests for critical user paths.
-6. Run `pnpm check`, then E2E tests if the feature touches auth, database, or fullstack flows.
+5. Add focused unit tests close to the changed code.
+6. Run `pnpm check` for application changes.
 
 ## Customization checklist
 
@@ -168,10 +173,11 @@ Use this when starting a new product from the boilerplate:
 
 - [ ] Rename packages from `@mandor-plate/*` if you want project-specific scopes.
 - [ ] Replace branding, logo, metadata, and dashboard copy.
-- [ ] Review seeded users and remove demo credentials before production.
+- [ ] Replace the local-only demo identities if the development environment is shared.
 - [ ] Update auth providers, mail settings, storage settings, and CORS origins.
 - [ ] Replace demo dashboard data with real domain entities.
 - [ ] Audit environment variables and deployment secrets.
+- [ ] Configure off-server PostgreSQL and upload backups, then test restore.
 - [ ] Add product-specific migrations, seeds, tests, and CI checks.
 - [ ] Review Docker Compose settings before using outside local development.
 

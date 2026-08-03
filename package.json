@@ -7,13 +7,13 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "test:e2e": "pnpm --filter @mandor-plate/web test:e2e",
-    "test:e2e:prepare": "pnpm --filter @mandor-plate/shared build && pnpm --filter @mandor-plate/api migration:run && pnpm --filter @mandor-plate/api seed:run && pnpm --filter @mandor-plate/api build && pnpm --filter @mandor-plate/web build",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
     "docker:up": "docker compose up -d",
+    "docker:app": "docker compose up --build",
+    "docker:build": "docker compose build api web",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f"
   },
@@ -39,16 +39,8 @@
       "prettier --write"
     ]
   },
-  "pnpm": {
-    "overrides": {
-      "object-path": "^0.11.8",
-      "path-to-regexp": "^8.4.2",
-      "lodash": "^4.18.1",
-      "multer": "^2.2.0"
-    }
-  },
   "packageManager": "pnpm@10.12.1",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }
