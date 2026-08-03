@@ -363,8 +363,8 @@ importers:
         specifier: ^4.2.2
         version: 4.3.3
       '@tanstack/form-core':
-        specifier: ^4.0.2
-        version: 4.0.2
+        specifier: ^1.33.3
+        version: 1.33.3
       '@tanstack/react-form':
         specifier: ^1.33.2
         version: 1.33.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -2673,9 +2673,6 @@ packages:
   '@tanstack/form-core@1.33.3':
     resolution: {integrity: sha512-htLxe/50GpUxbi2arJleh6uQkw72UOy+3Q0d1AadO3lfBTjs1e51GzyrKk/w8I7qXSkaSnF/JbYlyE+cwbJGNw==}
 
-  '@tanstack/form-core@4.0.2':
-    resolution: {integrity: sha512-tFDpW6Xd42IiRnPmznCKb6jZDl9yXR2lT9Js4fHMQZGrE5WgtUJHqUYlHbPqStk/R9wk+OV1/nnZ4tLMOKQKcw==}
-
   '@tanstack/pacer-lite@0.1.1':
     resolution: {integrity: sha512-y/xtNPNt/YeyoVxE/JCx+T7yjEzpezmbb+toK8DDD1P4m7Kzs5YR956+7OKexG3f8aXgC3rLZl7b1V+yNUSy5w==}
     engines: {node: '>=18'}
@@ -2718,10 +2715,6 @@ packages:
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
-
-  '@tanstack/store@0.0.1-beta.84':
-    resolution: {integrity: sha512-sqE4U8b/bNxXLrm5uoDET7glaZvThn0FPNperVNZV+XXwkJUFcc+/KH7n1MwCi7Y/76FeMpKWLRmEx9KhZbq3A==}
-    engines: {node: '>=12'}
 
   '@tanstack/store@0.11.0':
     resolution: {integrity: sha512-WlzzCt3xi0G6pCAJu1U+2jiECwabETDpQDi3hfkFZvJii9AuZqEKbOiVarX1/bWhTNjU486yQtJCCasi/0q+Cw==}
@@ -5883,6 +5876,7 @@ packages:
   recharts@2.15.4:
     resolution: {integrity: sha512-UT/q6fwS3c1dHbXv2uFgYJ9BMFHu3fwnd7AYZaEQhXuYQ4hgsxLvsUXzGdKeZrW5xopzDCvuA2N41WJ88I7zIw==}
     engines: {node: '>=14'}
+    deprecated: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -9169,10 +9163,6 @@ snapshots:
       '@tanstack/pacer-lite': 0.1.1
       '@tanstack/store': 0.11.0
 
-  '@tanstack/form-core@4.0.2':
-    dependencies:
-      '@tanstack/store': 0.0.1-beta.84
-
   '@tanstack/pacer-lite@0.1.1': {}
 
   '@tanstack/query-core@5.101.4': {}
@@ -9210,8 +9200,6 @@ snapshots:
       '@tanstack/table-core': 8.21.3
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
-
-  '@tanstack/store@0.0.1-beta.84': {}
 
   '@tanstack/store@0.11.0': {}
 
