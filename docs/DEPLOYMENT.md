@@ -20,8 +20,8 @@ To run the application containers locally instead, fill the same environment var
 1. Create a new Coolify resource from the Git repository.
 2. Select **Docker Compose** as the build pack.
 3. Set Base Directory to `/` and Docker Compose Location to `/docker-compose.yml`.
-4. Add the required environment variables shown by Coolify. The compose `${VAR:?message}` declarations prevent an incomplete deployment.
-5. Assign the public domain only to the `web` service and target container port `3000`, for example `https://app.example.com:3000`.
+4. Add all required environment variables shown in [`ENVIRONMENT.md`](./ENVIRONMENT.md). Compose provides convenience defaults for some values but does not replace explicit production secret configuration.
+5. Assign the public domain only to the `web` service and target container port `3000`, for example `https://app.example.com`. The port is the internal container port; the public URL normally does not include `:3000` behind Coolify's proxy.
 6. Set `APP_URL=https://app.example.com`. Do not add public domains or host port mappings to `api`.
 
 The Compose stack contains only `api` and `web`. The web container calls the API through the private Compose hostname `http://api:3001`. PostgreSQL and SMTP are external services configured through environment variables. Uploaded files are exposed through the web rewrite at `/api/v1/files/*`.

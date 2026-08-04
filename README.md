@@ -26,7 +26,7 @@ NestJS API · Next.js dashboard · PostgreSQL · TypeScript · Turborepo
 
 ## What is Mandor Plate?
 
-Mandor Plate is a fullstack dashboard starter that combines a real backend, a modern admin UI, shared validation contracts, local infrastructure, and test tooling in one monorepo.
+Mandor Plate is a fullstack dashboard starter that combines a real backend, a modern admin UI, shared validation contracts, external infrastructure services, and test tooling in one monorepo.
 
 Use it when you want to start from a working product foundation instead of stitching together API auth, dashboard layout, database migrations, forms, tables, and tests from scratch.
 
@@ -64,10 +64,12 @@ Use it when you want to start from a working product foundation instead of stitc
 pnpm install
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
+pnpm --filter @mandor-plate/api migration:run
+pnpm --filter @mandor-plate/api seed:run  # optional development demo data
 pnpm dev
 ```
 
-Development requires an external PostgreSQL database and SMTP account. Configure them in `apps/api/.env`; this repository does not start infrastructure containers.
+Development requires an external PostgreSQL database and SMTP account. Configure them in `apps/api/.env`; this repository does not start database or SMTP containers. Run the optional seed command after the database is migrated if you want the demo users below.
 
 | Service       | URL                        |
 | ------------- | -------------------------- |
@@ -75,12 +77,14 @@ Development requires an external PostgreSQL database and SMTP account. Configure
 | API           | http://localhost:3001      |
 | Swagger       | http://localhost:3001/docs |
 
-Seeded accounts:
+Development demo accounts (created only by the optional seed command above):
 
 | Email                  | Password | Role  |
 | ---------------------- | -------- | ----- |
 | `admin@example.com`    | `secret` | admin |
 | `john.doe@example.com` | `secret` | user  |
+
+Production does not seed these demo users. Use `BOOTSTRAP_ADMIN_EMAIL` and `BOOTSTRAP_ADMIN_PASSWORD` for the first production admin.
 
 ## Monorepo layout
 
