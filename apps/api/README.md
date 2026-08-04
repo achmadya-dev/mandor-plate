@@ -16,7 +16,6 @@ The following application capabilities are included:
 - Session-aware JWT access tokens with immediate session revocation
 - Zod validation pipe (`src/utils/zod-validation.pipe.ts`)
 - Shared Zod schemas in `packages/shared` (single contract for API + web)
-- Swagger disabled in production (see `src/main.ts`)
 
 ## Quickstart
 
@@ -24,8 +23,12 @@ The following application capabilities are included:
 # From monorepo root
 pnpm install
 cp apps/api/.env.example apps/api/.env
+pnpm --filter @mandor-plate/api migration:run
+pnpm --filter @mandor-plate/api seed:run  # optional development demo data
 pnpm dev
 ```
+
+The seed command is optional and creates the development demo users after the database is migrated. Production uses the separate bootstrap-admin flow described below.
 
 API: http://localhost:3001  
 Swagger: http://localhost:3001/docs
@@ -37,9 +40,13 @@ Health endpoints:
 
 Production images run compiled migrations and the production-safe reference seed before starting the API. Set `BOOTSTRAP_ADMIN_EMAIL` and `BOOTSTRAP_ADMIN_PASSWORD` for the first production admin.
 
-## Default seeded users
+## Development demo users
+
+These users are created only when the optional `pnpm --filter @mandor-plate/api seed:run` command is run:
 
 | Email                | Password | Role  |
 | -------------------- | -------- | ----- |
 | admin@example.com    | secret   | admin |
 | john.doe@example.com | secret   | user  |
+
+The production seed never creates these demo users. Set `BOOTSTRAP_ADMIN_EMAIL` and `BOOTSTRAP_ADMIN_PASSWORD` to create the first production admin.
